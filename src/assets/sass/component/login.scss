@@ -1,0 +1,84 @@
+.login {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 100vh;
+	@include e(contain) {
+		display: flex;
+		flex-direction: column;
+		gap: 100px;
+		width: 100%;
+
+		@include mq(xl) {
+			width: 50%;
+		}
+	}
+
+	@include e(form) {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	@include e(image) {
+		width: 450px;
+	}
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	@include e(item) {
+		// padding: 16px;
+		display: flex;
+		flex: 1;
+
+		input {
+			width: 100%;
+			padding: 16px;
+			border: 1px solid #ebebeb;
+			border-radius: 6px;
+
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+
+	@include e(google) {
+		background: #fff;
+		border: 1px solid #ebebeb;
+		border-radius: 24px;
+		display: flex;
+		flex: 1;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition: all 0.3s ease-in-out;
+		padding: 14px;
+		color: black;
+
+		&:hover {
+			background: #ebebeb;
+		}
+	}
+}
+
+.or {
+	@include e(container) {
+		display: flex;
+		align-items: center;
+		text-align: center;
+	}
+
+	@include e(line) {
+		flex-grow: 1;
+		border-top: 1px solid #ccc;
+	}
+
+	@include e(text) {
+		padding: 0 10px;
+		color: #777;
+	}
+}

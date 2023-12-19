@@ -1,0 +1,107 @@
+// Size for different screen sizes
+$sm-device: 576px;
+$md-device: 768px;
+$lg-device: 992px;
+$xl-device: 1200px;
+$xxl-device: 1400px;
+
+/* Container with a fixed width */
+.container {
+	width: 100%;
+	padding-right: 12px;
+	padding-left: 12px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+@media (min-width: 576px) {
+	.container {
+		max-width: 540px;
+	}
+}
+
+@media (min-width: 768px) {
+	.container {
+		max-width: 720px;
+	}
+}
+
+@media (min-width: 992px) {
+	.container {
+		max-width: 960px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.container {
+		max-width: 1140px;
+	}
+}
+
+/* Full-width container */
+.container-fluid {
+	width: 100%;
+	padding-right: 12px;
+	padding-left: 12px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background: var(--background);
+	font-size: 16px;
+}
+
+p {
+	font-style: normal;
+	font-weight: 500;
+	line-height: 20px;
+}
+
+span {
+	font-style: normal;
+	font-weight: 500;
+	line-height: 20px;
+}
+
+h1 {
+	font-size: 36px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 54px;
+}
+
+h2 {
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 36px;
+}
+
+button {
+	font-weight: 500;
+	cursor: pointer;
+}
+
+$default-theme: (
+	background: white,
+	foreground: black,
+);
+
+$dark-theme: (
+	background: black,
+	foreground: white,
+);
+
+:root {
+	@each $prop, $value in $default-theme {
+		--#{$prop}: #{$value};
+	}
+}
+
+[data-theme="dark"] {
+	@each $prop, $value in $dark-theme {
+		--#{$prop}: #{$value};
+	}
+}
