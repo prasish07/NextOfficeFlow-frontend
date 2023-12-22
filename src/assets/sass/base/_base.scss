@@ -16,25 +16,25 @@ $xxl-device: 1400px;
 
 @media (min-width: 576px) {
 	.container {
-		max-width: 540px;
+		max-width: 570px;
 	}
 }
 
 @media (min-width: 768px) {
 	.container {
-		max-width: 720px;
+		max-width: 760px;
 	}
 }
 
 @media (min-width: 992px) {
 	.container {
-		max-width: 960px;
+		max-width: 990px;
 	}
 }
 
 @media (min-width: 1200px) {
 	.container {
-		max-width: 1140px;
+		max-width: 95%;
 	}
 }
 
@@ -104,4 +104,8 @@ $dark-theme: (
 	@each $prop, $value in $dark-theme {
 		--#{$prop}: #{$value};
 	}
+}
+
+img {
+	max-width: 100%;
 }

@@ -1,7 +1,13 @@
 import useCheckScreenWidth from "@/hooks/useCheckScreenWidth";
-import { LoginData, LoginResponse, loginUser } from "@/query/api";
+import {
+	LoginData,
+	LoginResponse,
+	googleLoginUser,
+	loginUser,
+	useLoginUserData,
+} from "@/query/api";
 import { useMutation } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 import bg from "@/assets/background/office.svg";
@@ -9,12 +15,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { googleUrl } from "@/constants/apis";
 import { useRouter } from "next/router";
-import {
-	GoogleLogin,
-	GoogleOAuthProvider,
-	useGoogleLogin,
-} from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
+// import { useUserContext } from "@/context/UserProvider";
+import { setCookies } from "@/utils/cookies";
+import { GetServerSidePropsContext } from "next";
+
+declare global {
+	interface Window {
+		handleGoogleSubmit: (response: any) => Promise<void>;
+	}
+}
 
 const Login = () => {
 	const [userData, setUserData] = useState({
@@ -29,12 +38,30 @@ const Login = () => {
 
 	const { isDesktopView } = useCheckScreenWidth();
 
+	const navigate = (url: string) => {
+		window.location.href = url;
+	};
+
 	const mutateData = useMutation({
 		mutationFn: loginUser,
 		onSuccess: (data: LoginResponse) => {
-			console.log("success", data);
 			router.push("/");
 			toast.success(data.message);
+			setCookies("role", data.role, 1);
+			setCookies("UserId", data.userId, 1);
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
+	});
+
+	const googleMutateData = useMutation({
+		mutationFn: googleLoginUser,
+		onSuccess: (data: LoginResponse) => {
+			router.push("/");
+			toast.success(data.message);
+			setCookies("role", data.role, 1);
+			setCookies("UserId", data.userId, 1);
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
@@ -45,6 +72,12 @@ const Login = () => {
 		e.preventDefault();
 		mutateData.mutate(userData);
 	};
+
+	useEffect(() => {
+		window.handleGoogleSubmit = async (response: any) => {
+			googleMutateData.mutate({ tokens: response.credential });
+		};
+	}, [googleMutateData]);
 
 	return (
 		<>
@@ -88,7 +121,10 @@ const Login = () => {
 										onChange={handleChange}
 									/>
 								</div>
-								<button className="m-0 p-0 text-left text-gray-500">
+								<button
+									className="m-0 p-0 text-left text-gray-500"
+									type="button"
+								>
 									Forget Password?
 								</button>
 								<button type="submit" className="btn">
@@ -99,10 +135,35 @@ const Login = () => {
 									<div className="or__text">or</div>
 									<div className="or__line"></div>
 								</div>
-								<Link className="form__google" href={googleUrl}>
+								{/* <button
+									className="form__google"
+									onClick={(e) => {
+										handleGoogleSubmit(e);
+									}}
+								>
 									<FcGoogle size={28} />
 									<span className="ml-[14px]">Sign in with Google</span>
-								</Link>
+								</button> */}
+								<div
+									id="g_id_onload"
+									data-client_id="384831560241-qcib9uur9bmq5g2rfdt41tft9ll8ucmh.apps.googleusercontent.com"
+									data-context="signin"
+									data-ux_mode="popup"
+									data-callback="handleGoogleSubmit"
+									data-auto_prompt="false"
+								></div>
+
+								<div
+									className="g_id_signin"
+									data-type="icon"
+									data-shape="pill"
+									data-theme="outline"
+									data-text="continue_with"
+									data-size="large"
+									data-locale="en"
+									data-logo_alignment="center"
+									data-width="480"
+								></div>
 							</form>
 						</div>
 					</div>
@@ -118,3 +179,21 @@ const Login = () => {
 };
 
 export default Login;
+
+export const getServerSideProps = async (
+	context: GetServerSidePropsContext
+) => {
+	const { req, res } = context;
+	const { token } = req.cookies;
+	if (token) {
+		return {
+			redirect: {
+				destination: "/",
+				permanent: false,
+			},
+		};
+	}
+	return {
+		props: {},
+	};
+};

@@ -5,17 +5,19 @@ import TanstackProvider from "@/providers/TanstackProvider";
 import { ThemeProvider } from "next-themes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import UserProvider from "@/context/UserProvider";
+import Script from "next/script";
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
-		<GoogleOAuthProvider clientId="384831560241-qcib9uur9bmq5g2rfdt41tft9ll8ucmh.apps.googleusercontent.com">
-			<TanstackProvider>
+		<TanstackProvider>
+			<UserProvider>
 				{/* <ThemeProvider> */}
 				<ToastContainer />
 				<Component {...pageProps} />
+				<Script src="https://accounts.google.com/gsi/client" async />
 				{/* </ThemeProvider> */}
-			</TanstackProvider>
-		</GoogleOAuthProvider>
+			</UserProvider>
+		</TanstackProvider>
 	);
 }

@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import { baseUrl } from "@/constants/apis";
-import { error } from "console";
-import { getCookies } from "@/utils/cookies";
 
 export interface getSingleDataProps {
 	id: number | undefined;
@@ -15,11 +13,15 @@ export interface LoginData {
 
 export interface LoginResponse {
 	message: string;
+	userId: string;
+	role: string;
 }
 
 export interface userInfoProps {
-	userId: string;
-	role: string;
+	user: {
+		userId: string;
+		role: string;
+	};
 }
 
 export function loginUser(data: LoginData): Promise<LoginResponse> {
@@ -28,14 +30,21 @@ export function loginUser(data: LoginData): Promise<LoginResponse> {
 		.then((res) => res.data);
 }
 
+export function googleLoginUser(data: {
+	tokens: string;
+}): Promise<LoginResponse> {
+	return axios
+		.post(`${baseUrl}/oauth/google`, data, { withCredentials: true })
+		.then((res) => res.data);
+}
+
 export function useLoginUserData() {
-	return useQuery<userInfoProps, Error>({
+	return useQuery<userInfoProps>({
 		queryKey: ["user", 1],
 		queryFn: async () => {
-			const token = getCookies("token");
-			console.log(token);
-
-			const { data } = await axios.get<userInfoProps>(`${baseUrl}/user/me`);
+			const { data } = await axios.get<userInfoProps>(`${baseUrl}/user/info`, {
+				withCredentials: true,
+			});
 			return data;
 		},
 	});

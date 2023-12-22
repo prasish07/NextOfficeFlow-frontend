@@ -1,0 +1,55 @@
+.header {
+	background: #ebf5fb;
+	position: sticky;
+	top: 0;
+	height: 66px;
+	display: flex;
+	align-items: center;
+	@include e(title) {
+		font-size: 24px;
+
+		@include mq(md) {
+			font-size: 36px;
+		}
+	}
+	@include e(contain) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	@include e(nav) {
+	}
+
+	@include e(nav-list) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 20px;
+	}
+
+	@include e(nav-item) {
+		display: flex;
+		align-items: center;
+		@include m(profile) {
+			display: flex;
+			gap: 10px;
+			align-items: center;
+			cursor: pointer;
+			color: gray;
+		}
+	}
+
+	@include e(profile-logo) {
+		width: 30px;
+		height: 30px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: auto 0;
+		border: 1px solid grey;
+		border-radius: 50%;
+		color: white;
+		background: grey;
+	}
+}
