@@ -1,0 +1,2 @@
+export const MIN_TABLET_VIEW_WIDTH = 744;
+export const MIN_DESKTOP_VIEW_WIDTH = 1200;

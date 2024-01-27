@@ -7,8 +7,16 @@
 	padding-right: 20px;
 	transition: all 0.5s;
 	background: #ebf5fb;
-	width: fit-content;
-	height: calc(100vh - 66px);
+	width: 100%;
+	position: absolute;
+	min-height: calc(100vh - 66px);
+	max-height: 100%;
+	z-index: 10;
+
+	@include mq(md) {
+		position: unset;
+		width: fit-content;
+	}
 
 	@include e(title) {
 		color: gray;
@@ -20,9 +28,6 @@
 	}
 
 	@include e(element) {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
 		cursor: pointer;
 
 		@include m(open) {
@@ -36,7 +41,7 @@
 		display: grid;
 		grid-template-rows: 0fr;
 		transition: grid-template-rows 0.2s ease-in;
-		margin-left: 20px;
+		margin-left: 10px;
 
 		@include m(open) {
 			grid-template-rows: 1fr;

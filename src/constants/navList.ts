@@ -10,8 +10,7 @@ export const navList = [
 		icon: "",
 		path: "/dashboard",
 		subList: [
-			{ title: "View Employee", icon: "", path: "/dashboard" },
-			{ title: "Add Employee", icon: "", path: "/dashboard" },
+			{ title: "Manage Employee", icon: "", path: "/dashboard" },
 			{ title: "My Profile", icon: "", path: "/dashboard" },
 		],
 	},
@@ -57,7 +56,7 @@ export const navList = [
 		path: "/dashboard",
 		subList: [
 			{ title: "Leave", icon: "", path: "/dashboard" },
-			{ title: "Work From Home(WFH)", icon: "", path: "/dashboard" },
+			{ title: "WFH", icon: "", path: "/dashboard" },
 			{ title: "Overtime", icon: "", path: "/dashboard" },
 			{ title: "Travel", icon: "", path: "/dashboard" },
 			{ title: "Attendance", icon: "", path: "/dashboard" },
@@ -82,7 +81,7 @@ export const navList = [
 		path: "/dashboard",
 		subList: [
 			{ title: "All Announcement", icon: "", path: "/dashboard" },
-			{ title: "Announcement Actions", icon: "", path: "/dashboard" },
+			{ title: "Manage", icon: "", path: "/dashboard" },
 		],
 	},
 	{

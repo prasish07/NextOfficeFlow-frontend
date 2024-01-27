@@ -1,0 +1,154 @@
+%common-styles {
+	// for modal main body content
+	top: 50%;
+	left: 50%;
+	position: fixed;
+	z-index: $zindex-modal;
+	transform: translate(-50%, -50%);
+}
+
+//for loading state
+// .loader {
+//   @extend %common-styles;
+//   border: 3.6px solid $base-colors-sky-blue;
+//   border-bottom-color: $base-colors-gray;
+//   height: 32px;
+//   width: 32px;
+//   border-radius: 50%;
+//   box-sizing: border-box;
+//   animation: rotation 1s linear infinite;
+
+//   @keyframes rotation {
+//     0% {
+//       transform: rotate(0deg);
+//     }
+//     100% {
+//       transform: rotate(360deg);
+//     }
+//   }
+// }
+
+.modal {
+	@extend %common-styles;
+	border-radius: 4px;
+	width: calc(100% - 48px);
+	max-height: calc(100vh - 40px * 2);
+	background-color: $base-colors-white;
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
+
+	@include m(no-header) {
+		padding-top: 32px;
+	}
+
+	@include e(backdrop) {
+		top: 0;
+		left: 0;
+		width: 100%;
+		z-index: $zindex-modal-backdrop;
+		height: 100vh;
+		position: fixed;
+		background: rgba(0, 0, 0, 0.685);
+	}
+
+	@include e(body) {
+		position: relative;
+		padding: 0 24px;
+		overflow-y: auto;
+		padding-bottom: 32px;
+		@include mq(md) {
+			padding: 0 32px;
+			padding-bottom: 32px;
+		}
+	}
+
+	@include m(sm) {
+		@include mq(md) {
+			width: 420px;
+		}
+	}
+
+	@include m(md) {
+		@include mq(md) {
+			width: 530px;
+		}
+	}
+
+	@include m(lg) {
+		@include mq(md) {
+			width: 680px;
+		}
+		@include mq(lg) {
+			width: 800px;
+		}
+	}
+
+	@include e(header) {
+		display: flex;
+		color: $base-colors-blue-black;
+		align-items: flex-start;
+		padding: 32px 24px;
+		justify-content: space-between;
+		font-size: 24px;
+		font-weight: $font-weight-semi-bold;
+		line-height: 36px;
+		gap: 16px;
+		z-index: $zindex-overlay;
+
+		@include mq(md) {
+			gap: 24px;
+			padding: 32px 32px;
+		}
+
+		@include e(title) {
+			font-size: 24px;
+			line-height: 36px;
+			margin-bottom: 0;
+			font-weight: $font-weight-semi-bold;
+		}
+
+		@include m(shadow) {
+			box-shadow: 0px 8px 12px $backdrop-2;
+		}
+
+		@include e(close) {
+			cursor: pointer;
+			flex-shrink: 0;
+		}
+	}
+
+	@include e(footer) {
+		width: 100%;
+		color: $base-colors-blue-black;
+		padding: 20px 32px;
+		cursor: pointer;
+		font-size: 18px;
+		line-height: 30px;
+		text-align: center;
+		border-radius: 0px 0px 4px 4px;
+		z-index: $zindex-overlay;
+
+		@include m(shadow) {
+			box-shadow: 0px -8px 12px $backdrop-2;
+		}
+	}
+
+	@media screen and (orientation: portrait) {
+		@include mq(sm) {
+			max-height: calc(100vh - 88px * 2);
+		}
+	}
+
+	@media screen and (orientation: landscape) {
+		@include mq(lg) {
+			max-height: calc(100vh - 88px * 2);
+		}
+	}
+
+	@include e(cross-icon) {
+		all: unset;
+		display: flex;
+		align-items: center;
+	}
+}
