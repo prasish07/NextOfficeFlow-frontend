@@ -1,7 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { navList } from "@/constants/navList";
 import { MdDashboard } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
+import Link from "next/link";
+import useScreenWidth from "@/hooks/useScreenWidth";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
+import { IoMdClose } from "react-icons/io";
 
 interface NavData {
 	title: string;
@@ -15,45 +19,78 @@ const Navbar: React.FC = () => {
 		setIsOpen((prevIndex) => (prevIndex === index ? null : index));
 	};
 
+	const { isNavbarOpen, navbarRef, setIsNavbarOpen } = useGlobalProvider();
+
+	const { isMobileView } = useScreenWidth();
+
+	useEffect(() => {
+		if (isNavbarOpen) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "auto";
+		}
+
+		return () => {
+			document.body.style.overflow = "auto";
+		};
+	}, [isNavbarOpen]);
+
 	return (
 		<>
-			<nav className="nav">
-				<h3 className="nav__title">Features</h3>
+			<nav className="nav" ref={navbarRef}>
+				<div className="nav__header">
+					<h3 className="nav__title">Features</h3>
+					{isMobileView && (
+						<button
+							onClick={() => {
+								setIsNavbarOpen(false);
+								navbarRef.current?.classList.remove("nav--open");
+							}}
+						>
+							<IoMdClose size={30} />
+						</button>
+					)}
+				</div>
 				<div className="nav__list">
 					{navList.map((data, index) => (
-						<>
-							<div
+						<React.Fragment key={index}>
+							<Link
+								href={data.subList.length ? "" : data.path}
 								className={`nav__element ${index !== 0 && "mt-[20px]"} ${
 									index === isOpen ? "nav__element--open" : ""
 								} `}
-								key={index}
 								onClick={() => handleElementClick(index)}
 							>
-								<div className="flex gap-3 items-center">
-									<MdDashboard size={24} />
+								<div className="flex gap-7 items-center">
+									<data.icon size={24} />
 									<span>{data.title}</span>
-									{data.subList.length ? <IoIosArrowDown size={20} /> : ""}
+									{data.subList.length ? (
+										<IoIosArrowDown size={20} className="arrow" />
+									) : (
+										""
+									)}
 								</div>
-							</div>
+							</Link>
 							{data.subList &&
 								data.subList.map((subData, subIndex) => (
-									<div
+									<Link
+										href={subData.path}
 										className={`nav__sub-list ${
 											index === isOpen ? "nav__sub-list--open" : ""
 										} `}
-										key={subIndex}
+										key={`${index}-${subIndex}`}
 									>
 										<div className="nav__sub-list-1">
 											<div className="nav__sub-list-2">
 												<div className="nav__sub-element">
-													<MdDashboard size={24} />
+													<subData.icon size={24} />
 													<span>{subData.title}</span>
 												</div>
 											</div>
 										</div>
-									</div>
+									</Link>
 								))}
-						</>
+						</React.Fragment>
 					))}
 				</div>
 			</nav>

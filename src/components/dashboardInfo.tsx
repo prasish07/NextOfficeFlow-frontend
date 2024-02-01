@@ -11,7 +11,7 @@ const DashboardInfo = (props: DashboardInfoProps) => {
 		<div className="info">
 			<i className="info__logo">hi</i>
 			<div className="info__text">
-				<h3 className="info__title">Active Employee</h3>
+				<h2 className="info__title">Active Employee</h2>
 				<p className="info__count">50</p>
 			</div>
 		</div>

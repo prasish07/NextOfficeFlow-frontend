@@ -6,45 +6,49 @@ import { redirectToLogIn } from "@/utils/redirect";
 import Header from "@/components/header";
 import Navbar from "@/components/navbar";
 import DashboardInfo from "@/components/dashboardInfo";
+import MenuBtn from "@/components/MenuBtn";
+import useScreenWidth from "@/hooks/useScreenWidth";
 // import { useCheckRoleAndToken } from "@/hooks/auth";
 
 const Home = () => {
 	return (
 		<>
-			<Header />
-			<section className="flex w-[100%]">
-				<Navbar />
-				<section className="dashboard">
-					<div className="dashboard__top-part flex justify-between">
-						<div className="dashboard__profile-info">
-							<div className="dashboard__message">
-								<h2>{`Good Evening, Prasish Shrestha`}</h2>
-								<p>{`Monday, March 3, 2023`}</p>
-							</div>
-							<div className="dashboard__profile-title">
-								<div>P</div>
-								<h2>Prasish Shrestha</h2>
-								<h3>
-									Admin <span>Team Lead</span>
-								</h3>
-							</div>
+			<section className="dashboard">
+				<div className="dashboard__top-part">
+					<div className="dashboard__profile-info">
+						<div className="dashboard__message">
+							<h2>{`Good Evening, Prasish Shrestha`}</h2>
+							<p>{`Monday, March 3, 2023`}</p>
 						</div>
-						<div className="dashboardInfo">
+						<div className="dashboard__profile-title">
+							<div>P</div>
+							<h2>Prasish Shrestha</h2>
+							<h3>
+								Employee : <span>Team Lead</span>
+							</h3>
+						</div>
+					</div>
+					<div className="dashboardInfo">
+						<div className="dashboardInfo__elements">
+							{<DashboardInfo />}
+							{<DashboardInfo />}
+						</div>
+						<div className="dashboardInfo__elements">
 							{<DashboardInfo />}
 							{<DashboardInfo />}
 						</div>
 					</div>
-					<div className="dashboardEvent">
-						<h2 className="event__title">Events and Organization Calender</h2>
-						<div className="event__info">
-							<i className="event__icon">p</i>
-							<div className="event__sub-title">
-								<h3>Dashain</h3>
-								<p>25 Falgun 2070</p>
-							</div>
+				</div>
+				<div className="dashboardEvent">
+					<h2 className="event__title">Events and Organization Calender</h2>
+					<div className="event__info">
+						<i className="event__icon">p</i>
+						<div className="event__sub-title">
+							<h3>Dashain</h3>
+							<p>25 Falgun 2070</p>
 						</div>
 					</div>
-				</section>
+				</div>
 			</section>
 		</>
 	);

@@ -14,3 +14,29 @@
 	display: flex;
 	justify-content: center;
 }
+
+.action-btn {
+	background-color: #2989c0;
+	color: white;
+	border: none;
+	padding: 8px 12px;
+	cursor: pointer;
+	border-radius: 4px;
+	margin-right: 5px;
+	width: 100%;
+}
+
+body {
+	background-color: $light_blue;
+}
+
+.menu {
+	position: fixed;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 50%;
+	bottom: 10px;
+	z-index: 500;
+	left: 20px;
+	color: grey;
+}

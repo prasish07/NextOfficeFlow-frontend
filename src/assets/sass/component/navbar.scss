@@ -5,21 +5,44 @@
 	padding-top: 20px;
 	padding-left: 20px;
 	padding-right: 20px;
-	transition: all 0.5s;
-	background: #ebf5fb;
-	width: 100%;
+	background-color: $white;
 	position: absolute;
-	min-height: calc(100vh - 66px);
-	max-height: 100%;
-	z-index: 10;
+	height: 100%;
+	z-index: 1000;
+	width: 0%;
+	overflow: hidden;
+	opacity: 0;
+	transition: all 0.5s;
 
-	@include mq(md) {
-		position: unset;
-		width: fit-content;
+	@include m(open) {
+		width: 100%;
+		overflow: auto;
+		opacity: 1;
+		transition: all 0.5s;
+	}
+
+	@include mq(lg) {
+		position: sticky;
+		bottom: 0;
+		height: fit-content;
+		min-height: calc(100vh - 66px);
+		top: 66px;
+		z-index: 10;
+		width: 310px;
+		overflow: auto;
+		opacity: 1;
+	}
+
+	@include e(header) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: grey;
 	}
 
 	@include e(title) {
 		color: gray;
+		font-size: 20px;
 	}
 
 	@include e(list) {
@@ -31,9 +54,14 @@
 		cursor: pointer;
 
 		@include m(open) {
-			svg {
+			.arrow {
 				transform: rotate(180deg);
 			}
+		}
+
+		span {
+			color: grey;
+			font-size: 18px;
 		}
 	}
 
@@ -42,6 +70,11 @@
 		grid-template-rows: 0fr;
 		transition: grid-template-rows 0.2s ease-in;
 		margin-left: 10px;
+
+		span {
+			color: grey;
+			font-size: 18px;
+		}
 
 		@include m(open) {
 			grid-template-rows: 1fr;
@@ -59,8 +92,8 @@
 
 	@include e(sub-element) {
 		display: flex;
-		padding-top: 10px;
-		gap: 10px;
+		padding-top: 20px;
+		gap: 20px;
 		align-items: center;
 	}
 }

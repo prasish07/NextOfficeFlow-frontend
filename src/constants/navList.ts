@@ -1,96 +1,122 @@
-export const navList = [
+import { LuLayoutDashboard } from "react-icons/lu";
+import { IoPerson, IoBugOutline } from "react-icons/io5";
+import { GrProjects } from "react-icons/gr";
+import { SlCalender } from "react-icons/sl";
+import { GoIssueReopened, GoGoal } from "react-icons/go";
+import { MdOutlineFeaturedPlayList } from "react-icons/md";
+import { TbReportAnalytics } from "react-icons/tb";
+import { TbReportSearch } from "react-icons/tb";
+import { TbManualGearbox } from "react-icons/tb";
+import { FaRegPaperPlane } from "react-icons/fa";
+import { GrDocumentPerformance } from "react-icons/gr";
+import { GrAnnounce } from "react-icons/gr";
+import { BsSuitcaseLg } from "react-icons/bs";
+import { IoIosArrowForward } from "react-icons/io";
+
+type NavItem = {
+	title: string;
+	icon: any;
+	path: string;
+	subList: {
+		title: string;
+		icon: any;
+		path: string;
+	}[];
+};
+
+export const navList: NavItem[] = [
 	{
 		title: "Dashboard",
-		icon: "",
-		path: "/dashboard",
+		path: "/",
 		subList: [],
+		icon: LuLayoutDashboard,
 	},
 	{
 		title: "Employee",
-		icon: "",
-		path: "/dashboard",
+		path: "",
+		icon: BsSuitcaseLg,
 		subList: [
-			{ title: "Manage Employee", icon: "", path: "/dashboard" },
-			{ title: "My Profile", icon: "", path: "/dashboard" },
+			{ title: "Manage", icon: IoIosArrowForward, path: "/employee" },
+			{
+				title: "My Profile",
+				icon: IoIosArrowForward,
+				path: "/employee/my-profile/",
+			},
 		],
 	},
 	{
 		title: "Projects",
-		icon: "",
+		icon: GrProjects,
 		path: "/dashboard",
 		subList: [],
 	},
 	{
 		title: "Calender",
-		icon: "",
+		icon: SlCalender,
 		path: "/dashboard",
 		subList: [
-			{ title: "View Calender", icon: "", path: "/dashboard" },
-			{ title: "Event Actions", icon: "", path: "/dashboard" },
+			{ title: "View Calender", icon: IoIosArrowForward, path: "/dashboard" },
+			{ title: "Event Actions", icon: IoIosArrowForward, path: "/dashboard" },
 		],
 	},
 	{
 		title: "Ticket",
-		icon: "",
+		icon: GoIssueReopened,
 		path: "/dashboard",
 		subList: [
-			{ title: "All Ticket", icon: "", path: "/dashboard" },
-			{ title: "Bugs", icon: "", path: "/dashboard" },
-			{ title: "Enhancement", icon: "", path: "/dashboard" },
-			{ title: "Add features", icon: "", path: "/dashboard" },
+			{ title: "Backlog", icon: IoIosArrowForward, path: "/dashboard" },
+			{ title: "Bugs", icon: IoIosArrowForward, path: "/dashboard" },
+			{ title: "Enhancement", icon: IoIosArrowForward, path: "/dashboard" },
 		],
 	},
 	{
 		title: "Attendance",
-		icon: "",
+		icon: TbReportAnalytics,
 		path: "/dashboard",
 		subList: [
-			{ title: "Attendance Report", icon: "", path: "/dashboard" },
-			{ title: "My attendance", icon: "", path: "/dashboard" },
-			{ title: "Manual Attendance", icon: "", path: "/dashboard" },
+			{
+				title: "Attendance Report",
+				icon: IoIosArrowForward,
+				path: "/dashboard",
+			},
+			{ title: "My attendance", icon: IoIosArrowForward, path: "/dashboard" },
+			{
+				title: "Manual Attendance",
+				icon: IoIosArrowForward,
+				path: "/dashboard",
+			},
 		],
 	},
 	{
 		title: "Request",
-		icon: "",
+		icon: FaRegPaperPlane,
 		path: "/dashboard",
-		subList: [
-			{ title: "Leave", icon: "", path: "/dashboard" },
-			{ title: "WFH", icon: "", path: "/dashboard" },
-			{ title: "Overtime", icon: "", path: "/dashboard" },
-			{ title: "Travel", icon: "", path: "/dashboard" },
-			{ title: "Attendance", icon: "", path: "/dashboard" },
-			{ title: "Allowance", icon: "", path: "/dashboard" },
-			{ title: "Medical Problem", icon: "", path: "/dashboard" },
-		],
+		subList: [],
 	},
 	{
 		title: "Appraisal",
-		icon: "",
+		icon: GrDocumentPerformance,
 		path: "/dashboard",
 		subList: [
-			{ title: "Praise Employee", icon: "", path: "/dashboard" },
-			{ title: "Promote Employee", icon: "", path: "/dashboard" },
-			{ title: "Employees History", icon: "", path: "/dashboard" },
-			{ title: "My Appraisal", icon: "", path: "/dashboard" },
+			{
+				title: "Apprise Employee",
+				icon: IoIosArrowForward,
+				path: "/dashboard",
+			},
+			{ title: "History", icon: IoIosArrowForward, path: "/dashboard" },
 		],
 	},
 	{
 		title: "Announcement",
-		icon: "",
+		icon: GrAnnounce,
 		path: "/dashboard",
 		subList: [
-			{ title: "All Announcement", icon: "", path: "/dashboard" },
-			{ title: "Manage", icon: "", path: "/dashboard" },
-		],
-	},
-	{
-		title: "Settings",
-		icon: "",
-		path: "/dashboard",
-		subList: [
-			{ title: "Profile", icon: "", path: "/dashboard" },
-			{ title: "Change Password", icon: "", path: "/dashboard" },
+			{
+				title: "All Announcement",
+				icon: IoIosArrowForward,
+				path: "/dashboard",
+			},
+			{ title: "Manage", icon: IoIosArrowForward, path: "/dashboard" },
 		],
 	},
 ];

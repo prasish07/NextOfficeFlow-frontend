@@ -1,11 +1,11 @@
 .header {
-	background: #ebf5fb;
+	background-color: white;
 	position: sticky;
 	top: 0;
 	height: 66px;
 	display: flex;
 	align-items: center;
-	z-index: 10;
+	z-index: 100;
 	@include e(title) {
 		font-size: 24px;
 
@@ -32,12 +32,47 @@
 	@include e(nav-item) {
 		display: flex;
 		align-items: center;
+		position: relative;
 		@include m(profile) {
 			display: flex;
 			gap: 10px;
 			align-items: center;
 			cursor: pointer;
 			color: gray;
+		}
+	}
+
+	@include e(nav-popup) {
+		position: absolute;
+		background-color: $white;
+		top: 56px;
+		width: 250px;
+		left: -126px;
+		display: flex;
+		flex-direction: column;
+		height: fit-content;
+		box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.123);
+		border-radius: 10px;
+		display: none;
+
+		button,
+		a {
+			padding: 10px 20px;
+			display: flex;
+			align-items: center;
+			justify-content: start;
+			gap: 10px;
+			border-radius: 10px;
+			width: 100%;
+
+			&:hover {
+				background-color: $grey;
+				color: white;
+			}
+		}
+
+		@include m(open) {
+			display: block;
 		}
 	}
 

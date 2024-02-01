@@ -50,6 +50,12 @@ export function useLoginUserData() {
 	});
 }
 
+// export function Logout(): Promise<ResponseProps> {
+// 	return axios
+// 		.post(`${baseUrl}/user/logout`, { withCredentials: true })
+// 		.then((res) => res.data);
+// }
+
 // export function useGetBanner({ id }: getSingleDataProps) {
 // 	return useQuery<Banner, Error>({
 // 		queryKey: ["banner", id],

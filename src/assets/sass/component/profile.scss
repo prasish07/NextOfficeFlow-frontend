@@ -1,0 +1,100 @@
+.profile {
+	width: 100%;
+	padding: 0 20px;
+
+	@include e(header) {
+		margin-top: 20px;
+	}
+
+	@include e(contents) {
+		@include mq(md) {
+			display: flex;
+			gap: 20px;
+		}
+	}
+
+	@include e(left) {
+		padding: 20px;
+		background-color: $white;
+		border-radius: 10px;
+		margin-top: 20px;
+		max-width: 320px;
+
+		@include e(image) {
+			display: flex;
+			justify-content: center;
+			img {
+				width: 270px;
+				height: 270px;
+				border-radius: 10px;
+				background-color: #fff;
+			}
+		}
+
+		h3 {
+			text-align: left;
+			margin-top: 30px;
+			font-weight: 600;
+			font-size: 16px;
+		}
+
+		> p {
+			text-align: left;
+			margin-top: 10px;
+		}
+	}
+
+	@include e(right) {
+		margin-top: 20px;
+		background-color: $white;
+		border-radius: 10px;
+		padding: 20px;
+		flex-grow: 1;
+	}
+
+	@include e(details) {
+		h2 {
+			margin-bottom: 20px;
+			font-weight: 600;
+		}
+		p {
+			margin-top: 20px;
+			font-size: 16px;
+			span {
+				display: inline-block;
+				font-weight: 600;
+				width: 150px;
+			}
+		}
+	}
+
+	@include e(options) {
+		margin-top: 20px;
+		background-color: $white;
+		border-radius: 10px;
+		padding: 20px;
+		margin-bottom: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+
+		@include mq(md) {
+			width: 320px;
+		}
+
+		h3 {
+			font-size: 16px;
+			font-weight: 600;
+		}
+
+		button {
+			background-color: #2989c0;
+			color: white;
+			border: none;
+			padding: 8px 12px;
+			cursor: pointer;
+			border-radius: 4px;
+			margin-right: 5px;
+		}
+	}
+}

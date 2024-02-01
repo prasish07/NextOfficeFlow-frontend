@@ -1,6 +1,6 @@
 .employee {
 	width: 100%;
-	padding: 0 100px;
+	padding: 0 20px;
 
 	@include e(header) {
 		margin-top: 20px;
@@ -51,6 +51,11 @@
 			cursor: pointer;
 			border-radius: 4px;
 			margin-right: 5px;
+			margin-bottom: 5px;
+
+			@include mq(lg) {
+				margin-bottom: 0;
+			}
 		}
 
 		button:hover {
@@ -60,15 +65,21 @@
 
 	@include e(form) {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
 		gap: 10px;
+
+		@include mq(md) {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 
 	@include e(form-item) {
-		padding: 10px;
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
+
+		@include mq(md) {
+			padding: 10px;
+		}
 
 		input {
 			width: 100%;
@@ -84,14 +95,14 @@
 			border-radius: 4px;
 			border: 1px solid #ddd;
 			outline: none;
-			height: 95px;
+			height: 130px;
 		}
 
 		label {
 			color: grey;
 		}
 
-		div {
+		@include m(group) {
 			display: flex;
 			flex-direction: column;
 			gap: 5px;
@@ -108,6 +119,7 @@
 		padding: 0 10px;
 		display: flex;
 		justify-content: flex-end;
+
 		button {
 			background-color: #2989c0;
 			color: white;
@@ -115,6 +127,53 @@
 			padding: 8px 50px;
 			cursor: pointer;
 			border-radius: 4px;
+			margin-top: 10px;
+
+			@include mq(md) {
+				margin-top: 0;
+			}
 		}
 	}
+
+	@include e(form-documents) {
+		border: 1px solid #ddd;
+		border-radius: 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		padding: 20px;
+		margin: 10px;
+		padding-bottom: 80px;
+	}
+
+	@include e(form-selected-documents) {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		border: 1px solid #ddd;
+		margin: 20px 10px;
+		padding: 20px;
+		border-radius: 10px;
+	}
+}
+
+.dropzone {
+	cursor: pointer;
+}
+
+.dropdown-preview {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	margin-top: 20px;
+	gap: 10px;
+}
+
+.dropdown-upload {
+	padding: 10px 40px;
+	background-color: #278ceb;
+	border-radius: 10px;
+	color: white;
+	margin-top: 20px;
+	width: 100%;
+	cursor: pointer;
 }
