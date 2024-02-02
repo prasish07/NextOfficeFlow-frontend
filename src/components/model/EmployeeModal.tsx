@@ -58,6 +58,10 @@ const EmployeeFormSchema = z
 
 export type TEmployeeFormSchema = z.infer<typeof EmployeeFormSchema>;
 
+export type TEmployeeFormSchema2 = TEmployeeFormSchema & {
+	documents: string[];
+};
+
 interface employeeProps {
 	showModal: boolean;
 	setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -116,12 +120,15 @@ const EmployeeModal = ({
 
 	const onSubmit = async (data: TEmployeeFormSchema) => {
 		if (employeeFunctionality === "add") {
-			mutateDataAdd.mutate(data);
+			mutateDataAdd.mutate({ ...data, documents: images });
 			reset();
 			setShowModal(false);
 		}
 		if (employeeFunctionality === "update") {
-			mutateDataUpdate.mutate({ data, employeeId });
+			mutateDataUpdate.mutate({
+				data: { ...data, documents: images },
+				employeeId,
+			});
 			setShowModal(false);
 		}
 	};
@@ -146,6 +153,7 @@ const EmployeeModal = ({
 	useEffect(() => {
 		if (employeeFunctionality === "add") {
 			reset();
+			setImages([]);
 		}
 	}, [employeeFunctionality, reset]);
 
@@ -180,42 +188,9 @@ const EmployeeModal = ({
 			setValue("from", employeeData.from || "");
 			setValue("to", employeeData.to || "");
 			setValue("description", employeeData.description || "");
+			setImages(employeeData.documents || []);
 		}
 	}, [data, isError, isAddEmployee, setValue]);
-
-	// if (!isAddEmployee) {
-	// 	// reset();
-
-	// 	if (isError || !data) {
-	// 		return <div>Error...</div>;
-	// 	}
-
-	// 	const employeeData = data.data;
-
-	// 	const formattedStartDate = employeeData.startDate
-	// 		? employeeData.startDate.split("T")[0]
-	// 		: "";
-	// 	const formattedEndDate = employeeData.endDate
-	// 		? employeeData.endDate.split("T")[0]
-	// 		: "";
-
-	// 	if (!isAddEmployee) {
-	// 		setValue("name", employeeData.name);
-	// 		setValue("email", employeeData?.userId?.email || "");
-	// 		setValue("role", employeeData?.userId?.role || "");
-	// 		setValue("position", employeeData.position);
-	// 		setValue("department", employeeData.department);
-	// 		setValue("team", employeeData.team);
-	// 		setValue("salary", employeeData?.salary?.toString() || "");
-	// 		setValue("manager", employeeData.manager);
-	// 		setValue("status", employeeData.status);
-	// 		setValue("startDate", formattedStartDate);
-	// 		setValue("endDate", formattedEndDate);
-	// 		setValue("from", employeeData.from);
-	// 		setValue("to", employeeData.to);
-	// 		setValue("description", employeeData.description);
-	// 	}
-	// }
 
 	return (
 		<>
@@ -415,13 +390,16 @@ const EmployeeModal = ({
 							</div>
 						</div>
 					</div>
-					<div className="employee__form-documents">
-						<h3 className="font-bold">Upload Work Related Documents</h3>
-						<Dropzone
-							className="p-16 mt-10 border border-neutral-200"
-							setImages={setImages}
-						/>
-					</div>
+					{!isViewOnly && (
+						<div className="employee__form-documents">
+							<h3 className="font-bold">Upload Work Related Documents</h3>
+							<Dropzone
+								className="p-16 mt-10 border border-neutral-200"
+								setImages={setImages}
+							/>
+						</div>
+					)}
+
 					<div className="employee__form-selected-documents">
 						<h3 className="font-bold">Selected Documents</h3>
 						{/* <div className="employee__form-selected-documents--list">
@@ -451,13 +429,15 @@ const EmployeeModal = ({
 										}}
 										className="h-full w-full object-contain rounded-md"
 									/>
-									<button
-										type="button"
-										className="w-7 h-7 border border-secondary-400 bg-secondary-400 rounded-full flex justify-center items-center absolute -top-3 -right-3 hover:bg-white transition-colors"
-										onClick={() => removeFile(image)}
-									>
-										<IoClose className="w-5 h-5  hover:fill-secondary-400 transition-colors" />
-									</button>
+									{!isViewOnly && (
+										<button
+											type="button"
+											className="w-7 h-7 border border-secondary-400 bg-secondary-400 rounded-full flex justify-center items-center absolute -top-3 -right-3 hover:bg-white transition-colors"
+											onClick={() => removeFile(image)}
+										>
+											<IoClose className="w-5 h-5  hover:fill-secondary-400 transition-colors" />
+										</button>
+									)}
 								</li>
 							))}
 						</ul>

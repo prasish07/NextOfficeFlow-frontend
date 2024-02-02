@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "@/constants/apis";
-import { TEmployeeFormSchema } from "@/components/model/EmployeeModal";
+import {
+	TEmployeeFormSchema,
+	TEmployeeFormSchema2,
+} from "@/components/model/EmployeeModal";
 
 interface EmployeeProps {
 	message: string;
@@ -29,10 +32,11 @@ interface SingleEmployeeProps {
 		email: string;
 		role: string;
 	};
+	documents: string[];
 }
 
 interface updateEmployeeProps {
-	data: TEmployeeFormSchema;
+	data: TEmployeeFormSchema2;
 	employeeId: string | undefined;
 }
 
@@ -57,7 +61,9 @@ export function useGetEmployeeData() {
 	});
 }
 
-export function addEmployee(data: TEmployeeFormSchema): Promise<ResponseProps> {
+export function addEmployee(
+	data: TEmployeeFormSchema2
+): Promise<ResponseProps> {
 	return axios
 		.post(`${baseUrl}/employee`, data, { withCredentials: true })
 		.then((res) => res.data);

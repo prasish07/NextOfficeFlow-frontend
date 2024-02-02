@@ -33,31 +33,15 @@ export const navList: NavItem[] = [
 	},
 	{
 		title: "Employee",
-		path: "",
+		path: "/employee",
 		icon: BsSuitcaseLg,
-		subList: [
-			{ title: "Manage", icon: IoIosArrowForward, path: "/employee" },
-			{
-				title: "My Profile",
-				icon: IoIosArrowForward,
-				path: "/employee/my-profile/",
-			},
-		],
+		subList: [],
 	},
 	{
 		title: "Projects",
 		icon: GrProjects,
-		path: "/dashboard",
+		path: "/project",
 		subList: [],
-	},
-	{
-		title: "Calender",
-		icon: SlCalender,
-		path: "/dashboard",
-		subList: [
-			{ title: "View Calender", icon: IoIosArrowForward, path: "/dashboard" },
-			{ title: "Event Actions", icon: IoIosArrowForward, path: "/dashboard" },
-		],
 	},
 	{
 		title: "Ticket",
@@ -85,6 +69,15 @@ export const navList: NavItem[] = [
 				icon: IoIosArrowForward,
 				path: "/dashboard",
 			},
+		],
+	},
+	{
+		title: "Calender",
+		icon: SlCalender,
+		path: "/dashboard",
+		subList: [
+			{ title: "View Calender", icon: IoIosArrowForward, path: "/dashboard" },
+			{ title: "Event Actions", icon: IoIosArrowForward, path: "/dashboard" },
 		],
 	},
 	{

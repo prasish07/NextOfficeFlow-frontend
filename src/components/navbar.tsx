@@ -54,23 +54,43 @@ const Navbar: React.FC = () => {
 				<div className="nav__list">
 					{navList.map((data, index) => (
 						<React.Fragment key={index}>
-							<Link
-								href={data.subList.length ? "" : data.path}
-								className={`nav__element ${index !== 0 && "mt-[20px]"} ${
-									index === isOpen ? "nav__element--open" : ""
-								} `}
-								onClick={() => handleElementClick(index)}
-							>
-								<div className="flex gap-7 items-center">
-									<data.icon size={24} />
-									<span>{data.title}</span>
-									{data.subList.length ? (
-										<IoIosArrowDown size={20} className="arrow" />
-									) : (
-										""
-									)}
-								</div>
-							</Link>
+							{data.subList.length ? (
+								<button
+									className={`nav__element ${index !== 0 && "mt-[20px]"} ${
+										index === isOpen ? "nav__element--open" : ""
+									} `}
+									onClick={() => handleElementClick(index)}
+								>
+									<div className="flex gap-7 items-center">
+										<data.icon size={24} />
+										<span>{data.title}</span>
+										{data.subList.length ? (
+											<IoIosArrowDown size={20} className="arrow" />
+										) : (
+											""
+										)}
+									</div>
+								</button>
+							) : (
+								<Link
+									href={data.subList.length ? "" : data.path}
+									className={`nav__element ${index !== 0 && "mt-[20px]"} ${
+										index === isOpen ? "nav__element--open" : ""
+									} `}
+									onClick={() => handleElementClick(index)}
+								>
+									<div className="flex gap-7 items-center">
+										<data.icon size={24} />
+										<span>{data.title}</span>
+										{data.subList.length ? (
+											<IoIosArrowDown size={20} className="arrow" />
+										) : (
+											""
+										)}
+									</div>
+								</Link>
+							)}
+
 							{data.subList &&
 								data.subList.map((subData, subIndex) => (
 									<Link

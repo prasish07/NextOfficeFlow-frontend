@@ -142,8 +142,12 @@
 		flex-direction: column;
 		gap: 20px;
 		padding: 20px;
-		margin: 10px;
+		margin-top: 20px;
 		padding-bottom: 80px;
+
+		@include mq(md) {
+			margin: 10px;
+		}
 	}
 
 	@include e(form-selected-documents) {
@@ -151,9 +155,13 @@
 		flex-direction: column;
 		gap: 20px;
 		border: 1px solid #ddd;
-		margin: 20px 10px;
+		margin-top: 20px;
 		padding: 20px;
 		border-radius: 10px;
+
+		@include mq(md) {
+			margin: 10px;
+		}
 	}
 }
 
