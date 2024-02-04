@@ -1,7 +1,7 @@
 .dashboard {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	width: calc(100% - 262px);
 	padding-top: 50px;
 
 	@include e(top-part) {

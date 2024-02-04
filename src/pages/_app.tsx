@@ -12,6 +12,7 @@ import MenuBtn from "@/components/MenuBtn";
 import useScreenWidth from "@/hooks/useScreenWidth";
 import Navbar from "@/components/navbar";
 import { useRouter } from "next/router";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const { isDesktopView } = useScreenWidth();
@@ -25,19 +26,21 @@ export default function App({ Component, pageProps }: AppProps) {
 				<GlobalProvider>
 					{/* <ThemeProvider> */}
 					<ToastContainer />
-					{isLogin ? (
-						<Component {...pageProps} />
-					) : (
-						<>
-							<Header />
-							<section className="flex w-[100%]">
-								<Navbar />
-								{!isDesktopView && <MenuBtn />}
-								<Component {...pageProps} />
-							</section>
-						</>
-					)}
-
+					<GoogleOAuthProvider clientId="384831560241-qcib9uur9bmq5g2rfdt41tft9ll8ucmh.apps.googleusercontent.com">
+						{isLogin ? (
+							<Component {...pageProps} />
+						) : (
+							<>
+								<Header />
+								<section className="flex w-[100%]">
+									<Navbar />
+									{!isDesktopView && <MenuBtn />}
+									<Component {...pageProps} />
+								</section>
+							</>
+						)}
+					</GoogleOAuthProvider>
+					;
 					<Script src="https://accounts.google.com/gsi/client" async />
 					{/* </ThemeProvider> */}
 				</GlobalProvider>

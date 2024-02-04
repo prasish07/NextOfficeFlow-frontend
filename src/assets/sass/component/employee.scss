@@ -1,5 +1,5 @@
 .employee {
-	width: 100%;
+	width: calc(100% - 262px);
 	padding: 0 20px;
 
 	@include e(header) {

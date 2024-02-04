@@ -1,29 +1,15 @@
 import useCheckScreenWidth from "@/hooks/useCheckScreenWidth";
-import {
-	LoginData,
-	LoginResponse,
-	googleLoginUser,
-	loginUser,
-	useLoginUserData,
-} from "@/query/api";
+import { LoginResponse, googleLoginUser, loginUser } from "@/query/api";
 import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 import bg from "@/assets/background/office.svg";
 import Image from "next/image";
-import Link from "next/link";
-import { googleUrl } from "@/constants/apis";
 import { useRouter } from "next/router";
-// import { useUserContext } from "@/context/UserProvider";
 import { setCookies } from "@/utils/cookies";
 import { GetServerSidePropsContext } from "next";
-
-declare global {
-	interface Window {
-		handleGoogleSubmit: (response: any) => Promise<void>;
-	}
-}
+import { useGoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
 	const [userData, setUserData] = useState({
@@ -45,10 +31,15 @@ const Login = () => {
 	const mutateData = useMutation({
 		mutationFn: loginUser,
 		onSuccess: (data: LoginResponse) => {
-			router.push("/");
-			toast.success(data.message);
-			setCookies("role", data.role, 1);
-			setCookies("UserId", data.userId, 1);
+			if (data.verified) {
+				router.push("/");
+				toast.success(data.message);
+				setCookies("role", data.role, 1);
+				setCookies("UserId", data.userId, 1);
+			} else {
+				toast.error("Please verify your email first");
+				router.push(`/login/verify-account?id=${data.userId}`);
+			}
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
@@ -73,11 +64,10 @@ const Login = () => {
 		mutateData.mutate(userData);
 	};
 
-	useEffect(() => {
-		window.handleGoogleSubmit = async (response: any) => {
-			googleMutateData.mutate({ tokens: response.credential });
-		};
-	}, [googleMutateData]);
+	const handleGoogleSubmit = useGoogleLogin({
+		onSuccess: (codeResponse: any) =>
+			googleMutateData.mutate({ tokens: codeResponse.access_token }),
+	});
 
 	return (
 		<>
@@ -135,35 +125,16 @@ const Login = () => {
 									<div className="or__text">or</div>
 									<div className="or__line"></div>
 								</div>
-								{/* <button
+								<button
 									className="form__google"
 									onClick={(e) => {
-										handleGoogleSubmit(e);
+										handleGoogleSubmit();
 									}}
+									type="button"
 								>
 									<FcGoogle size={28} />
 									<span className="ml-[14px]">Sign in with Google</span>
-								</button> */}
-								<div
-									id="g_id_onload"
-									data-client_id="384831560241-qcib9uur9bmq5g2rfdt41tft9ll8ucmh.apps.googleusercontent.com"
-									data-context="signin"
-									data-ux_mode="popup"
-									data-callback="handleGoogleSubmit"
-									data-auto_prompt="false"
-								></div>
-
-								<div
-									className="g_id_signin"
-									data-type="icon"
-									data-shape="pill"
-									data-theme="outline"
-									data-text="continue_with"
-									data-size="large"
-									data-locale="en"
-									data-logo_alignment="center"
-									data-width="480"
-								></div>
+								</button>
 							</form>
 						</div>
 					</div>

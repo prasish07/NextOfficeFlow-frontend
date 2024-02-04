@@ -2,9 +2,53 @@ import React, { useState } from "react";
 import Dropzone from "../Dropzone";
 import prasish from "@/assets/images/prasish.jpg";
 import Image from "next/image";
+import { addAttachmentProject, useGetProjectAttachment } from "@/query/project";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
-const Attachment = () => {
+const Attachment = ({ endpoint }: { endpoint: string }) => {
 	const [images, setImages] = useState<string[]>([]);
+
+	const { data, isLoading, isError } = useGetProjectAttachment({ endpoint });
+	const queryClient = useQueryClient();
+
+	const uploadMutation = useMutation({
+		mutationFn: addAttachmentProject,
+		onSuccess: (data: any) => {
+			queryClient.invalidateQueries({
+				queryKey: ["project attachment", endpoint],
+			});
+		},
+		onError: (error: any) => {},
+	});
+
+	const handleUpload = async (e: any) => {
+		e.preventDefault();
+
+		// Define a function for asynchronous uploading
+		const uploadAsync = async (image: any) => {
+			await uploadMutation.mutate({
+				attachment: image,
+				endpoint,
+			});
+		};
+
+		await Promise.all(images.map(uploadAsync));
+
+		setImages([]);
+		toast.success("Files uploaded to project");
+	};
+
+	if (isLoading) {
+		return <div className="loader" />;
+	}
+
+	if (!data) {
+		return <div>Error</div>;
+	}
+
+	const { attachments } = data;
+
 	return (
 		<div className="project-id__attachment">
 			<div className="project-id__attachment--header">
@@ -12,23 +56,20 @@ const Attachment = () => {
 			</div>
 			<div className="project-id__attachment--other-attachments">
 				<div className="project-id__attachment--other-attachments-item">
-					<div>
-						<h3>John smith</h3>
-					</div>
-					<div className="project-id__attachment--other-attachments-item--images">
-						<a href="https://res.cloudinary.com/dbq7xtdqg/image/upload/v1706805256/nextofficeflow/pm3srfbunnlu1lae0iuv.png">
-							<Image src={prasish} alt="attachment" />
-						</a>
-						<a href="https://res.cloudinary.com/dbq7xtdqg/image/upload/v1706805256/nextofficeflow/pm3srfbunnlu1lae0iuv.png">
-							<Image src={prasish} alt="attachment" />
-						</a>
-						<a href="https://res.cloudinary.com/dbq7xtdqg/image/upload/v1706805256/nextofficeflow/pm3srfbunnlu1lae0iuv.png">
-							<Image src={prasish} alt="attachment" />
-						</a>
-						<a href="https://res.cloudinary.com/dbq7xtdqg/image/upload/v1706805256/nextofficeflow/pm3srfbunnlu1lae0iuv.png">
-							<Image src={prasish} alt="attachment" />
-						</a>
-					</div>
+					{attachments.map((attachment: any) => {
+						return (
+							<div
+								className="project-id__attachment--other-attachments-item--images"
+								key={attachment._id}
+								title={`Add by ${attachment.UserId.email}`}
+							>
+								<a href={attachment.attachment} key={attachment._id}>
+									<img src={attachment.attachment} alt="attachment" />
+								</a>
+								<h3>{attachment.UserId.email.split("@")[0]}</h3>
+							</div>
+						);
+					})}
 				</div>
 			</div>
 			<form className="project-id__attachment--upload">
@@ -38,7 +79,14 @@ const Attachment = () => {
 					setImages={setImages}
 				/>
 				<div className="project-id__attachment--upload-btn">
-					<button>Upload to this Project</button>
+					<div className="flex flex-wrap gap-2">
+						{images.map((image: any, index) => {
+							return <img src={image} alt="attachment" key={index} />;
+						})}
+					</div>
+					<button onClick={handleUpload} type="button" className="mt-5">
+						Upload to this Project
+					</button>
 				</div>
 			</form>
 		</div>

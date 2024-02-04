@@ -46,12 +46,8 @@ export const navList: NavItem[] = [
 	{
 		title: "Ticket",
 		icon: GoIssueReopened,
-		path: "/dashboard",
-		subList: [
-			{ title: "Backlog", icon: IoIosArrowForward, path: "/dashboard" },
-			{ title: "Bugs", icon: IoIosArrowForward, path: "/dashboard" },
-			{ title: "Enhancement", icon: IoIosArrowForward, path: "/dashboard" },
-		],
+		path: "/ticket",
+		subList: [],
 	},
 	{
 		title: "Attendance",

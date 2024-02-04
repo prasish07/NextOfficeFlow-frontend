@@ -1,6 +1,7 @@
 import Attachment from "@/components/project/Attachment";
 import Comments from "@/components/project/Comments";
 import Details from "@/components/project/Details";
+import { useGetProjectDetails } from "@/query/project";
 import { GetServerSideProps } from "next";
 import React from "react";
 
@@ -10,11 +11,11 @@ const ProjectDetails = ({ endpoint }: { endpoint: string }) => {
 	const renderTabContent = () => {
 		switch (activeTab) {
 			case "details":
-				return <Details />;
+				return <Details endpoint={endpoint} />;
 			case "comments":
-				return <Comments />;
+				return <Comments endpoint={endpoint} />;
 			case "attachments":
-				return <Attachment />;
+				return <Attachment endpoint={endpoint} />;
 			// Add more cases for additional tabs if needed
 			default:
 				return null;

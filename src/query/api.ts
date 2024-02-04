@@ -15,6 +15,7 @@ export interface LoginResponse {
 	message: string;
 	userId: string;
 	role: string;
+	verified: boolean;
 }
 
 export interface userInfoProps {
@@ -50,20 +51,8 @@ export function useLoginUserData() {
 	});
 }
 
-// export function Logout(): Promise<ResponseProps> {
-// 	return axios
-// 		.post(`${baseUrl}/user/logout`, { withCredentials: true })
-// 		.then((res) => res.data);
-// }
-
-// export function useGetBanner({ id }: getSingleDataProps) {
-// 	return useQuery<Banner, Error>({
-// 		queryKey: ["banner", id],
-// 		queryFn: async () => {
-// 			const { data } = await axios.get<Banner>(
-// 				`${baseUrl}/banner/${id}?fields=*.*.*&filter[status][_eq]=published`
-// 			);
-// 			return data;
-// 		},
-// 	});
-// }
+export function verifyAccount(data: { id: string; pin: string }) {
+	return axios
+		.post(`${baseUrl}/user/verification`, data)
+		.then((res) => res.data);
+}
