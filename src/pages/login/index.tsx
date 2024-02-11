@@ -17,6 +17,7 @@ const Login = () => {
 		password: "",
 	});
 	const router = useRouter();
+	const [showPassword, setShowPassword] = useState(false);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -103,13 +104,21 @@ const Login = () => {
 								</div>
 								<div className="form__item">
 									{/* <label htmlFor="password">Password</label> */}
-									<input
-										type="password"
-										name="password"
-										id="password"
-										placeholder="Enter Password"
-										onChange={handleChange}
-									/>
+									<div className="password-input w-full">
+										<input
+											type={showPassword ? "text" : "password"}
+											name="password"
+											id="password"
+											placeholder="Enter Password"
+											onChange={handleChange}
+										/>
+										<button
+											type="button"
+											onClick={() => setShowPassword(!showPassword)}
+										>
+											{showPassword ? "Hide" : "Show"}
+										</button>
+									</div>
 								</div>
 								<button
 									className="m-0 p-0 text-left text-gray-500"

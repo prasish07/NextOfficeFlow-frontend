@@ -18,7 +18,7 @@
 		background-color: $white;
 		border-radius: 10px;
 		margin-top: 20px;
-		max-width: 320px;
+		width: 320px;
 
 		@include e(image) {
 			display: flex;
@@ -50,6 +50,7 @@
 		border-radius: 10px;
 		padding: 20px;
 		flex-grow: 1;
+		width: min-content;
 	}
 
 	@include e(details) {
@@ -95,6 +96,30 @@
 			cursor: pointer;
 			border-radius: 4px;
 			margin-right: 5px;
+		}
+	}
+
+	@include e(documents) {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+		a {
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 20px;
+		}
+		img {
+			width: 200px;
+			height: 200px;
+			border-radius: 10px;
+		}
+	}
+
+	@include e(description) {
+		p {
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
 		}
 	}
 }

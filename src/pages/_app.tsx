@@ -40,7 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
 							</>
 						)}
 					</GoogleOAuthProvider>
-					;
+
 					<Script src="https://accounts.google.com/gsi/client" async />
 					{/* </ThemeProvider> */}
 				</GlobalProvider>

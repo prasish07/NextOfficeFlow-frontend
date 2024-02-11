@@ -164,7 +164,6 @@ const EmployeeModal = ({
 			}
 
 			const employeeData = data.data;
-			console.log("hello", employeeData);
 
 			const formattedStartDate = employeeData.startDate
 				? employeeData.startDate.split("T")[0]
@@ -443,7 +442,7 @@ const EmployeeModal = ({
 						</ul>
 					</div>
 					{!isViewOnly && (
-						<div className="employee__form-add">
+						<div className="employee__form-add justify-end">
 							{employeeFunctionality === "add" ? (
 								<button type="submit" disabled={isSubmitting}>
 									Add

@@ -116,3 +116,30 @@ export function uploadFiles(data: FormData) {
 		.post(`https://api.cloudinary.com/v1_1/dbq7xtdqg/image/upload`, data)
 		.then((res) => res.data);
 }
+
+export function useGetUserInfo() {
+	return useQuery({
+		queryKey: ["user", 1],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/user/info`, {
+				withCredentials: true,
+			});
+			return data;
+		},
+	});
+}
+
+export function useGetUserDetails({ userId }: { userId: string }) {
+	return useQuery({
+		queryKey: ["user details", 1],
+		queryFn: async () => {
+			const { data } = await axios.get(
+				`${baseUrl}/user/information/${userId}`,
+				{
+					withCredentials: true,
+				}
+			);
+			return data;
+		},
+	});
+}

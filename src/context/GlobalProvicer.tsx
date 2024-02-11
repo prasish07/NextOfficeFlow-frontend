@@ -4,6 +4,10 @@ interface GlobalContextProps {
 	isNavbarOpen: boolean;
 	setIsNavbarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	navbarRef: React.RefObject<HTMLDivElement>;
+	userName: { name: string; email: string; position: string };
+	setUserName: React.Dispatch<
+		React.SetStateAction<{ name: string; email: string; position: string }>
+	>;
 }
 
 export const GlobalContext = createContext<GlobalContextProps | undefined>(
@@ -13,10 +17,21 @@ export const GlobalContext = createContext<GlobalContextProps | undefined>(
 const GlobalProvider = ({ children }: { children: ReactNode }) => {
 	const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 	const navbarRef = React.useRef<HTMLDivElement>(null);
+	const [userName, setUserName] = useState({
+		name: "",
+		email: "",
+		position: "",
+	});
 
 	return (
 		<GlobalContext.Provider
-			value={{ isNavbarOpen, setIsNavbarOpen, navbarRef }}
+			value={{
+				isNavbarOpen,
+				setIsNavbarOpen,
+				navbarRef,
+				userName,
+				setUserName,
+			}}
 		>
 			{children}
 		</GlobalContext.Provider>

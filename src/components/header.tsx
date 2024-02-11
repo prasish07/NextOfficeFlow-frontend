@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoNotifications } from "react-icons/io5";
 import { FaKey } from "react-icons/fa";
@@ -9,10 +9,64 @@ import router from "next/router";
 import { toast } from "react-toastify";
 import { Logout, ResponseProps } from "@/query/employee";
 import Link from "next/link";
+import { Modal } from "./model/Model";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { changePassword } from "@/query/api";
+
+const passwordSchema = z
+	.object({
+		password: z.string(),
+		newPassword: z
+			.string()
+			.min(6)
+			.max(20)
+			.refine((value) => /[0-9]/.test(value), {
+				message: "New password must contain at least one number",
+			})
+			.refine((value) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value), {
+				message: "New password must contain at least one special character",
+			}),
+		confirmPassword: z.string().min(8).max(20),
+	})
+	.refine(
+		(date) => {
+			return date.newPassword === date.confirmPassword;
+		},
+		{ message: "Passwords do not match", path: ["confirmPassword"] }
+	);
+
+type TPasswordSchema = z.infer<typeof passwordSchema>;
 
 const Header = () => {
 	const popupRef = React.useRef<HTMLDivElement>(null);
 	const btnRef = React.useRef<HTMLDivElement>(null);
+	const [showModal, setShowModal] = useState(false);
+	// Inside your functional component
+	const [showPassword, setShowPassword] = useState(false);
+	const [showNewPassword, setShowNewPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isSubmitting },
+		setValue,
+		reset,
+	} = useForm<TPasswordSchema>({
+		resolver: zodResolver(passwordSchema),
+	});
+	const mutationChangePassword = useMutation({
+		mutationFn: changePassword,
+		onSuccess: (data: ResponseProps) => {
+			toast.success(data.message);
+			setShowModal(false);
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
+	});
 
 	const logoutMutate = useMutation({
 		mutationFn: Logout,
@@ -48,6 +102,10 @@ const Header = () => {
 		};
 	}, []);
 
+	const onSubmit = (data: TPasswordSchema) => {
+		mutationChangePassword.mutate({ ...data });
+	};
+
 	return (
 		<section className="header">
 			<div className="container">
@@ -75,11 +133,11 @@ const Header = () => {
 									<IoIosArrowDown size={18} />
 								</i>
 								<div className="header__nav-popup" ref={popupRef}>
-									<Link href={"/employee/my-profile/change-password"}>
+									<button onClick={() => setShowModal(true)}>
 										{" "}
 										<FaKey />
 										Change Password
-									</Link>
+									</button>
 									<Link href={"/employee/my-profile"}>
 										<IoPersonSharp />
 										Profile
@@ -94,6 +152,84 @@ const Header = () => {
 					</div>
 				</div>
 			</div>
+			<Modal
+				size="sm"
+				shouldShowModal={showModal}
+				handleClose={() => setShowModal(false)}
+				header="Change Password"
+			>
+				<>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<div className="employee__form-2">
+							<div className="employee__form-item">
+								<div className="employee__form-item--group">
+									<label htmlFor="password">Old Password</label>
+									<div className="password-input">
+										<input
+											type={showPassword ? "text" : "password"}
+											{...register("password")}
+											id="password"
+										/>
+										<button
+											type="button"
+											onClick={() => setShowPassword(!showPassword)}
+										>
+											{showPassword ? "Hide" : "Show"}
+										</button>
+									</div>
+									{errors.password && (
+										<p className="text-red-500">{`${errors.password.message}`}</p>
+									)}
+								</div>
+								<div className="employee__form-item--group">
+									<label htmlFor="newPassword">New Password</label>
+									<div className="password-input">
+										<input
+											type={showNewPassword ? "text" : "password"}
+											{...register("newPassword")}
+											id="newPassword"
+										/>
+										<button
+											type="button"
+											onClick={() => setShowNewPassword(!showNewPassword)}
+										>
+											{showNewPassword ? "Hide" : "Show"}
+										</button>
+									</div>
+									{errors.newPassword && (
+										<p className="text-red-500">{`${errors.newPassword.message}`}</p>
+									)}
+								</div>
+								<div className="employee__form-item--group">
+									<label htmlFor="confirmPassword">Confirm Password</label>
+									<div className="password-input">
+										<input
+											type={showConfirmPassword ? "text" : "password"}
+											{...register("confirmPassword")}
+											id="confirmPassword"
+										/>
+										<button
+											type="button"
+											onClick={() =>
+												setShowConfirmPassword(!showConfirmPassword)
+											}
+										>
+											{showConfirmPassword ? "Hide" : "Show"}
+										</button>
+									</div>
+									{errors.confirmPassword && (
+										<p className="text-red-500">{`${errors.confirmPassword.message}`}</p>
+									)}
+								</div>
+							</div>
+						</div>
+						<div className="employee__form-add justify-end">
+							<button type="submit">Change</button>
+						</div>
+					</form>
+					<div></div>
+				</>
+			</Modal>
 		</section>
 	);
 };

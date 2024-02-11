@@ -56,3 +56,12 @@ export function verifyAccount(data: { id: string; pin: string }) {
 		.post(`${baseUrl}/user/verification`, data)
 		.then((res) => res.data);
 }
+
+export function changePassword(data: {
+	password: string;
+	newPassword: string;
+}) {
+	return axios
+		.post(`${baseUrl}/user/changePassword`, data, { withCredentials: true })
+		.then((res) => res.data);
+}

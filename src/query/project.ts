@@ -98,3 +98,21 @@ export function addAttachmentProject({
 		)
 		.then((res) => res.data);
 }
+
+export function addProject(data: any) {
+	return axios
+		.post(`${baseUrl}/project`, data, { withCredentials: true })
+		.then((res) => res.data);
+}
+
+export function updateProject({ data, id }: { id: string; data: any }) {
+	return axios
+		.patch(`${baseUrl}/project/${id}`, data, { withCredentials: true })
+		.then((res) => res.data);
+}
+
+export function deleteProject(id: string) {
+	return axios
+		.delete(`${baseUrl}/project/${id}`, { withCredentials: true })
+		.then((res) => res.data);
+}

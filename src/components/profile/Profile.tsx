@@ -1,38 +1,71 @@
-import React from "react";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
+import { useGetUserDetails } from "@/query/employee";
+import React, { useEffect } from "react";
 
-const Profile = () => {
+const Profile = ({ userId }: { userId: string }) => {
+	const { data, isLoading } = useGetUserDetails({ userId });
+	const { setUserName } = useGlobalProvider();
+
+	useEffect(() => {
+		if (data) {
+			console.log(data);
+			setUserName({
+				name: data.data.name,
+				email: data.data.userId.email,
+				position: data.data.position,
+			});
+		}
+	}, [data, setUserName]);
+	if (isLoading) {
+		return <div className="loader" />;
+	}
+
+	if (!data) {
+		return <div>Error</div>;
+	}
+
+	const { data: details } = data;
+
 	return (
 		<div className="profile__details">
 			<h2>Job Information</h2>
 			<p>
-				<span>Position :</span>Front-End Developer
+				<span>Position :</span>
+				{details.position}
 			</p>
 			<p>
-				<span>Department:</span>Web Development Department{" "}
+				<span>Department:</span>
+				{details.department}{" "}
 			</p>
 			<p>
-				<span>Team:</span>Front End Team
+				<span>Team:</span>
+				{details.team}
 			</p>
 			<p>
-				<span>Supervisor:</span>Prasish Shrestha
+				<span>Supervisor:</span>
+				{details.manager}
 			</p>
 			<p>
-				<span>Start Date:</span>2021-08-16
+				<span>Start Date:</span>
+				{details.startDate}
 			</p>
 			<p>
-				<span>End Date:</span>2021-08-16
+				<span>End Date:</span>
+				{details.endDate}
 			</p>
 			<p>
-				<span>Salary:</span>100000
+				<span>Salary:</span>
+				{details.salary}
 			</p>
 			<p>
 				<span>Salary Type:</span>Monthly
 			</p>
 			<p>
-				<span>Status: </span>Full Time
+				<span>Status: </span>
+				{details.status}
 			</p>
 			<p>
-				<span>Working Hours:</span>Mon - Fri, 9 AM to 5 PM
+				<span>Working Hours:</span>Mon - Fri, {details.from} to {details.to}
 			</p>
 		</div>
 	);

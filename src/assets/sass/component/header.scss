@@ -89,3 +89,19 @@
 		background: grey;
 	}
 }
+
+.password-input {
+	position: relative;
+}
+
+.password-input button {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	cursor: pointer;
+	border: none;
+	background: none;
+	font-size: 14px;
+	color: #3498db;
+}
