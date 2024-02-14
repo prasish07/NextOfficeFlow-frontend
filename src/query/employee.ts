@@ -143,3 +143,36 @@ export function useGetUserDetails({ userId }: { userId: string }) {
 		},
 	});
 }
+
+export function useGetAllEmployees() {
+	return useQuery<EmployeeProps>({
+		queryKey: ["allEmployee", 1],
+		queryFn: async () => {
+			const { data } = await axios.get<EmployeeProps>(
+				`${baseUrl}/employee/all`,
+				{
+					withCredentials: true,
+				}
+			);
+			return data;
+		},
+	});
+}
+
+export function addAssignee({
+	projectId,
+	assigneeIds,
+}: {
+	projectId: string;
+	assigneeIds: string[];
+}): Promise<ResponseProps> {
+	return axios
+		.post(
+			`${baseUrl}/project/${projectId}/addAssignee`,
+			{ assigneeIds: assigneeIds },
+			{
+				withCredentials: true,
+			}
+		)
+		.then((res) => res.data);
+}

@@ -7,6 +7,7 @@ import useScreenWidth from "@/hooks/useScreenWidth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import DeleteModal from "../model/DeleteModal";
 import { toast } from "react-toastify";
+import Assignn from "./Assignn";
 
 const ManageTable = ({
 	setSelectedId,
@@ -19,9 +20,10 @@ const ManageTable = ({
 }) => {
 	const router = useRouter();
 	const { data, isLoading } = useGetProjectList();
-	const { isMobileView } = useScreenWidth();
+	const { isDesktopView, isTabletView } = useScreenWidth();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const queryClient = useQueryClient();
+	const [showModal, setShowModal] = useState(false);
 
 	const deleteMutation = useMutation({
 		mutationFn: deleteProject,
@@ -59,10 +61,10 @@ const ManageTable = ({
 							<th>
 								<input type="checkbox" />
 							</th>
-							{!isMobileView && <th>ID</th>}
+							{isDesktopView && !isTabletView && <th>ID</th>}
 
 							<th>Project Name</th>
-							{!isMobileView && (
+							{isDesktopView && !isTabletView && (
 								<>
 									<th>Start Date</th>
 									<th>End Date</th>
@@ -79,9 +81,9 @@ const ManageTable = ({
 								<td>
 									<input type="checkbox" />
 								</td>
-								{!isMobileView && <td>{project._id}</td>}
+								{isDesktopView && !isTabletView && <td>{project._id}</td>}
 								<td>{project.title}</td>
-								{!isMobileView && (
+								{isDesktopView && !isTabletView && (
 									<>
 										<td>{project.startDate}</td>
 										<td>{project.endDate}</td>
@@ -106,6 +108,10 @@ const ManageTable = ({
 													size={24}
 													className="cursor-pointer"
 													title="Add Assignee"
+													onClick={() => {
+														setSelectedId(project._id);
+														setShowModal(true);
+													}}
 												/>
 											</div>
 										</td>
@@ -147,6 +153,11 @@ const ManageTable = ({
 				setShowModal={setShowDeleteModal}
 				action={() => deleteMutation.mutate(selectedId)}
 				title="Are you sure?"
+			/>
+			<Assignn
+				showModal={showModal}
+				setShowModal={setShowModal}
+				projectId={selectedId}
 			/>
 		</div>
 	);

@@ -1,0 +1,128 @@
+.ticket {
+	padding: 20px;
+
+	@include mq(lg) {
+		width: calc(100% - 262px);
+	}
+
+	@include e(main-title) {
+		color: $text;
+	}
+
+	@include e(details) {
+		background-color: $white;
+		margin-top: 20px;
+		padding: 20px;
+		border-radius: 10px;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	@include e(header) {
+		display: flex;
+		justify-content: space-between;
+		border-bottom: 1px solid $grey;
+		@include mq(md) {
+			justify-content: start;
+		}
+	}
+
+	@include e(header-btn) {
+		width: 100%;
+		font-weight: bold;
+		text-align: start;
+		padding: 10px 20px;
+
+		@include mq(md) {
+			width: 200px;
+		}
+
+		&:hover {
+			background-color: $light_blue;
+			border-radius: 4px;
+		}
+
+		@include m(active) {
+			border-bottom: 4px solid $backdrop;
+		}
+	}
+
+	@include e(sub-header) {
+		margin-top: 20px;
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+		gap: 20px;
+		@include mq(md) {
+			flex-direction: row;
+		}
+
+		button {
+			padding: 10px 40px;
+			border-radius: 4px;
+			background-color: $normal;
+			color: $white;
+			font-weight: bold;
+		}
+
+		input {
+			padding: 10px;
+			border-radius: 4px;
+			border: 1px solid $grey;
+
+			&:focus {
+				border: none;
+			}
+
+			&:focus-visible {
+				outline: none;
+				border: 1px solid $grey;
+			}
+		}
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 20px;
+	}
+
+	th,
+	td {
+		padding: 12px;
+		text-align: center;
+		border-bottom: 1px solid #ddd;
+		button {
+			background-color: #2989c0;
+			color: white;
+			border: none;
+			padding: 8px 12px;
+			cursor: pointer;
+			border-radius: 4px;
+			margin-right: 5px;
+			margin-bottom: 5px;
+
+			@include mq(lg) {
+				margin-bottom: 0;
+			}
+		}
+
+		button:hover {
+			background-color: #1d6f9e;
+		}
+	}
+
+	th {
+		background-color: #278ceb;
+		color: white;
+	}
+
+	@include e(assignee-item) {
+		border: 1px solid #ddd;
+		padding: 10px;
+		border-radius: 5px;
+		display: flex;
+		gap: 10px;
+		margin: 10px 0;
+	}
+}

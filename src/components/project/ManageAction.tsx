@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,6 +9,9 @@ import {
 	updateProject,
 	useGetProjectDetails,
 } from "@/query/project";
+import { IoIosClose } from "react-icons/io";
+import Assignn from "./Assignn";
+import { addAssignee } from "@/query/employee";
 
 const ProjectSchema = z.object({
 	title: z.string().min(1, { message: "Title is required" }),
@@ -19,7 +22,6 @@ const ProjectSchema = z.object({
 	endDate: z
 		.string()
 		.refine((value) => !!value, { message: "End Date is required" }),
-	AssigneeId: z.string(),
 	Progress: z.string(),
 	status: z.string(),
 	estimatedTime: z.string().min(1, { message: "Estimated Time is required" }),
@@ -46,6 +48,9 @@ const ManageAction = ({
 	const queryClient = useQueryClient();
 	const isUpdate = type === "update";
 	const isAdd = type === "new";
+	const [showModal, setShowModal] = useState(false);
+	const [projectId, setProjectId] = useState<string>("");
+	const [assignee, setAssignee] = useState([]);
 
 	const { data, isLoading, isError } = useGetProjectDetails({
 		endpoint: selectedId,
@@ -76,6 +81,7 @@ const ManageAction = ({
 	useEffect(() => {
 		if (type === "new") {
 			reset();
+			setAssignee([]);
 		}
 	}, [type, reset]);
 
@@ -98,10 +104,11 @@ const ManageAction = ({
 			setValue("Description", project.Description);
 			setValue("startDate", formattedStartDate);
 			setValue("endDate", formattedEndDate);
-			setValue("AssigneeId", project.AssigneeId[0]?._id);
 			setValue("Progress", project.Progress);
 			setValue("status", project.status);
 			setValue("estimatedTime", project.estimatedTime);
+			setProjectId(project._id);
+			setAssignee(project.AssigneeId);
 		}
 	}, [data, isError, isAdd, setValue]);
 
@@ -169,17 +176,36 @@ const ManageAction = ({
 							)}
 						</div>
 
-						<div className="employee__form-item--group">
-							<label htmlFor="AssigneeId">AssigneeId</label>
-							<input
-								type="text"
-								{...register("AssigneeId")}
-								placeholder="AssigneeId"
-								id="AssigneeId"
-							/>
-							{errors.AssigneeId && (
-								<p className="text-red-500">{`${errors.AssigneeId.message}`}</p>
-							)}
+						<div className="">
+							<label htmlFor="AssigneeId">Assignees</label>
+							<div>
+								<div className="project__assignee-item">
+									{!!data?.project &&
+										assignee.map((item: any) => {
+											return (
+												<div
+													key={item.id}
+													className="project__manage-info--avatar"
+												>
+													<span
+														className="w-[50px] h-[50px] rounded-[50%] bg-[#bcbcf3] text-[#5a4e4e] flex justify-center items-center font-bold cursor-pointer capitalize"
+														title={item.email}
+													>
+														{item.email[0]}
+													</span>
+												</div>
+											);
+										})}
+								</div>
+
+								<button
+									className="add-btn"
+									type="button"
+									onClick={() => setShowModal(true)}
+								>
+									Add
+								</button>
+							</div>
 						</div>
 
 						<div className="employee__form-item--group">
@@ -234,6 +260,11 @@ const ManageAction = ({
 					)}
 				</div>
 			</form>
+			<Assignn
+				showModal={showModal}
+				setShowModal={setShowModal}
+				projectId={projectId}
+			/>
 		</>
 	);
 };
