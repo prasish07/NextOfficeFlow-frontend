@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import useScreenWidth from "@/hooks/useScreenWidth";
 import { useGetTicketList } from "@/query/ticket";
+import TicketModal from "@/components/ticket/TicketModal";
 
 const Index = () => {
 	const router = useRouter();
@@ -15,6 +16,7 @@ const Index = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [showAssigneeModal, setShowAssigneeModal] = useState(false);
 	const { data, isLoading, isError } = useGetTicketList();
+	const [type, setType] = useState<string>("");
 
 	if (isLoading) {
 		return <div className="loader" />;
@@ -38,7 +40,7 @@ const Index = () => {
 					<button>Delete</button>
 					<input type="text" placeholder="Search" />
 				</div>
-				<div className="project__manage-info">
+				<div className="ticket__manage-info">
 					<table>
 						<thead>
 							<tr>
@@ -103,7 +105,10 @@ const Index = () => {
 									<td>
 										<button
 											onClick={() => {
-												router.push(`/project/${ticket._id}`);
+												// router.push(`/project/${ticket._id}`);
+												setSelectedId(ticket._id);
+												setType("view");
+												setShowModal(true);
 											}}
 										>
 											<GrView />
@@ -111,6 +116,8 @@ const Index = () => {
 										<button
 											onClick={() => {
 												setSelectedId(ticket._id);
+												setType("update");
+												setShowModal(true);
 											}}
 										>
 											<FaRegEdit />
@@ -135,6 +142,11 @@ const Index = () => {
 					action={() => deleteMutation.mutate(selectedId)}
 					title="Are you sure?"
 				/> */}
+				<TicketModal
+					showModal={showModal}
+					setShowModal={setShowModal}
+					type={type}
+				/>
 			</div>
 		</div>
 	);

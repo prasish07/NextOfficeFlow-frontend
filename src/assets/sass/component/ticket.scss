@@ -1,5 +1,6 @@
 .ticket {
 	padding: 20px;
+	width: 100%;
 
 	@include mq(lg) {
 		width: calc(100% - 262px);
@@ -25,6 +26,10 @@
 		@include mq(md) {
 			justify-content: start;
 		}
+	}
+
+	@include e(manage-info) {
+		background-color: $white;
 	}
 
 	@include e(header-btn) {
@@ -124,5 +129,106 @@
 		display: flex;
 		gap: 10px;
 		margin: 10px 0;
+	}
+
+	@include e(modal) {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+
+		h3 {
+			font-size: 20px;
+			font-weight: bold;
+		}
+
+		select {
+			padding: 10px;
+			font-size: 18px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+		}
+
+		option {
+			background-color: #fff;
+			color: #333;
+		}
+
+		label {
+			font-size: 20px;
+			// font-weight: bold;
+		}
+
+		textarea {
+			font-size: 18px;
+			padding: 10px;
+			border: 1px solid #ccc;
+
+			&:focus-visible {
+				outline: none;
+			}
+		}
+	}
+
+	@include e(modal-details) {
+		border: 1px solid #ddd;
+		padding: 10px;
+
+		h2 {
+			border-bottom: 1px solid #ddd;
+			padding-bottom: 10px;
+		}
+
+		@include m(info) {
+			margin-top: 20px;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			padding-left: 20px;
+
+			input {
+				font-size: 20px;
+				border: 1px solid #ddd;
+				padding: 10px;
+				border-radius: 10px;
+				&:focus-visible {
+					outline: none;
+				}
+			}
+
+			span {
+				input {
+					width: 80px;
+					margin-right: 10px;
+				}
+			}
+
+			div {
+				display: flex;
+				align-items: center;
+			}
+		}
+
+		label {
+			width: 300px;
+			display: inline-block;
+		}
+
+		p {
+			font-size: 20px;
+		}
+	}
+
+	@include e(dropzone) {
+		border: 1px solid #ddd;
+		padding: 20px;
+	}
+
+	@include e(modal-title) {
+		font-size: 24px;
+		font-weight: bold;
+
+		&:focus-visible {
+			outline: 0px;
+		}
 	}
 }
