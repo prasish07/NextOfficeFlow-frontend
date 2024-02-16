@@ -107,6 +107,51 @@ const TicketModal = ({
 				<div className="w-full flex justify-end">
 					<button className="add-btn">Save</button>
 				</div>
+				<div className="ticket__modal-details">
+					<h2>Comments</h2>
+					<div className="ticket__comments--other-comments">
+						{/* {comments.map((comment: any) => {
+							return ( */}
+						<div
+							className="ticket__comments--other-comments-item"
+							// key={comment._id}
+						>
+							<div>
+								<span
+									className="w-[30px] h-[30px] rounded-[50%] bg-[#d2d2ec] text-[#5a4e4e] flex justify-center items-center font-bold cursor-default capitalize"
+									// title={comment.UserId.email}
+								>
+									{/* {comment.UserId.email[0]} */}s
+								</span>
+							</div>
+							{/* <p>{comment.comment}</p> */}
+							<p>Prasish Shrestha</p>
+						</div>
+						{/* ); */}
+						{/* })} */}
+					</div>
+					<div className="ticket__comments--add-comment">
+						<div>
+							<h3>Add your comment:</h3>
+						</div>
+						<textarea
+							placeholder="Add Comment"
+							rows={5}
+							cols={50}
+							// value={addComment}
+							onChange={(e) => {
+								// setAddComment(e.target.value);
+							}}
+						/>
+						<button
+							onClick={() => {
+								// commentMutation.mutate({ endpoint, comment: addComment });
+							}}
+						>
+							Add comment
+						</button>
+					</div>
+				</div>
 			</div>
 		</Modal>
 	);

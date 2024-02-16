@@ -63,7 +63,7 @@ export const navList: NavItem[] = [
 			{
 				title: "Manual Attendance",
 				icon: IoIosArrowForward,
-				path: "/dashboard",
+				path: "/attendance",
 			},
 		],
 	},

@@ -1,6 +1,9 @@
 .employee {
-	width: calc(100% - 262px);
 	padding: 0 20px;
+
+	@include mq(lg) {
+		width: calc(100% - 262px);
+	}
 
 	@include e(header) {
 		margin-top: 20px;

@@ -9,6 +9,8 @@ import DashboardInfo from "@/components/dashboardInfo";
 import MenuBtn from "@/components/MenuBtn";
 import useScreenWidth from "@/hooks/useScreenWidth";
 // import { useCheckRoleAndToken } from "@/hooks/auth";
+import { FaArrowDownLong, FaPlus } from "react-icons/fa6";
+import Link from "next/link";
 
 const Home = () => {
 	return (
@@ -28,14 +30,55 @@ const Home = () => {
 							</h3>
 						</div>
 					</div>
-					<div className="dashboardInfo">
-						<div className="dashboardInfo__elements">
+					<div className="dashboard__attendance">
+						{/* <div className="dashboardInfo__elements">
 							{<DashboardInfo />}
 							{<DashboardInfo />}
 						</div>
 						<div className="dashboardInfo__elements">
 							{<DashboardInfo />}
 							{<DashboardInfo />}
+						</div> */}
+						<h2>Time And Attendance</h2>
+						<div className="dashboard__attendance-btns">
+							<button>
+								<FaArrowDownLong className="rotate-45 text-green-700" />
+								Check-In
+							</button>
+							<button>
+								<FaArrowDownLong className="rotate-[220deg] text-red-700" />
+								Check-Out
+							</button>
+							<button>
+								<FaPlus />
+								Break
+							</button>
+						</div>
+						<div className="dashboard__time">
+							<div>
+								<p>
+									Status: <span>Late</span>
+								</p>
+								<p>
+									Check-In Time: <span>09:55AM</span>
+								</p>
+								<p>
+									Check-Out Time: <span>05:05PM</span>
+								</p>
+								<p>
+									Location: <span>On-site</span>
+								</p>
+								<p>
+									Total Hours: <span>8</span>
+								</p>
+							</div>
+							<div>
+								<p>
+									Total Breaks: <span>1</span>
+								</p>
+								<p>10 Colleagues are on leave today</p>
+								<Link href="">View my Attendance</Link>
+							</div>
 						</div>
 					</div>
 				</div>
