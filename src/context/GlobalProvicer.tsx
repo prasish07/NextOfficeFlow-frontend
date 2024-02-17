@@ -1,4 +1,12 @@
-import React, { ReactNode, createContext, useContext, useState } from "react";
+import { getCookies } from "@/utils/cookies";
+import React, {
+	ReactNode,
+	createContext,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
+import { useRouter } from "next/router";
 
 interface GlobalContextProps {
 	isNavbarOpen: boolean;
@@ -8,6 +16,7 @@ interface GlobalContextProps {
 	setUserName: React.Dispatch<
 		React.SetStateAction<{ name: string; email: string; position: string }>
 	>;
+	role: string;
 }
 
 export const GlobalContext = createContext<GlobalContextProps | undefined>(
@@ -15,6 +24,8 @@ export const GlobalContext = createContext<GlobalContextProps | undefined>(
 );
 
 const GlobalProvider = ({ children }: { children: ReactNode }) => {
+	const router = useRouter();
+	const { pathname } = router;
 	const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 	const navbarRef = React.useRef<HTMLDivElement>(null);
 	const [userName, setUserName] = useState({
@@ -22,6 +33,20 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
 		email: "",
 		position: "",
 	});
+	const [isLoading, setIsLoading] = useState(true);
+	const role = getCookies("role") as string;
+	let isLoginPage = pathname.includes("login");
+
+	// get role from token
+	useEffect(() => {
+		if (role) {
+			setIsLoading(false);
+		}
+	}, [role]);
+
+	if (isLoading && !isLoginPage) {
+		return <div className="loader" />;
+	}
 
 	return (
 		<GlobalContext.Provider
@@ -31,6 +56,7 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
 				navbarRef,
 				userName,
 				setUserName,
+				role,
 			}}
 		>
 			{children}

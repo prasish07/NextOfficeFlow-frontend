@@ -14,6 +14,8 @@ interface NavData {
 
 const Navbar: React.FC = () => {
 	const [isOpen, setIsOpen] = useState<number | null>(null);
+	const { role } = useGlobalProvider();
+	// const showNavElement =
 
 	const handleElementClick = (index: number) => {
 		setIsOpen((prevIndex) => (prevIndex === index ? null : index));
@@ -54,62 +56,73 @@ const Navbar: React.FC = () => {
 				<div className="nav__list">
 					{navList.map((data, index) => (
 						<React.Fragment key={index}>
-							{data.subList.length ? (
-								<button
-									className={`nav__element ${index !== 0 && "mt-[20px]"} ${
-										index === isOpen ? "nav__element--open" : ""
-									} `}
-									onClick={() => handleElementClick(index)}
-								>
-									<div className="flex gap-7 items-center">
-										<data.icon size={24} />
-										<span>{data.title}</span>
-										{data.subList.length ? (
-											<IoIosArrowDown size={20} className="arrow" />
-										) : (
-											""
-										)}
-									</div>
-								</button>
-							) : (
-								<Link
-									href={data.subList.length ? "" : data.path}
-									className={`nav__element ${index !== 0 && "mt-[20px]"} ${
-										index === isOpen ? "nav__element--open" : ""
-									} `}
-									onClick={() => handleElementClick(index)}
-								>
-									<div className="flex gap-7 items-center">
-										<data.icon size={24} />
-										<span>{data.title}</span>
-										{data.subList.length ? (
-											<IoIosArrowDown size={20} className="arrow" />
-										) : (
-											""
-										)}
-									</div>
-								</Link>
-							)}
-
-							{data.subList &&
-								data.subList.map((subData, subIndex) => (
-									<Link
-										href={subData.path}
-										className={`nav__sub-list ${
-											index === isOpen ? "nav__sub-list--open" : ""
-										} `}
-										key={`${index}-${subIndex}`}
-									>
-										<div className="nav__sub-list-1">
-											<div className="nav__sub-list-2">
-												<div className="nav__sub-element">
-													<subData.icon size={24} />
-													<span>{subData.title}</span>
-												</div>
+							{data.role.includes("all") || data.role.includes(role) ? (
+								<>
+									{data.subList.length ? (
+										<button
+											className={`nav__element ${index !== 0 && "mt-[20px]"} ${
+												index === isOpen ? "nav__element--open" : ""
+											} `}
+											onClick={() => handleElementClick(index)}
+										>
+											<div className="flex gap-7 items-center">
+												<data.icon size={24} />
+												<span>{data.title}</span>
+												{data.subList.length ? (
+													<IoIosArrowDown size={20} className="arrow" />
+												) : (
+													""
+												)}
 											</div>
-										</div>
-									</Link>
-								))}
+										</button>
+									) : (
+										<Link
+											href={data.subList.length ? "" : data.path}
+											className={`nav__element ${index !== 0 && "mt-[20px]"} ${
+												index === isOpen ? "nav__element--open" : ""
+											} `}
+											onClick={() => handleElementClick(index)}
+										>
+											<div className="flex gap-7 items-center">
+												<data.icon size={24} />
+												<span>{data.title}</span>
+												{data.subList.length ? (
+													<IoIosArrowDown size={20} className="arrow" />
+												) : (
+													""
+												)}
+											</div>
+										</Link>
+									)}
+
+									{data.subList &&
+										data.subList.map((subData, subIndex) =>
+											(subData.role && subData.role.includes("all")) ||
+											subData.role.includes(role) ? (
+												<Link
+													href={subData.path}
+													className={`nav__sub-list ${
+														index === isOpen ? "nav__sub-list--open" : ""
+													} `}
+													key={`${index}-${subIndex}`}
+												>
+													<div className="nav__sub-list-1">
+														<div className="nav__sub-list-2">
+															<div className="nav__sub-element">
+																<subData.icon size={24} />
+																<span>{subData.title}</span>
+															</div>
+														</div>
+													</div>
+												</Link>
+											) : (
+												""
+											)
+										)}
+								</>
+							) : (
+								""
+							)}
 						</React.Fragment>
 					))}
 				</div>

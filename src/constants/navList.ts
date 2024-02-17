@@ -17,10 +17,12 @@ type NavItem = {
 	title: string;
 	icon: any;
 	path: string;
+	role: string[];
 	subList: {
 		title: string;
 		icon: any;
 		path: string;
+		role: string[];
 	}[];
 };
 
@@ -30,57 +32,81 @@ export const navList: NavItem[] = [
 		path: "/",
 		subList: [],
 		icon: LuLayoutDashboard,
+		role: ["all"],
 	},
 	{
 		title: "Employee",
 		path: "/employee",
 		icon: BsSuitcaseLg,
 		subList: [],
+		role: ["HR", "admin"],
 	},
 	{
 		title: "Projects",
 		icon: GrProjects,
 		path: "/project",
 		subList: [],
+		role: ["employee", "admin"],
 	},
 	{
 		title: "Ticket",
 		icon: GoIssueReopened,
 		path: "/ticket",
 		subList: [],
+		role: ["employee", "admin"],
 	},
 	{
 		title: "Attendance",
 		icon: TbReportAnalytics,
-		path: "/dashboard",
+		path: "",
 		subList: [
 			{
 				title: "Attendance Report",
 				icon: IoIosArrowForward,
 				path: "/dashboard",
+				role: ["HR", "admin"],
 			},
-			{ title: "My attendance", icon: IoIosArrowForward, path: "/dashboard" },
+			{
+				title: "My attendance",
+				icon: IoIosArrowForward,
+				path: "/dashboard",
+				role: ["employee"],
+			},
 			{
 				title: "Manual Attendance",
 				icon: IoIosArrowForward,
 				path: "/attendance",
+				role: ["all"],
 			},
 		],
+		role: ["HR", "admin", "admin"],
 	},
 	{
 		title: "Calender",
 		icon: SlCalender,
 		path: "/dashboard",
 		subList: [
-			{ title: "View Calender", icon: IoIosArrowForward, path: "/dashboard" },
-			{ title: "Event Actions", icon: IoIosArrowForward, path: "/dashboard" },
+			{
+				title: "View Calender",
+				icon: IoIosArrowForward,
+				path: "/dashboard",
+				role: ["all"],
+			},
+			{
+				title: "Event Actions",
+				icon: IoIosArrowForward,
+				path: "/dashboard",
+				role: ["admin", "HR"],
+			},
 		],
+		role: ["all"],
 	},
 	{
 		title: "Request",
 		icon: FaRegPaperPlane,
 		path: "/dashboard",
 		subList: [],
+		role: ["all"],
 	},
 	{
 		title: "Appraisal",
@@ -91,9 +117,16 @@ export const navList: NavItem[] = [
 				title: "Apprise Employee",
 				icon: IoIosArrowForward,
 				path: "/dashboard",
+				role: ["HR", "admin"],
 			},
-			{ title: "History", icon: IoIosArrowForward, path: "/dashboard" },
+			{
+				title: "History",
+				icon: IoIosArrowForward,
+				path: "/dashboard",
+				role: ["employee"],
+			},
 		],
+		role: ["all"],
 	},
 	{
 		title: "Announcement",
@@ -104,8 +137,15 @@ export const navList: NavItem[] = [
 				title: "All Announcement",
 				icon: IoIosArrowForward,
 				path: "/dashboard",
+				role: ["all"],
 			},
-			{ title: "Manage", icon: IoIosArrowForward, path: "/dashboard" },
+			{
+				title: "Manage",
+				icon: IoIosArrowForward,
+				path: "/dashboard",
+				role: ["HR", "admin"],
+			},
 		],
+		role: ["all"],
 	},
 ];

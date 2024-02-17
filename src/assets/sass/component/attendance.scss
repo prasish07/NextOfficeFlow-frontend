@@ -1,0 +1,194 @@
+.attendance {
+	width: max(100% - 262px);
+	padding: 20px;
+
+	@include e(main-title) {
+		color: $text;
+	}
+
+	@include e(menu) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		button {
+			padding: 10px;
+			border: none;
+			border-radius: 10px;
+			font-size: 16px;
+			font-weight: bold;
+			cursor: pointer;
+			color: $normal;
+			background-color: $light_blue;
+			transition: background-color 0.3s;
+			border: 1px solid $normal;
+			height: 50px;
+			&:hover {
+				background-color: $light_blue-hover;
+			}
+		}
+	}
+
+	@include e(filter) {
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 20px;
+		margin-top: 20px;
+
+		#filter {
+			font-family: "Arial", sans-serif;
+			font-size: 16px;
+			padding: 8px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			appearance: none;
+			background-color: #fff;
+			width: 200px;
+			cursor: pointer;
+
+			&:focus-visible {
+				outline: none;
+				border: none;
+			}
+		}
+
+		#filter:hover,
+		#filter:focus {
+			border-color: #333;
+		}
+
+		#filter option {
+			background-color: #fff;
+			color: #333;
+		}
+	}
+
+	@include e(info) {
+		display: flex;
+		gap: 20px;
+		flex-wrap: wrap;
+		margin-bottom: 20px;
+
+		div {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			background-color: $white;
+			padding: 20px;
+			width: 200px;
+			border-radius: 20px;
+			height: 150px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			h3 {
+				font-size: 20px;
+				color: $text;
+				font-weight: bold;
+			}
+
+			p {
+				font-size: 40px;
+				color: $normal;
+				font-weight: bold;
+			}
+		}
+	}
+
+	@include e(list) {
+		background-color: $white;
+		width: 100%;
+		padding: 20px;
+		border-radius: 20px;
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+
+		th,
+		td {
+			padding: 12px;
+			text-align: center;
+			border-bottom: 1px solid #ddd;
+			button {
+				color: $normal;
+				border: none;
+				padding: 8px 26px;
+				cursor: pointer;
+				border-radius: 20px;
+				margin-right: 5px;
+				margin-bottom: 5px;
+				border: 1px solid $normal;
+
+				@include mq(lg) {
+					margin-bottom: 0;
+				}
+			}
+
+			button:hover {
+				background-color: $light_blue-hover;
+			}
+		}
+		tbody {
+			tr {
+				font-size: 18px;
+				&:nth-child(odd) {
+					background-color: $light_blue;
+				}
+			}
+		}
+
+		th {
+			color: $normal;
+			font-size: 20px;
+		}
+	}
+
+	@include e(form) {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+
+		label {
+			display: block;
+			margin-bottom: 8px;
+			font-weight: bold;
+			font-size: 18px;
+		}
+
+		input,
+		select,
+		textarea {
+			width: 100%;
+			padding: 10px;
+			box-sizing: border-box;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			font-size: 16px;
+		}
+
+		select {
+			appearance: none;
+			padding-right: 30px;
+		}
+
+		textarea {
+			resize: vertical;
+		}
+
+		button {
+			background-color: $normal;
+			color: #fff;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 4px;
+			font-size: 16px;
+			cursor: pointer;
+		}
+
+		button:hover {
+			background-color: #45a049;
+		}
+	}
+}
