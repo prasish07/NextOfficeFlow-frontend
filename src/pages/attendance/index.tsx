@@ -1,5 +1,6 @@
 import Modal from "@/components/attendance/Modal";
 import useScreenWidth from "@/hooks/useScreenWidth";
+import { useGetAllAttendance } from "@/query/attendance";
 import React, { useState } from "react";
 import { FaRegEdit, FaRegTrashAlt, FaUserPlus } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
@@ -7,6 +8,17 @@ import { GrView } from "react-icons/gr";
 const Index = () => {
 	const { isDesktopView, isTabletView } = useScreenWidth();
 	const [showModal, setShowModal] = useState(false);
+	const { data, isLoading, isError } = useGetAllAttendance();
+
+	if (isLoading) {
+		return <div className="loader" />;
+	}
+
+	if (isError || !data) {
+		return <div>Something went wrong</div>;
+	}
+
+	const { allTimeAttendance } = data;
 
 	return (
 		<div className="attendance">
@@ -72,19 +84,71 @@ const Index = () => {
 						</tr>
 					</thead>
 					<tbody>
+						{allTimeAttendance.map((attendance: any) => {
+							const formattedCheckInDate = new Date(
+								attendance.checkIn
+							).toLocaleTimeString("en-US", {
+								hour: "2-digit",
+								minute: "2-digit",
+								hour12: true,
+							});
+
+							const formattedCheckOutDate = new Date(
+								attendance.checkOut
+							).toLocaleTimeString("en-US", {
+								hour: "2-digit",
+								minute: "2-digit",
+								hour12: true,
+							});
+							const formattedDate = new Date(
+								attendance.date
+							).toLocaleDateString("en-US", {
+								year: "numeric",
+								month: "short",
+								day: "numeric",
+							});
+							return (
+								<tr key={attendance.id}>
+									<td>{attendance.employeeName}</td>
+									{isDesktopView && !isTabletView && (
+										<>
+											<td>{attendance.employeePosition}</td>
+											<td>{formattedDate}</td>
+										</>
+									)}
+									<td>{formattedCheckInDate}</td>
+									<td>{formattedCheckOutDate}</td>
+									<td>
+										<button
+											onClick={() => {
+												setShowModal(true);
+											}}
+										>
+											View
+										</button>
+									</td>
+								</tr>
+							);
+						})}
 						<tr>
 							<td>Prasish Shrestha</td>
 							{isDesktopView && !isTabletView && (
 								<>
 									<td>Software Developer</td>
-									<td>23th may 2023</td>
+									<td>Feb 18, 2024</td>
 								</>
 							)}
 							<td>09 : 30 AM</td>
 							<td>05 : 30 PM</td>
 
 							<td>
-								<button onClick={() => {}}>View</button>
+								<button
+									onClick={() => {
+										setShowModal(true);
+									}}
+								>
+									View
+								</button>
 							</td>
 						</tr>
 						<tr>
@@ -92,14 +156,20 @@ const Index = () => {
 							{isDesktopView && !isTabletView && (
 								<>
 									<td>Software Developer</td>
-									<td>23th may 2023</td>
+									<td>Feb 18, 2024</td>
 								</>
 							)}
 							<td>09 : 30 AM</td>
 							<td>05 : 30 PM</td>
 
 							<td>
-								<button onClick={() => {}}>View</button>
+								<button
+									onClick={() => {
+										setShowModal(true);
+									}}
+								>
+									View
+								</button>
 							</td>
 						</tr>
 					</tbody>

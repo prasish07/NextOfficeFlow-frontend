@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Modal } from "../model/Model";
 import Dropzone from "../Dropzone";
+import CustomProject from "../dropdown/customProject";
+import CustomeAssignee2 from "../dropdown/customAsignee2";
 
 interface employeeProps {
 	showModal: boolean;
@@ -16,16 +18,33 @@ const TicketModal = ({
 	ticketId,
 }: employeeProps) => {
 	const [images, setImages] = useState([""]);
+	const currentDateTime = new Date();
+	const [projectId, setProjectId] = useState<string>("");
+	const [ticketDetails, setTicketDetails] = useState<any>({});
+	const [assigneeId, setAssigneeId] = useState<string>("");
+
+	const formattedDateTime = currentDateTime.toLocaleString("en-US", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: true,
+	});
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setTicketDetails({ ...ticketDetails, [e.target.name]: e.target.value });
+	};
 
 	return (
 		<Modal
 			size="lg"
 			shouldShowModal={showModal}
 			handleClose={() => setShowModal(false)}
-			header={`${type === "new" ? "New" : "Update"} Ticket`}
+			header={`${type === "add" ? "New" : "Update"} Ticket`}
 		>
 			<div className="ticket__modal">
-				<h3>5002</h3>
+				<h3>{type !== "add" && 5002}</h3>
 				<input
 					name="title"
 					id="title"
@@ -62,18 +81,30 @@ const TicketModal = ({
 					<div className="ticket__modal-details--info">
 						<div>
 							<label htmlFor="assignee">Assignee</label>
-							<select name="assignee" id="assignee">
-								<option>John Doe</option>
-								<option>John Doe</option>
-								<option>John Doe</option>
-							</select>
+							{!assigneeId ? (
+								<CustomeAssignee2 setProjectId={setAssigneeId}>
+									<button className="add-btn">Add</button>
+								</CustomeAssignee2>
+							) : (
+								<div className="flex gap-2">
+									<p>{assigneeId}</p>
+									<CustomeAssignee2 setProjectId={setAssigneeId}>
+										<button className="add-btn">Change</button>
+									</CustomeAssignee2>
+								</div>
+							)}
 						</div>
 						<div>
 							<label htmlFor="priority">Priority</label>
-							<select name="priority" id="priority">
-								<option>John Doe</option>
-								<option>John Doe</option>
-								<option>John Doe</option>
+							<select
+								name="priority"
+								id="priority"
+								// defaultValue={ticket.priority}
+								// onChange={handlePriorityChange}
+							>
+								<option value="low">Low</option>
+								<option value="medium">Medium</option>
+								<option value="high">High</option>
 							</select>
 						</div>
 						<div>
@@ -88,19 +119,26 @@ const TicketModal = ({
 						</div>
 						<div>
 							<label htmlFor="Reporter">Reporter</label>
-							<p>John Doe</p>
+							<p>{type === "add" ? "me" : "reporter"}</p>
 						</div>
 						<div>
 							<label htmlFor="createdAt">Created At</label>
-							<p>None</p>
+							<p>{type === "add" ? formattedDateTime : "sdf"}</p>
 						</div>
 						<div>
 							<label htmlFor="linkProject">Link Project Id</label>
-							<select name="link" id="link">
-								<option>John Doe</option>
-								<option>John Doe</option>
-								<option>John Doe</option>
-							</select>
+							{!projectId ? (
+								<CustomProject setProjectId={setProjectId}>
+									<button className="add-btn">Add</button>
+								</CustomProject>
+							) : (
+								<div className="flex gap-2">
+									<p>{projectId}</p>
+									<CustomProject setProjectId={setProjectId}>
+										<button className="add-btn">Change</button>
+									</CustomProject>
+								</div>
+							)}
 						</div>
 					</div>
 				</div>

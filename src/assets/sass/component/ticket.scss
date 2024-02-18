@@ -141,18 +141,6 @@
 			font-weight: bold;
 		}
 
-		select {
-			padding: 10px;
-			font-size: 18px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-		}
-
-		option {
-			background-color: #fff;
-			color: #333;
-		}
-
 		label {
 			font-size: 20px;
 			// font-weight: bold;
@@ -316,5 +304,16 @@
 				font-weight: bold;
 			}
 		}
+	}
+	select {
+		padding: 10px;
+		font-size: 18px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+
+	option {
+		background-color: #fff;
+		color: #333;
 	}
 }

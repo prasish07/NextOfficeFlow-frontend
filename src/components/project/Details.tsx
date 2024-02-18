@@ -55,7 +55,7 @@ const Details = ({ endpoint }: { endpoint: string }) => {
 					<h3>Assigned To:</h3>
 					{project.AssigneeId.map((item: any) => {
 						return (
-							<div key={item.id} className="project__manage-info--avatar">
+							<div key={item.id} className="project__manage-info--avatar ml-2">
 								<span
 									className="w-[30px] h-[30px] rounded-[50%] bg-[#bcbcf3] text-[#5a4e4e] flex justify-center items-center font-bold cursor-pointer capitalize"
 									title={item.email}

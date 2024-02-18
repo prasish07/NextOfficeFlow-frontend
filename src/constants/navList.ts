@@ -60,12 +60,12 @@ export const navList: NavItem[] = [
 		icon: TbReportAnalytics,
 		path: "",
 		subList: [
-			{
-				title: "Attendance Report",
-				icon: IoIosArrowForward,
-				path: "/dashboard",
-				role: ["HR", "admin"],
-			},
+			// {
+			// 	title: "Attendance Report",
+			// 	icon: IoIosArrowForward,
+			// 	path: "/dashboard",
+			// 	role: ["HR", "admin"],
+			// },
 			{
 				title: "My attendance",
 				icon: IoIosArrowForward,

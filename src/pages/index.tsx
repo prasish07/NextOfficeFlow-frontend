@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { getCookies } from "@/utils/cookies";
 import { useLoginUserData } from "@/query/api";
@@ -12,9 +12,152 @@ import useScreenWidth from "@/hooks/useScreenWidth";
 import { FaArrowDownLong, FaPlus } from "react-icons/fa6";
 import Link from "next/link";
 import { useGlobalProvider } from "@/context/GlobalProvicer";
+import { COMPANY_LOCATION, API } from "@/constants/consts";
+import { calculateDistance } from "@/utils/location";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { checkIn, checkOut, useMyTodayAttendance } from "@/query/attendance";
 
 const Home = () => {
 	const { role } = useGlobalProvider();
+	// const [type, setType] = useState("");
+	// const [location, setLocation] = useState("");
+	// const [data, setData] = useState({
+	// 	lat: 0,
+	// 	lng: 0,
+	// });
+	const { data: myAttendance, isLoading } = useMyTodayAttendance();
+	const [timeDiff, setTimeDiff] = useState(0);
+	let timeDifferenceInHours = "";
+
+	const { attendance: attendanceDate } = myAttendance || {};
+	console.log("attendanceDate", attendanceDate);
+	const checkInDate = attendanceDate?.checkIn;
+	const checkOutDate = attendanceDate?.checkOut;
+	if (checkInDate && checkOutDate) {
+		const checkInDateTime = new Date(checkInDate);
+		const checkOutDateTime = new Date(checkOutDate);
+		const timeDifferenceInMilliseconds =
+			checkOutDateTime.getTime() - checkInDateTime.getTime();
+		timeDifferenceInHours = (
+			timeDifferenceInMilliseconds /
+			(1000 * 60 * 60)
+		).toFixed(3);
+		// setTimeDiff(timeDifferenceInHours);
+	}
+
+	const formattedCheckInDate = new Date(checkInDate).toLocaleTimeString(
+		"en-US",
+		{
+			hour: "2-digit",
+			minute: "2-digit",
+			hour12: true,
+		}
+	);
+
+	const formattedCheckOutDate = new Date(checkOutDate).toLocaleTimeString(
+		"en-US",
+		{
+			hour: "2-digit",
+			minute: "2-digit",
+			hour12: true,
+		}
+	);
+
+	const checkInMutation = useMutation({
+		mutationFn: checkIn,
+		onSuccess: () => {
+			toast.success("Check-in successful");
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
+	});
+
+	const checkOutMutation = useMutation({
+		mutationFn: checkOut,
+		onSuccess: () => {
+			toast.success("Check-out successful");
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
+	});
+
+	const handleCheckInClick = async () => {
+		// Check if geolocation is supported by the browser
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				async (position) => {
+					const { latitude, longitude } = position.coords;
+					console.log(`User location: ${latitude}, ${longitude}`);
+					const data = {
+						lat: latitude,
+						lng: longitude,
+					};
+
+					try {
+						const response = await fetch(
+							`https://api.opencagedata.com/geocode/v1/json?key=${API}&q=${latitude}+${longitude}&pretty=1`
+						);
+
+						if (!response.ok) {
+							throw new Error("Failed to fetch location data");
+						}
+
+						const data = await response.json();
+
+						if (data.results.length > 0) {
+							const city = data.results[0].components.city;
+							console.log(`User is in ${city}`);
+							const location = city;
+							let type = "";
+
+							const distance = calculateDistance(
+								latitude,
+								longitude,
+								COMPANY_LOCATION.lat,
+								COMPANY_LOCATION.lng
+							);
+
+							console.log(`Distance from company location: ${distance} km`);
+
+							if (distance <= 0.5) {
+								console.log(
+									"User is located within 500m of the company location"
+								);
+								type = "onsite";
+							} else {
+								console.log(
+									"User is located more than 500m away from the company location"
+								);
+								type = "remote";
+							}
+							checkInMutation.mutate({
+								type,
+								location,
+								data,
+							});
+						} else {
+							console.error("No location data found");
+						}
+					} catch (error: any) {
+						console.error("Error getting user location:", error.message);
+					}
+				},
+				(error) => {
+					console.error("Error getting user location:", error.message);
+				}
+			);
+		} else {
+			console.error("Geolocation is not supported by this browser.");
+		}
+	};
+
+	const handleCheckOutClick = () => {
+		checkOutMutation.mutate({});
+	};
+
 	return (
 		<>
 			<section className="dashboard">
@@ -36,43 +179,69 @@ const Home = () => {
 						<div className="dashboard__attendance">
 							<h2>Time And Attendance</h2>
 							<div className="dashboard__attendance-btns">
-								<button>
+								<button onClick={handleCheckInClick}>
 									<FaArrowDownLong className="rotate-45 text-green-700" />
 									Check-In
 								</button>
-								<button>
+								<button onClick={handleCheckOutClick}>
 									<FaArrowDownLong className="rotate-[220deg] text-red-700" />
 									Check-Out
 								</button>
-								<button>
+								{/* <button>
 									<FaPlus />
 									Break
-								</button>
+								</button> */}
 							</div>
 							<div className="dashboard__time">
 								<div>
 									<p>
-										Status: <span>Late</span>
+										Status: <span>{attendanceDate?.late ? "late" : ""}</span>
 									</p>
 									<p>
-										Check-In Time: <span>09:55AM</span>
+										Check-In Time:{" "}
+										<span>
+											{attendanceDate?.checkIn
+												? formattedCheckInDate
+												: "Unknown"}
+										</span>
 									</p>
 									<p>
-										Check-Out Time: <span>05:05PM</span>
+										Check-Out Time:{" "}
+										<span>
+											{attendanceDate?.checkOut
+												? formattedCheckOutDate
+												: "Unknown"}
+										</span>
 									</p>
 									<p>
-										Location: <span>On-site</span>
+										Type:{" "}
+										<span>
+											{attendanceDate?.type ? attendanceDate?.type : "Unknown"}
+										</span>
 									</p>
 									<p>
-										Total Hours: <span>8</span>
+										Total Hours:{" "}
+										<span>
+											{!!timeDifferenceInHours
+												? `${timeDifferenceInHours} hours`
+												: "Calculate after check-out"}
+										</span>
 									</p>
 								</div>
 								<div>
 									<p>
+										Location:{" "}
+										<span>
+											{attendanceDate?.location
+												? attendanceDate?.location
+												: "Unknown"}
+										</span>
+									</p>
+									{/* <p>
 										Total Breaks: <span>1</span>
 									</p>
-									<p>10 Colleagues are on leave today</p>
-									<Link href="">View my Attendance</Link>
+									<p>10 Colleagues are on leave today</p> */}
+									{/* <Link href="">View my Attendance</Link> */}
 								</div>
 							</div>
 						</div>
