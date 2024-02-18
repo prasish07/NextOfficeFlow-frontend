@@ -7,6 +7,7 @@ import { GetServerSideProps } from "next";
 import { useGetUserInfo } from "@/query/employee";
 import { useGlobalProvider } from "@/context/GlobalProvicer";
 import Description from "@/components/profile/Description";
+import ProfileAttendance from "@/components/attendance/profileAttendance";
 
 const MyProfile = ({ endpoint }: { endpoint: string }) => {
 	const [currentContent, setCurrentContent] = useState<string>("profile");
@@ -34,7 +35,7 @@ const MyProfile = ({ endpoint }: { endpoint: string }) => {
 			case "jobDescription":
 				return <Description userId={userId} />;
 			case "attendance":
-			// return <Attendance />;
+				return <ProfileAttendance />;
 			case "request":
 			// return <Request />;
 			case "performanceHistory":
@@ -77,9 +78,11 @@ const MyProfile = ({ endpoint }: { endpoint: string }) => {
 					<button onClick={() => setCurrentContent("jobDescription")}>
 						Job Description
 					</button>
-					<button>Attendance</button>
-					<button>Request</button>
-					<button>Performance History</button>
+					<button onClick={() => setCurrentContent("attendance")}>
+						Attendance
+					</button>
+					{/* <button>Request</button>
+					<button>Performance History</button> */}
 				</div>
 			</div>
 		</>

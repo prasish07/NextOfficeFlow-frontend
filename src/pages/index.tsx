@@ -17,16 +17,12 @@ import { calculateDistance } from "@/utils/location";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { checkIn, checkOut, useMyTodayAttendance } from "@/query/attendance";
+import { useGetMyDetails } from "@/query/employee";
 
 const Home = () => {
 	const { role } = useGlobalProvider();
-	// const [type, setType] = useState("");
-	// const [location, setLocation] = useState("");
-	// const [data, setData] = useState({
-	// 	lat: 0,
-	// 	lng: 0,
-	// });
-	const { data: myAttendance, isLoading } = useMyTodayAttendance();
+	const { data: myAttendance } = useMyTodayAttendance();
+	const { data, isLoading } = useGetMyDetails();
 	const [timeDiff, setTimeDiff] = useState(0);
 	let timeDifferenceInHours = "";
 
@@ -34,6 +30,7 @@ const Home = () => {
 	console.log("attendanceDate", attendanceDate);
 	const checkInDate = attendanceDate?.checkIn;
 	const checkOutDate = attendanceDate?.checkOut;
+
 	if (checkInDate && checkOutDate) {
 		const checkInDateTime = new Date(checkInDate);
 		const checkOutDateTime = new Date(checkOutDate);
@@ -154,9 +151,19 @@ const Home = () => {
 		}
 	};
 
+	const todayFormattedDate = new Date().toLocaleDateString("en-US", {
+		year: "numeric",
+		month: "long",
+		day: "2-digit",
+	});
+
 	const handleCheckOutClick = () => {
 		checkOutMutation.mutate({});
 	};
+
+	if (isLoading) return <div className="loader" />;
+
+	const { data: employeeData } = data;
 
 	return (
 		<>
@@ -164,14 +171,15 @@ const Home = () => {
 				<div className="dashboard__top-part">
 					<div className="dashboard__profile-info">
 						<div className="dashboard__message">
-							<h2>{`Good Evening, Prasish Shrestha`}</h2>
-							<p>{`Monday, March 3, 2023`}</p>
+							<h2>{`Good Evening, ${employeeData.name}`}</h2>
+							<p>{todayFormattedDate}</p>
 						</div>
 						<div className="dashboard__profile-title">
-							<div>P</div>
-							<h2>Prasish Shrestha</h2>
-							<h3>
-								Employee : <span>Team Lead</span>
+							<div>{employeeData.name[0]}</div>
+							<h2>{employeeData.name}</h2>
+							<h3 className="capitalize">
+								{employeeData.userId.role} ---{" "}
+								<span>{employeeData.position}</span>
 							</h3>
 						</div>
 					</div>

@@ -1,14 +1,10 @@
-import Modal from "@/components/attendance/Modal";
 import useScreenWidth from "@/hooks/useScreenWidth";
-import { useGetAllAttendance } from "@/query/attendance";
-import React, { useState } from "react";
-import { FaRegEdit, FaRegTrashAlt, FaUserPlus } from "react-icons/fa";
-import { GrView } from "react-icons/gr";
+import { useGetMyTodayAttendance } from "@/query/attendance";
+import React from "react";
 
-const Index = () => {
+const ProfileAttendance = () => {
 	const { isDesktopView, isTabletView } = useScreenWidth();
-	const [showModal, setShowModal] = useState(false);
-	const { data, isLoading, isError } = useGetAllAttendance();
+	const { data, isLoading, isError } = useGetMyTodayAttendance();
 
 	if (isLoading) {
 		return <div className="loader" />;
@@ -18,11 +14,11 @@ const Index = () => {
 		return <div>Something went wrong</div>;
 	}
 
-	const { allTimeAttendance } = data;
+	const { attendance: attendances } = data;
 
 	return (
-		<div className="attendance">
-			<h2 className="attendance__main-title">Attendance</h2>
+		<>
+			<h2>My Attendance</h2>
 			<div className="attendance__menu">
 				<div className="attendance__filter">
 					<h3>Period</h3>
@@ -33,58 +29,31 @@ const Index = () => {
 						<option value="last-year">Last Year</option>
 					</select>
 				</div>
-				<button
-					onClick={() => {
-						setShowModal(true);
-					}}
-				>
-					Manual Attendance
-				</button>
 			</div>
-			<div className="attendance__info">
-				<div>
-					<h3>Working Days</h3>
-					<p>20</p>
-				</div>
-				<div>
-					<h3>Present</h3>
-					<p>18</p>
-				</div>
-				<div>
-					<h3>Absent</h3>
-					<p>2</p>
-				</div>
-				<div>
-					<h3>Early Going</h3>
-					<p>0</p>
-				</div>
-				<div>
-					<h3>Late Coming</h3>
-					<p>0</p>
-				</div>
-				<div>
-					<h3>Overtime</h3>
-					<p>0</p>
-				</div>
-			</div>
-			<div className="attendance__list">
+			<div
+				className="attendance__list"
+				style={{
+					backgroundColor: "rgba(233, 230, 230, 0.199)",
+					border: "1px solid #ccc",
+				}}
+			>
 				<table>
 					<thead>
 						<tr>
-							<th>Employee</th>
 							{isDesktopView && !isTabletView && (
 								<>
-									<th>Position</th>
 									<th>Date</th>
+									<th>Check-In</th>
+									<th>Check-Out</th>
 								</>
 							)}
-							<th>Check-In</th>
-							<th>Check-Out</th>
-							<th>Details</th>
+							<th>Status</th>
+
+							{/* <th>Details</th> */}
 						</tr>
 					</thead>
 					<tbody>
-						{allTimeAttendance.map((attendance: any) => {
+						{attendances.map((attendance: any) => {
 							const formattedCheckInDate = new Date(
 								attendance.checkIn
 							).toLocaleTimeString("en-US", {
@@ -109,16 +78,15 @@ const Index = () => {
 							});
 							return (
 								<tr key={attendance.id}>
-									<td>{attendance.employeeName}</td>
 									{isDesktopView && !isTabletView && (
 										<>
-											<td>{attendance.employeePosition}</td>
 											<td>{formattedDate}</td>
 										</>
 									)}
 									<td>{formattedCheckInDate}</td>
 									<td>{formattedCheckOutDate}</td>
-									<td>
+									<td>{attendance.late ? "Late" : "In-Time"}</td>
+									{/* <td>
 										<button
 											onClick={() => {
 												setShowModal(true);
@@ -126,17 +94,15 @@ const Index = () => {
 										>
 											View
 										</button>
-									</td>
+									</td> */}
 								</tr>
 							);
 						})}
-						
 					</tbody>
 				</table>
 			</div>
-			<Modal showModal={showModal} setShowModal={setShowModal} />
-		</div>
+		</>
 	);
 };
 
-export default Index;
+export default ProfileAttendance;

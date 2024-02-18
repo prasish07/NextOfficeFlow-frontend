@@ -56,3 +56,15 @@ export function useGetAllAttendance() {
 		},
 	});
 }
+
+export function useGetMyTodayAttendance() {
+	return useQuery({
+		queryKey: ["attendance", "today"],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/attendance/employee`, {
+				withCredentials: true,
+			});
+			return data;
+		},
+	});
+}

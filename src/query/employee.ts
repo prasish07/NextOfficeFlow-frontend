@@ -176,3 +176,15 @@ export function addAssignee({
 		)
 		.then((res) => res.data);
 }
+
+export function useGetMyDetails() {
+	return useQuery({
+		queryKey: ["my details", 1],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/employee/me`, {
+				withCredentials: true,
+			});
+			return data;
+		},
+	});
+}
