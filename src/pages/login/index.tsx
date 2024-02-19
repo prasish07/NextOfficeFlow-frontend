@@ -1,5 +1,10 @@
 import useCheckScreenWidth from "@/hooks/useCheckScreenWidth";
-import { LoginResponse, googleLoginUser, loginUser } from "@/query/api";
+import {
+	LoginResponse,
+	forgetPassword,
+	googleLoginUser,
+	loginUser,
+} from "@/query/api";
 import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -41,6 +46,16 @@ const Login = () => {
 				toast.error("Please verify your email first");
 				router.push(`/login/verify-account?id=${data.userId}`);
 			}
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
+	});
+
+	const mutateForgetPassword = useMutation({
+		mutationFn: forgetPassword,
+		onSuccess: (data: any) => {
+			router.push(`/login/reset-password?id=${data.userId}`);
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
@@ -123,6 +138,9 @@ const Login = () => {
 								<button
 									className="m-0 p-0 text-left text-gray-500"
 									type="button"
+									onClick={() => {
+										mutateForgetPassword.mutate(userData.email);
+									}}
 								>
 									Forget Password?
 								</button>

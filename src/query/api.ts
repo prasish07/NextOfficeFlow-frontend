@@ -65,3 +65,15 @@ export function changePassword(data: {
 		.post(`${baseUrl}/user/changePassword`, data, { withCredentials: true })
 		.then((res) => res.data);
 }
+
+export function verifyPasswordPin(data: { id: string; pin: string }) {
+	return axios
+		.post(`${baseUrl}/user/resetPassword/verify`, data)
+		.then((res) => res.data);
+}
+
+export function forgetPassword(email: string) {
+	return axios
+		.post(`${baseUrl}/user/sentCode/resetPassword`, { email })
+		.then((res) => res.data);
+}
