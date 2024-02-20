@@ -41,3 +41,15 @@ export function deleteEvent(id: string) {
 		.delete(`${baseUrl}/event/${id}`, { withCredentials: true })
 		.then((res) => res.data);
 }
+
+export function useUpcomingEvents() {
+	return useQuery({
+		queryKey: ["upcomingEvents"],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/events/upcoming`, {
+				withCredentials: true,
+			});
+			return data;
+		},
+	});
+}

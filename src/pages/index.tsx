@@ -18,6 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { checkIn, checkOut, useMyTodayAttendance } from "@/query/attendance";
 import { useGetMyDetails } from "@/query/employee";
+import Events from "@/components/dashboard/Events";
 
 const Home = () => {
 	const { role } = useGlobalProvider();
@@ -267,7 +268,7 @@ const Home = () => {
 						</div>
 					)}
 				</div>
-				<div className="dashboardEvent">
+				{/* <div className="dashboardEvent">
 					<h2 className="event__title">Events and Organization Calender</h2>
 					<div className="event__info">
 						<i className="event__icon">p</i>
@@ -276,7 +277,8 @@ const Home = () => {
 							<p>25 Falgun 2070</p>
 						</div>
 					</div>
-				</div>
+				</div> */}
+				<Events />
 			</section>
 		</>
 	);
