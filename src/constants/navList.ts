@@ -84,20 +84,20 @@ export const navList: NavItem[] = [
 	{
 		title: "Calender",
 		icon: SlCalender,
-		path: "/dashboard",
+		path: "/calendar",
 		subList: [
-			{
-				title: "View Calender",
-				icon: IoIosArrowForward,
-				path: "/dashboard",
-				role: ["all"],
-			},
-			{
-				title: "Event Actions",
-				icon: IoIosArrowForward,
-				path: "/dashboard",
-				role: ["admin", "HR"],
-			},
+			// {
+			// 	title: "View Calender",
+			// 	icon: IoIosArrowForward,
+			// 	path: "/dashboard",
+			// 	role: ["all"],
+			// },
+			// {
+			// 	title: "Event Actions",
+			// 	icon: IoIosArrowForward,
+			// 	path: "/dashboard",
+			// 	role: ["admin", "HR"],
+			// },
 		],
 		role: ["all"],
 	},
