@@ -74,7 +74,7 @@
 }
 
 .form {
-	@include e(event) {
+	@include e(box) {
 		background-color: #fff;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 		padding: 20px;
@@ -86,7 +86,7 @@
 		}
 	}
 
-	@include e(event-element) {
+	@include e(box-element) {
 		margin-bottom: 15px;
 
 		label {
@@ -96,7 +96,8 @@
 		}
 
 		input,
-		select {
+		select,
+		textarea {
 			width: 100%;
 			padding: 8px;
 			box-sizing: border-box;

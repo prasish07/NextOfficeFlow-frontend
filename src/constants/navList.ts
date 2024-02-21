@@ -104,8 +104,27 @@ export const navList: NavItem[] = [
 	{
 		title: "Request",
 		icon: FaRegPaperPlane,
-		path: "/dashboard",
-		subList: [],
+		path: "",
+		subList: [
+			{
+				title: "Make Request",
+				icon: IoIosArrowForward,
+				path: "/request",
+				role: ["employee"],
+			},
+			{
+				title: "My Request",
+				icon: IoIosArrowForward,
+				path: "/request/my-request",
+				role: ["employee"],
+			},
+			{
+				title: "All Request",
+				icon: IoIosArrowForward,
+				path: "/request/all",
+				role: ["HR", "admin"],
+			},
+		],
 		role: ["all"],
 	},
 	{

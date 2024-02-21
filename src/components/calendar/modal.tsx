@@ -68,8 +68,8 @@ const CalenderEvent = ({ showModal, setShowModal, date }: CalendarProps) => {
 			size="lg"
 			header={<h2>Set an event</h2>}
 		>
-			<form className="form__event" onSubmit={handleSubmit}>
-				<div className="form__event-element">
+			<form className="form__box" onSubmit={handleSubmit}>
+				<div className="form__box-element">
 					<label htmlFor="title">Event Title</label>
 					<input
 						type="text"
@@ -80,7 +80,7 @@ const CalenderEvent = ({ showModal, setShowModal, date }: CalendarProps) => {
 						placeholder="Enter event title"
 					/>
 				</div>
-				<div className="form__event-element">
+				<div className="form__box-element">
 					<label htmlFor="type">Type</label>
 					<select
 						name="type"
@@ -92,7 +92,7 @@ const CalenderEvent = ({ showModal, setShowModal, date }: CalendarProps) => {
 						<option value="reminder">Company Event</option>
 					</select>
 				</div>
-				<div className="form__event-element">
+				<div className="form__box-element">
 					<label htmlFor="start">Start Date</label>
 					<input
 						type="date"
@@ -102,7 +102,7 @@ const CalenderEvent = ({ showModal, setShowModal, date }: CalendarProps) => {
 						onChange={handleChange}
 					/>
 				</div>
-				<div className="form__event-element">
+				<div className="form__box-element">
 					<label htmlFor="end">End Date</label>
 					<input
 						type="date"

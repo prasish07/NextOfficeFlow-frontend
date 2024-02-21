@@ -1,0 +1,219 @@
+.request {
+	padding: 20px;
+	width: 100%;
+
+	@include mq(lg) {
+		width: calc(100% - 262px);
+	}
+
+	@include e(options) {
+		display: flex;
+		gap: 20px;
+		margin-bottom: 20px;
+		flex-wrap: wrap;
+		margin-top: 40px;
+	}
+
+	@include e(options-element) {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		padding: 10px;
+		border: 1px solid #ddd;
+		border-radius: 10px;
+		width: 300px;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		transition: 0.3s;
+		height: 200px;
+		background-color: $white;
+
+		svg {
+			color: $normal;
+		}
+
+		h3 {
+			font-size: 20px;
+			font-weight: 600;
+			color: $normal;
+		}
+
+		&:hover {
+			background-color: $light_blue-hover;
+		}
+	}
+
+	@include e(my) {
+		padding: 20px;
+		width: 100%;
+
+		@include mq(lg) {
+			width: calc(100% - 262px);
+		}
+	}
+
+	@include e(my-options) {
+		display: flex;
+		gap: 20px;
+		margin-bottom: 20px;
+		flex-wrap: wrap;
+		margin-top: 40px;
+		padding-bottom: 40px;
+		border-bottom: 1px solid #ddd;
+	}
+
+	@include e(my-options-element) {
+		padding: 10px 20px;
+		background-color: $white;
+		border-radius: 20px;
+		cursor: pointer;
+
+		&:hover {
+			background-color: $light_blue-hover;
+		}
+	}
+
+	@include e(filter) {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		margin-bottom: 20px;
+
+		h3 {
+			font-size: 20px;
+			font-weight: 600;
+		}
+
+		select {
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			background-color: $white;
+		}
+	}
+
+	@include e(list-count) {
+		display: flex;
+		gap: 20px;
+		flex-wrap: wrap;
+		div {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 20px;
+			width: 250px;
+			height: 100px;
+			background-color: $white;
+			border-radius: 20px;
+			gap: 10px;
+			h3 {
+				font-size: 24px;
+				font-weight: 600;
+			}
+			p {
+				font-size: 30px;
+				font-weight: 600;
+				color: $normal;
+			}
+		}
+	}
+
+	@include e(list) {
+		display: flex;
+		gap: 30px;
+		margin-top: 40px;
+		flex-wrap: wrap;
+	}
+
+	@include e(list-element) {
+		background-color: $white;
+		padding: 20px;
+		border-radius: 20px;
+		cursor: pointer;
+
+		&:hover {
+			background-color: $light_blue-hover;
+		}
+	}
+
+	@include e(list-element-1-header) {
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid #ddd;
+
+		h2 {
+			color: $text;
+		}
+
+		p {
+			color: $grey;
+		}
+	}
+
+	@include e(list-element-2) {
+		display: flex;
+		// flex-direction: column;
+		gap: 30px;
+		width: 600px;
+
+		h3 {
+			font-size: 24px;
+		}
+
+		p {
+			font-size: 18px;
+			color: $grey;
+			display: flex;
+			align-items: center;
+		}
+	}
+
+	@include e(list-element-header) {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+		justify-content: center;
+		align-content: center;
+		border-right: 1px solid #ddd;
+		padding-right: 20px;
+
+		h3 {
+			font-size: 24px;
+			font-weight: 600;
+			color: $text;
+		}
+
+		svg {
+			margin: auto 0;
+		}
+
+		p {
+			padding: 10px;
+			background-color: $normal;
+			border-radius: 20px;
+			color: $white;
+		}
+	}
+
+	@include e(list-element-footer) {
+		display: flex;
+		gap: 20px;
+		align-content: center;
+
+		h3 {
+			font-size: 18px;
+			margin: auto 0;
+		}
+
+		p {
+			font-size: 18px;
+			padding: 10px;
+			background-color: $normal;
+			border-radius: 20px;
+			color: $white;
+			font-weight: bold;
+		}
+	}
+}
