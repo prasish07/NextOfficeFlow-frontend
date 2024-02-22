@@ -42,6 +42,20 @@ export function useGetAllRequests(filter?: any) {
 				params: filter,
 				withCredentials: true,
 			});
+			return data;
+		},
+	});
+}
+
+export function useGetAllRequestOfUser(filter?: any) {
+	return useQuery({
+		queryKey: ["request", filter],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/request`, {
+				params: filter,
+				withCredentials: true,
+			});
+			return data;
 		},
 	});
 }

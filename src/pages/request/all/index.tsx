@@ -1,12 +1,12 @@
-import { useGetAllRequestOfUser } from "@/query/request";
+import { useGetAllRequests } from "@/query/request";
 import React, { useState } from "react";
 import { IoTimeSharp } from "react-icons/io5";
 import { MdMoneyOff } from "react-icons/md";
 import { SlNote } from "react-icons/sl";
 import { FaHome } from "react-icons/fa";
 
-const MyRequest = () => {
-	const { data, isLoading, isError } = useGetAllRequestOfUser();
+const All = () => {
+	const { data, isLoading, isError } = useGetAllRequests();
 	const [selectedType, setSelectedType] = useState("leave");
 	const activeClass = "active";
 
@@ -227,4 +227,14 @@ const MyRequest = () => {
 	);
 };
 
-export default MyRequest;
+export default All;
+
+// {selectedType === "leave" ? (
+//     <MdSick size={30} />
+// ) : selectedType === "allowance" ? (
+//     <MdMoneyOff size={30} />
+// ) : selectedType === "overtime" ? (
+//     <IoTimeSharp size={30} />
+// ) : (
+//     <SlNote size={30} />
+// )}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { MdSick, MdMoneyOff } from "react-icons/md";
+import { MdMoneyOff } from "react-icons/md";
+import { FaHome } from "react-icons/fa";
 import { IoTimeSharp } from "react-icons/io5";
 import { SlNote } from "react-icons/sl";
 import Leave from "@/components/request/Leave";
@@ -23,7 +24,7 @@ const Request = () => {
 						setShowLeaveModal(true);
 					}}
 				>
-					<MdSick size={34} />
+					<FaHome size={34} />
 					<h3>Leave</h3>
 				</div>
 				<div
