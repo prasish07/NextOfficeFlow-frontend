@@ -51,18 +51,25 @@ const Request = () => {
 					<h3>Attendance</h3>
 				</div>
 			</div>
-			<Leave showModal={showLeaveModal} setShowModal={setShowLeaveModal} />
+			<Leave
+				showModal={showLeaveModal}
+				setShowModal={setShowLeaveModal}
+				type="add"
+			/>
 			<Allowance
 				showModal={showAllowanceModal}
 				setShowModal={setShowAllowanceModal}
+				type="add"
 			/>
 			<Overtime
 				showModal={showOvertimeModal}
 				setShowModal={setShowOvertimeModal}
+				type="add"
 			/>
 			<Attendance
 				showModal={showAttendanceModal}
 				setShowModal={setShowAttendanceModal}
+				type="add"
 			/>
 		</div>
 	);

@@ -26,9 +26,9 @@ const CalenderEvent = ({ showModal, setShowModal, date }: CalendarProps) => {
 	const postMutation = useMutation({
 		mutationFn: addEvent,
 		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["events"] });
 			setShowModal(false);
 			toast.success("Event added successfully");
-			queryClient.invalidateQueries({ queryKey: ["events", 1] });
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);

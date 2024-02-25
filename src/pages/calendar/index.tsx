@@ -73,14 +73,6 @@ const App: React.FC = () => {
 	};
 
 	const handleEventClick = (clickInfo: any) => {
-		// if (
-		// 	confirm(
-		// 		`Are you sure you want to delete the event '${clickInfo.event.title}'`
-		// 	)
-		// ) {
-		// 	clickInfo.event.remove();
-		// }
-		// console.log(clickInfo.event.extendedProps._id);
 		setSelectedId(clickInfo.event.extendedProps._id);
 		setShowDeleteModal(true);
 	};
@@ -96,14 +88,24 @@ const App: React.FC = () => {
 	);
 
 	const renderSidebarEvent = (event: any) => (
-		<li key={event.id}>
-			<b>
-				{formatDate(event.start, {
-					year: "numeric",
-					month: "short",
-					day: "numeric",
-				})}
-			</b>
+		<li key={event.id} className="calendar__list-element">
+			<div>
+				<b>
+					{formatDate(event.start, {
+						year: "numeric",
+						month: "short",
+						day: "numeric",
+					})}
+				</b>
+				-
+				<b>
+					{formatDate(event.end, {
+						year: "numeric",
+						month: "short",
+						day: "numeric",
+					})}
+				</b>
+			</div>
 			<i>{event.title}</i>
 		</li>
 	);
@@ -128,7 +130,7 @@ const App: React.FC = () => {
 					initialEvents={eventsWithoutFilters}
 					select={role !== "employee" ? handleDateSelect : undefined}
 					eventContent={renderEventContent}
-					eventClick={handleEventClick}
+					eventClick={role !== "employee" ? handleEventClick : undefined}
 					eventsSet={handleEvents}
 					datesSet={(dateInfo) => {
 						displayedDateRef.current = {

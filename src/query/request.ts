@@ -36,7 +36,7 @@ export function addAttendanceRequest(data: any) {
 
 export function useGetAllRequests(filter?: any) {
 	return useQuery({
-		queryKey: ["requests", filter],
+		queryKey: ["requests", "all"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/requests`, {
 				params: filter,
@@ -58,4 +58,32 @@ export function useGetAllRequestOfUser(filter?: any) {
 			return data;
 		},
 	});
+}
+
+export function useGetUserRequest(requestId: string) {
+	return useQuery({
+		queryKey: ["request", requestId],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/request/${requestId}`, {
+				withCredentials: true,
+			});
+			return data;
+		},
+	});
+}
+
+export function updateStatus({
+	requestId,
+	status,
+}: {
+	requestId: string;
+	status: string;
+}) {
+	return axios
+		.patch(
+			`${baseUrl}/request/${requestId}`,
+			{ status },
+			{ withCredentials: true }
+		)
+		.then((res) => res.data);
 }

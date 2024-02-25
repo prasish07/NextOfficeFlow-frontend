@@ -10,6 +10,16 @@
 		padding: 3em;
 	}
 
+	@include e(list-element) {
+		display: flex;
+		flex-direction: column;
+
+		div {
+			display: flex;
+			gap: 15px;
+		}
+	}
+
 	@include e(section) {
 		width: 300px;
 		line-height: 1.5;

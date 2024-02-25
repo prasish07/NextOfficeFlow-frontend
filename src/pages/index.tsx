@@ -106,7 +106,12 @@ const Home = () => {
 						const data = await response.json();
 
 						if (data.results.length > 0) {
-							const city = data.results[0].components.city;
+							console.log(data);
+							// const city = data.results[0].components.city;
+							const city =
+								data.results[0].components.county +
+								", " +
+								data.results[0].components.suburb;
 							console.log(`User is in ${city}`);
 							const location = city;
 							let type = "";

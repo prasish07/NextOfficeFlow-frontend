@@ -4,10 +4,20 @@ import { IoTimeSharp } from "react-icons/io5";
 import { MdMoneyOff } from "react-icons/md";
 import { SlNote } from "react-icons/sl";
 import { FaHome } from "react-icons/fa";
+import Leave from "@/components/request/Leave";
+import Allowance from "@/components/request/Allowance";
+import Overtime from "@/components/request/Overtime";
+import Attendance from "@/components/request/Attendence";
 
 const All = () => {
 	const { data, isLoading, isError } = useGetAllRequests();
 	const [selectedType, setSelectedType] = useState("leave");
+	const [showLeaveModal, setShowLeaveModal] = useState(false);
+	const [showAllowanceModal, setShowAllowanceModal] = useState(false);
+	const [showOvertimeModal, setShowOvertimeModal] = useState(false);
+	const [showAttendanceModal, setShowAttendanceModal] = useState(false);
+	const [selectedId, setSelectedId] = useState("");
+
 	const activeClass = "active";
 
 	if (isLoading) {
@@ -45,7 +55,14 @@ const All = () => {
 				});
 
 				return (
-					<div className="request__list-element" key={item._id}>
+					<div
+						className="request__list-element"
+						key={item._id}
+						onClick={() => {
+							setShowLeaveModal(item);
+							setSelectedId(item._id);
+						}}
+					>
 						<div className="request__list-element-1-header">
 							<h2>{item.employeeName}</h2>
 							<p>{item.employeePosition}</p>
@@ -67,7 +84,14 @@ const All = () => {
 		} else if (selectedType === "allowance") {
 			return filterElement.map((item: any) => {
 				return (
-					<div className="request__list-element" key={item._id}>
+					<div
+						className="request__list-element"
+						key={item._id}
+						onClick={() => {
+							setShowAllowanceModal(true);
+							setSelectedId(item._id);
+						}}
+					>
 						<div className="request__list-element-1-header">
 							<h2>{item.employeeName}</h2>
 							<p>{item.employeePosition}</p>
@@ -104,7 +128,14 @@ const All = () => {
 				);
 
 				return (
-					<div className="request__list-element" key={item._id}>
+					<div
+						className="request__list-element"
+						key={item._id}
+						onClick={() => {
+							setShowOvertimeModal(true);
+							setSelectedId(item._id);
+						}}
+					>
 						<div className="request__list-element-1-header">
 							<h2>{item.employeeName}</h2>
 							<p>{item.employeePosition}</p>
@@ -134,7 +165,13 @@ const All = () => {
 				});
 
 				return (
-					<div className="request__list-element" key={item._id}>
+					<div
+						className="request__list-element"
+						key={item._id}
+						onClick={() => {
+							setShowAttendanceModal(true);
+						}}
+					>
 						<div className="request__list-element-1-header">
 							<h2>{item.employeeName}</h2>
 							<p>{item.employeePosition}</p>
@@ -196,19 +233,19 @@ const All = () => {
 			<div className="request__list-count">
 				<div>
 					<h3>Leave</h3>
-					<p>20</p>
+					<p>{data.leaveRequest}</p>
 				</div>
 				<div>
 					<h3>Allowance</h3>
-					<p>18</p>
+					<p>{data.allowanceRequest}</p>
 				</div>
 				<div>
 					<h3>Overtime Request</h3>
-					<p>2</p>
+					<p>{data.overtimeRequest}</p>
 				</div>
 				<div>
 					<h3>Attendance</h3>
-					<p>0</p>
+					<p>{data.attendanceRequest}</p>
 				</div>
 			</div>
 
@@ -223,6 +260,30 @@ const All = () => {
 			</div>
 
 			<div className="request__list">{<RequestElement />}</div>
+			<Leave
+				showModal={showLeaveModal}
+				setShowModal={setShowLeaveModal}
+				type="update"
+				selectedId={selectedId}
+			/>
+			<Allowance
+				showModal={showAllowanceModal}
+				setShowModal={setShowAllowanceModal}
+				type="update"
+				selectedId={selectedId}
+			/>
+			<Overtime
+				showModal={showOvertimeModal}
+				setShowModal={setShowOvertimeModal}
+				type="update"
+				selectedId={selectedId}
+			/>
+			<Attendance
+				showModal={showAttendanceModal}
+				setShowModal={setShowAttendanceModal}
+				type="update"
+				selectedId={selectedId}
+			/>
 		</div>
 	);
 };

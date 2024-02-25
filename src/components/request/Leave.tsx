@@ -1,21 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "../model/Model";
-import { useMutation } from "@tanstack/react-query";
-import { addLeaveRequest } from "@/query/request";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+	addLeaveRequest,
+	updateStatus,
+	useGetUserRequest,
+} from "@/query/request";
 import { toast } from "react-toastify";
 
 export interface Props {
 	showModal: boolean;
 	setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+	type: string;
+	selectedId?: string;
 }
 
-const Leave = ({ showModal, setShowModal }: Props) => {
+const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const [data, setDate] = useState({
 		type: "leave",
 		startDate: "",
 		endDate: "",
 		reason: "",
 		requestType: "leave",
+		status: "pending",
+	});
+	const {
+		data: allData,
+		isLoading,
+		isError,
+	} = useGetUserRequest(selectedId as string);
+	const isUpdate = type === "update";
+	const queryClient = useQueryClient();
+
+	const leaveUpdateMutation = useMutation({
+		mutationFn: updateStatus,
+		onSuccess: (data: any) => {
+			queryClient.invalidateQueries({
+				queryKey: ["requests"],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["request"],
+			});
+			toast.success(data.message);
+			setShowModal(false);
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
 	});
 
 	const leaveMutation = useMutation({
@@ -23,12 +54,16 @@ const Leave = ({ showModal, setShowModal }: Props) => {
 		onSuccess: (data: any) => {
 			toast.success(data.message);
 			setShowModal(false);
+			queryClient.invalidateQueries({
+				queryKey: ["requests"],
+			});
 			setDate({
 				type: "leave",
 				startDate: "",
 				endDate: "",
 				reason: "",
 				requestType: "leave",
+				status: "pending",
 			});
 		},
 		onError: (error: any) => {
@@ -47,10 +82,55 @@ const Leave = ({ showModal, setShowModal }: Props) => {
 		});
 	};
 
+	const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		e.preventDefault();
+		const { name, value } = e.target;
+		console.log(value);
+		leaveUpdateMutation.mutate({
+			requestId: selectedId as string,
+			status: value,
+		});
+	};
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		leaveMutation.mutate(data);
 	};
+
+	useEffect(() => {
+		if (isError || !allData || !allData?.request) {
+			return;
+		}
+		console.log(allData);
+		const { leaveId: leaveData } = allData.request;
+		const formattedStartDate = leaveData?.startDate
+			? leaveData.startDate.split("T")[0]
+			: "";
+		const formattedEndDate = leaveData?.endDate
+			? leaveData.endDate.split("T")[0]
+			: "";
+		if (type == "update") {
+			setDate({
+				type: "leave",
+				startDate: formattedStartDate,
+				endDate: formattedEndDate,
+				reason: leaveData?.reason,
+				requestType: "leave",
+				status: allData?.request?.status,
+			});
+		}
+		if (type === "add") {
+			setDate({
+				type: "leave",
+				startDate: "",
+				endDate: "",
+				reason: "",
+				requestType: "leave",
+				status: "pending",
+			});
+		}
+	}, [allData, type, isError, isLoading]);
+
 	return (
 		<Modal
 			shouldShowModal={showModal}
@@ -100,9 +180,27 @@ const Leave = ({ showModal, setShowModal }: Props) => {
 						required
 					/>
 				</div>
-				<button className="add-btn" type="submit">
-					Request
-				</button>
+				{isUpdate && (
+					<div className="form__box-element">
+						<label htmlFor="status">Status</label>
+						<select
+							name="status"
+							id="status"
+							required
+							onChange={handleStatusChange}
+							value={data.status}
+						>
+							<option value="pending">Pending</option>
+							<option value="approved">Approved</option>
+							<option value="rejected">Rejected</option>
+						</select>
+					</div>
+				)}
+				{!isUpdate && (
+					<button className="add-btn" type="submit">
+						Request
+					</button>
+				)}
 			</form>
 		</Modal>
 	);

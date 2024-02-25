@@ -196,19 +196,19 @@ const MyRequest = () => {
 			<div className="request__list-count">
 				<div>
 					<h3>Leave</h3>
-					<p>20</p>
+					<p>{data.leaveRequest}</p>
 				</div>
 				<div>
 					<h3>Allowance</h3>
-					<p>18</p>
+					<p>{data.allowanceRequest}</p>
 				</div>
 				<div>
 					<h3>Overtime Request</h3>
-					<p>2</p>
+					<p>{data.overtimeRequest}</p>
 				</div>
 				<div>
 					<h3>Attendance</h3>
-					<p>0</p>
+					<p>{data.attendanceRequest}</p>
 				</div>
 			</div>
 
