@@ -14,6 +14,7 @@ const Assignn = ({
 	projectId: string;
 }) => {
 	const { data, isLoading, isError } = useGetAllEmployees();
+	const [searchValue, setSearchValue] = useState<string>("");
 
 	const [assignee, setAssignee] = useState<string[]>([]);
 	const queryClient = useQueryClient();
@@ -33,7 +34,7 @@ const Assignn = ({
 
 	if (isError || !data) return <div>Error</div>;
 
-	const { data: employeeData } = data;
+	let { data: employeeData } = data;
 
 	const handleCheckboxChange = (employeeId: string) => {
 		if (assignee.includes(employeeId)) {
@@ -55,6 +56,16 @@ const Assignn = ({
 		}
 	};
 
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchValue(e.target.value);
+	};
+	if (searchValue) {
+		const filteredData = employeeData.filter((employee: any) =>
+			employee.email.toLowerCase().includes(searchValue.toLowerCase())
+		);
+		employeeData = filteredData;
+	}
+
 	return (
 		<>
 			<Modal
@@ -62,8 +73,19 @@ const Assignn = ({
 				shouldShowModal={showModal}
 				handleClose={() => setShowModal(false)}
 				header="Select Assignee"
+				wrapperClass="assignee-modal"
 			>
 				<>
+					{/* Add search bar */}
+					<input
+						type="text"
+						placeholder="Search email"
+						className="assignee-modal__search"
+						onChange={(e) => {
+							handleSearch(e);
+						}}
+						value={searchValue}
+					/>
 					<div className="assignee-list">
 						{employeeData.map((employee: any) => (
 							<div key={employee._id} className="assignee-element">
@@ -79,8 +101,8 @@ const Assignn = ({
 							</div>
 						))}
 					</div>
-					<div className="add-btn mt-5">
-						<button type="submit" onClick={handleAdd}>
+					<div className="mt-5 flex justify-center">
+						<button type="submit" onClick={handleAdd} className="add-btn">
 							Assign
 						</button>
 					</div>

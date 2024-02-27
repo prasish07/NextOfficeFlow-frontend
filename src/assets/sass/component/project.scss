@@ -495,3 +495,26 @@
 	font-weight: bold;
 	color: #3498db; /* You can use any color you prefer */
 }
+
+.assignee-modal {
+	height: 500px;
+
+	@include e(search) {
+		border: 1px solid #ddd;
+		margin: 4px 10px;
+		padding: 10px;
+	}
+
+	.modal {
+		@include e(body) {
+			padding: 0 4px;
+			display: flex;
+			flex-direction: column;
+		}
+	}
+
+	.add-btn {
+		width: 50%;
+		margin-bottom: 10px;
+	}
+}

@@ -10,11 +10,10 @@ import MenuBtn from "@/components/MenuBtn";
 import useScreenWidth from "@/hooks/useScreenWidth";
 // import { useCheckRoleAndToken } from "@/hooks/auth";
 import { FaArrowDownLong, FaPlus } from "react-icons/fa6";
-import Link from "next/link";
 import { useGlobalProvider } from "@/context/GlobalProvicer";
 import { COMPANY_LOCATION, API } from "@/constants/consts";
 import { calculateDistance } from "@/utils/location";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { checkIn, checkOut, useMyTodayAttendance } from "@/query/attendance";
 import { useGetMyDetails } from "@/query/employee";
@@ -24,11 +23,10 @@ const Home = () => {
 	const { role } = useGlobalProvider();
 	const { data: myAttendance } = useMyTodayAttendance();
 	const { data, isLoading } = useGetMyDetails();
-	const [timeDiff, setTimeDiff] = useState(0);
 	let timeDifferenceInHours = "";
+	const queryClient = useQueryClient();
 
 	const { attendance: attendanceDate } = myAttendance || {};
-	console.log("attendanceDate", attendanceDate);
 	const checkInDate = attendanceDate?.checkIn;
 	const checkOutDate = attendanceDate?.checkOut;
 
@@ -41,7 +39,6 @@ const Home = () => {
 			timeDifferenceInMilliseconds /
 			(1000 * 60 * 60)
 		).toFixed(3);
-		// setTimeDiff(timeDifferenceInHours);
 	}
 
 	const formattedCheckInDate = new Date(checkInDate).toLocaleTimeString(
@@ -66,6 +63,7 @@ const Home = () => {
 		mutationFn: checkIn,
 		onSuccess: () => {
 			toast.success("Check-in successful");
+			queryClient.invalidateQueries({ queryKey: ["attendance", "today"] });
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
@@ -76,6 +74,7 @@ const Home = () => {
 		mutationFn: checkOut,
 		onSuccess: () => {
 			toast.success("Check-out successful");
+			queryClient.invalidateQueries({ queryKey: ["attendance", "today"] });
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
@@ -209,7 +208,8 @@ const Home = () => {
 							<div className="dashboard__time">
 								<div>
 									<p>
-										Status: <span>{attendanceDate?.late ? "late" : ""}</span>
+										Status:{" "}
+										<span className="capitalize">{attendanceDate?.status}</span>
 									</p>
 									<p>
 										Check-In Time:{" "}
@@ -229,7 +229,7 @@ const Home = () => {
 									</p>
 									<p>
 										Type:{" "}
-										<span>
+										<span className="capitalize">
 											{attendanceDate?.type ? attendanceDate?.type : "Unknown"}
 										</span>
 									</p>
