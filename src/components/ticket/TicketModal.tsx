@@ -38,7 +38,7 @@ const TicketModal = ({
 
 	return (
 		<Modal
-			size="lg"
+			size="xlg"
 			shouldShowModal={showModal}
 			handleClose={() => setShowModal(false)}
 			header={`${type === "add" ? "New" : "Update"} Ticket`}
@@ -57,6 +57,7 @@ const TicketModal = ({
 					<option>Open</option>
 					<option>Close</option>
 					<option>Reopen</option>
+					<option>Canceled</option>
 				</select>
 				<div className="flex flex-col gap-4">
 					<label htmlFor="description">Description</label>
@@ -81,18 +82,13 @@ const TicketModal = ({
 					<div className="ticket__modal-details--info">
 						<div>
 							<label htmlFor="assignee">Assignee</label>
-							{!assigneeId ? (
+							{
 								<CustomeAssignee2 setProjectId={setAssigneeId}>
-									<button className="add-btn">Add</button>
+									<button className="py-2 px-8 border-solid border border-[#ddd] rounded-[5px]">
+										{assigneeId ? assigneeId : "Add"}
+									</button>
 								</CustomeAssignee2>
-							) : (
-								<div className="flex gap-2">
-									<p>{assigneeId}</p>
-									<CustomeAssignee2 setProjectId={setAssigneeId}>
-										<button className="add-btn">Change</button>
-									</CustomeAssignee2>
-								</div>
-							)}
+							}
 						</div>
 						<div>
 							<label htmlFor="priority">Priority</label>
@@ -119,7 +115,9 @@ const TicketModal = ({
 						</div>
 						<div>
 							<label htmlFor="Reporter">Reporter</label>
-							<p>{type === "add" ? "me" : "reporter"}</p>
+							<p className="capitalize">
+								{type === "add" ? "Myself" : "reporter"}
+							</p>
 						</div>
 						<div>
 							<label htmlFor="createdAt">Created At</label>
@@ -127,23 +125,20 @@ const TicketModal = ({
 						</div>
 						<div>
 							<label htmlFor="linkProject">Link Project Id</label>
-							{!projectId ? (
+							{
 								<CustomProject setProjectId={setProjectId}>
-									<button className="add-btn">Add</button>
+									<button className="py-2 px-8 border-solid border border-[#ddd] rounded-[5px]">
+										{projectId ? projectId : "Add"}
+									</button>
 								</CustomProject>
-							) : (
-								<div className="flex gap-2">
-									<p>{projectId}</p>
-									<CustomProject setProjectId={setProjectId}>
-										<button className="add-btn">Change</button>
-									</CustomProject>
-								</div>
-							)}
+							}
 						</div>
 					</div>
 				</div>
 				<div className="w-full flex justify-end">
-					<button className="add-btn">Save</button>
+					<button className="w-full py-3 bg-[#3498db] font-bold text-white rounded-[5px]">
+						Save
+					</button>
 				</div>
 				<div className="ticket__modal-details">
 					<h2>Comments</h2>

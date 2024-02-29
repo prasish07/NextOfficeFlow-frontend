@@ -98,6 +98,17 @@
 			border-radius: 10px;
 			background-color: $white;
 		}
+		option {
+			padding: 20px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			font-size: 18px;
+			cursor: pointer;
+
+			&:hover {
+				background-color: $white;
+			}
+		}
 	}
 
 	@include e(list-count) {
@@ -141,7 +152,7 @@
 		cursor: pointer;
 
 		&:hover {
-			background-color: $light_blue-hover;
+			background-color: rgba(212, 212, 212, 0.301);
 		}
 	}
 

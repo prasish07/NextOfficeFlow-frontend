@@ -181,7 +181,7 @@ const ManageAction = ({
 							<div>
 								<div className="project__assignee-item">
 									{!!data?.project &&
-										assignee.map((item: any) => {
+										assignee?.map((item: any) => {
 											return (
 												<div
 													key={item.id}

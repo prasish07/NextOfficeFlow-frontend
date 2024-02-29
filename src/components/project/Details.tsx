@@ -53,7 +53,7 @@ const Details = ({ endpoint }: { endpoint: string }) => {
 				</div>
 				<div className="project-id__details--info-item">
 					<h3>Assigned To:</h3>
-					{project.AssigneeId.map((item: any) => {
+					{project.AssigneeId?.map((item: any) => {
 						return (
 							<div key={item.id} className="project__manage-info--avatar ml-2">
 								<span

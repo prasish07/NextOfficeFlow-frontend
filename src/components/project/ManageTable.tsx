@@ -89,7 +89,7 @@ const ManageTable = ({
 										<td>{project.endDate}</td>
 										<td>
 											<div className="flex justify-center items-center gap-2">
-												{project.AssigneeId.map((item: any) => {
+												{project.AssigneeId?.map((item: any) => {
 													return (
 														<div
 															key={item.id}

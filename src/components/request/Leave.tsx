@@ -186,7 +186,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 					<label htmlFor="">Select Project Manager to request the leave</label>
 					<PMAssignee setPM={setPM}>
 						<button
-							className="py-4 px-8 mt-2 mb-5 border-solid border border-[#ddd] rounded-[20px] "
+							className="py-4 px-8 mt-2 mb-5 border-solid border border-[#ddd] rounded-[20px]"
 							type="button"
 						>
 							{PM ? PM : "Add"}

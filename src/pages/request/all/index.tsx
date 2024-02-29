@@ -8,6 +8,7 @@ import Leave from "@/components/request/Leave";
 import Allowance from "@/components/request/Allowance";
 import Overtime from "@/components/request/Overtime";
 import Attendance from "@/components/request/Attendence";
+import classNames from "classnames";
 
 const All = () => {
 	const { data, isLoading, isError } = useGetAllRequests();
@@ -53,6 +54,12 @@ const All = () => {
 					month: "short",
 					day: "numeric",
 				});
+				const btnClasses = classNames(
+					"capitalize",
+					{ "bg-green-400": item.status.includes("approved") },
+					{ "bg-red-400": item.status.includes("rejected") },
+					{ "bg-yellow-400": item.status.includes("pending") }
+				);
 
 				return (
 					<div
@@ -75,7 +82,7 @@ const All = () => {
 							</div>
 							<div className="request__list-element-footer">
 								<h3>{formattedStartDate}</h3>
-								<p>{item.status}</p>
+								<p className={btnClasses}>{item.status}</p>
 							</div>
 						</div>
 					</div>
@@ -83,6 +90,12 @@ const All = () => {
 			});
 		} else if (selectedType === "allowance") {
 			return filterElement.map((item: any) => {
+				const btnClasses = classNames(
+					"capitalize",
+					{ "bg-green-400": item.status.includes("approved") },
+					{ "bg-red-400": item.status.includes("rejected") },
+					{ "bg-yellow-400": item.status.includes("pending") }
+				);
 				return (
 					<div
 						className="request__list-element"
@@ -103,7 +116,7 @@ const All = () => {
 								<p>{item.allowanceId.amount} Rs</p>
 							</div>
 							<div className="request__list-element-footer">
-								<p>{item.status}</p>
+								<p className={btnClasses}>{item.status}</p>
 							</div>
 						</div>
 					</div>
@@ -111,6 +124,12 @@ const All = () => {
 			});
 		} else if (selectedType === "overtime") {
 			return filterElement.map((item: any) => {
+				const btnClasses = classNames(
+					"capitalize",
+					{ "bg-green-400": item.status.includes("approved") },
+					{ "bg-red-400": item.status.includes("rejected") },
+					{ "bg-yellow-400": item.status.includes("pending") }
+				);
 				const startTime = new Date(`2000-01-01 ${item.overtimeId.startTime}`);
 				const endTime = new Date(`2000-01-01 ${item.overtimeId.endTime}`);
 
@@ -148,7 +167,7 @@ const All = () => {
 							</div>
 							<div className="request__list-element-footer">
 								<h3>{formattedDate}</h3>
-								<p>{item.status}</p>
+								<p className={btnClasses}>{item.status}</p>
 							</div>
 						</div>
 					</div>
@@ -163,7 +182,12 @@ const All = () => {
 					month: "short",
 					day: "numeric",
 				});
-
+				const btnClasses = classNames(
+					"capitalize",
+					{ "bg-green-400": item.status.includes("approved") },
+					{ "bg-red-400": item.status.includes("rejected") },
+					{ "bg-yellow-400": item.status.includes("pending") }
+				);
 				return (
 					<div
 						className="request__list-element"
@@ -184,7 +208,7 @@ const All = () => {
 							</div>
 							<div className="request__list-element-footer">
 								<h3>{formattedDate}</h3>
-								<p>{item.status}</p>
+								<p className={btnClasses}>{item.status}</p>
 							</div>
 						</div>
 					</div>

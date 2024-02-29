@@ -84,6 +84,15 @@
 		}
 	}
 
+	@include m(xlg) {
+		@include mq(md) {
+			width: 900px;
+		}
+		@include mq(lg) {
+			width: 1200px;
+		}
+	}
+
 	@include e(header) {
 		display: flex;
 		color: $base-colors-blue-black;
