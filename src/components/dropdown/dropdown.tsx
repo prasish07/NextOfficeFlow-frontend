@@ -57,6 +57,7 @@ export const DropdownPopover: React.FC<PopoverProps> = ({
 		top: 0,
 		left: 0,
 	});
+	const [search, setSearch] = useState<string>("");
 
 	const contentRef = useRef<HTMLDivElement>(null);
 	const targetRef = useRef<HTMLDivElement>(null);
@@ -152,6 +153,10 @@ export const DropdownPopover: React.FC<PopoverProps> = ({
 		}
 	};
 
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearch(e.target.value);
+	};
+
 	useEffect(() => {
 		if (visible) {
 			handlePopoverPosition();
@@ -164,6 +169,16 @@ export const DropdownPopover: React.FC<PopoverProps> = ({
 	}, [visible, placement]);
 
 	const isPositionSet = popoverPosition.top !== 0 || popoverPosition.left !== 0;
+
+	content = content.filter((item) => {
+		if (search === "") {
+			return true;
+		}
+		return item.labelElement.props.children
+			.toString()
+			.toLowerCase()
+			.includes(search.toLowerCase());
+	});
 
 	return (
 		<>
@@ -179,15 +194,21 @@ export const DropdownPopover: React.FC<PopoverProps> = ({
 			{visible &&
 				ReactDOM.createPortal(
 					<div
-						className={`pro-popover-content popover-${placement} ${
-							arrow ? "has-arrow" : ""
-						} pro-dropdown ${isPositionSet ? "ready" : ""} ${className}`}
+						className={`pro-popover-content popover-${placement} pro-dropdown ${
+							isPositionSet ? "ready" : ""
+						} ${className}`}
 						ref={contentRef}
 						style={{
 							top: popoverPosition.top,
 							left: popoverPosition.left,
 						}}
 					>
+						<input
+							type="text"
+							placeholder="Search..."
+							value={search}
+							onChange={handleSearch}
+						/>
 						{content.map((item) => {
 							return cloneElement(item.labelElement as ReactElement, {
 								onClick: () => {

@@ -7,6 +7,7 @@ import {
 	useGetUserRequest,
 } from "@/query/request";
 import { toast } from "react-toastify";
+import PMAssignee from "../dropdown/pmAssignee";
 
 export interface Props {
 	showModal: boolean;
@@ -24,6 +25,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		requestType: "leave",
 		status: "pending",
 	});
+	const [PM, setPM] = useState<string>("");
 	const {
 		data: allData,
 		isLoading,
@@ -179,6 +181,17 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						value={data.reason}
 						required
 					/>
+				</div>
+				<div className="form__box-element">
+					<label htmlFor="">Select Project Manager to request the leave</label>
+					<PMAssignee setPM={setPM}>
+						<button
+							className="py-4 px-8 mt-2 mb-5 border-solid border border-[#ddd] rounded-[20px] "
+							type="button"
+						>
+							{PM ? PM : "Add"}
+						</button>
+					</PMAssignee>
 				</div>
 				{isUpdate && (
 					<div className="form__box-element">

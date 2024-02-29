@@ -117,10 +117,34 @@
 
 .pro-popover-content {
 	visibility: hidden;
+
 	&.ready {
 		visibility: visible;
 	}
 	&.pro-dropdown {
 		padding: 0;
+	}
+
+	input {
+		padding: 10px;
+		border: 1px solid $ui-colors-border-color;
+		border-radius: 4px;
+		box-sizing: border-box;
+		margin: 10px;
+		// position: sticky;
+		top: 10px;
+		width: 260px;
+		font-size: 16px;
+
+		&:focus {
+			outline: none;
+		}
+	}
+	div {
+		font-size: 16px;
+
+		&::first-letter {
+			text-transform: capitalize;
+		}
 	}
 }

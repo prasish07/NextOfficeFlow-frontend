@@ -4,6 +4,7 @@ import { IoTimeSharp } from "react-icons/io5";
 import { MdMoneyOff } from "react-icons/md";
 import { SlNote } from "react-icons/sl";
 import { FaHome } from "react-icons/fa";
+import classNames from "classnames";
 
 const MyRequest = () => {
 	const { data, isLoading, isError } = useGetAllRequestOfUser();
@@ -43,6 +44,12 @@ const MyRequest = () => {
 					month: "short",
 					day: "numeric",
 				});
+				const btnClasses = classNames(
+					"capitalize",
+					{ "bg-green-400": item.status.includes("approved") },
+					{ "bg-red-400": item.status.includes("rejected") },
+					{ "bg-yellow-400": item.status.includes("pending") }
+				);
 
 				return (
 					<div className="request__list-element" key={item._id}>
@@ -53,12 +60,12 @@ const MyRequest = () => {
 						<div className="request__list-element-2">
 							<div className="request__list-element-header">
 								<FaHome size={30} />
-								<h3>{item.requestType}</h3>
+								<h3 className="capitalize">{item.requestType}</h3>
 								<p>{daysDifference} Days</p>
 							</div>
 							<div className="request__list-element-footer">
 								<h3>{formattedStartDate}</h3>
-								<p>{item.status}</p>
+								<p className={`${btnClasses}`}>{item.status}</p>
 							</div>
 						</div>
 					</div>
@@ -66,6 +73,12 @@ const MyRequest = () => {
 			});
 		} else if (selectedType === "allowance") {
 			return filterElement.map((item: any) => {
+				const btnClasses = classNames(
+					"capitalize",
+					{ "bg-green-400": item.status.includes("approved") },
+					{ "bg-red-400": item.status.includes("rejected") },
+					{ "bg-yellow-400": item.status.includes("pending") }
+				);
 				return (
 					<div className="request__list-element" key={item._id}>
 						<div className="request__list-element-1-header">
@@ -75,11 +88,11 @@ const MyRequest = () => {
 						<div className="request__list-element-2">
 							<div className="request__list-element-header">
 								<MdMoneyOff size={30} />
-								<h3>{item.requestType}</h3>
+								<h3 className="capitalize">{item.requestType}</h3>
 								<p>{item.allowanceId.amount} Rs</p>
 							</div>
 							<div className="request__list-element-footer">
-								<p>{item.status}</p>
+								<p className={btnClasses}>{item.status}</p>
 							</div>
 						</div>
 					</div>
@@ -102,6 +115,12 @@ const MyRequest = () => {
 						day: "numeric",
 					}
 				);
+				const btnClasses = classNames(
+					"capitalize",
+					{ "bg-green-400": item.status.includes("approved") },
+					{ "bg-red-400": item.status.includes("rejected") },
+					{ "bg-yellow-400": item.status.includes("pending") }
+				);
 
 				return (
 					<div className="request__list-element" key={item._id}>
@@ -112,12 +131,12 @@ const MyRequest = () => {
 						<div className="request__list-element-2">
 							<div className="request__list-element-header">
 								<IoTimeSharp size={30} />
-								<h3>{item.requestType}</h3>
+								<h3 className="capitalize">{item.requestType}</h3>
 								<p>{hoursDifference} Hours</p>
 							</div>
 							<div className="request__list-element-footer">
 								<h3>{formattedDate}</h3>
-								<p>{item.status}</p>
+								<p className={btnClasses}>{item.status}</p>
 							</div>
 						</div>
 					</div>
@@ -132,6 +151,12 @@ const MyRequest = () => {
 					month: "short",
 					day: "numeric",
 				});
+				const btnClasses = classNames(
+					"capitalize",
+					{ "bg-green-400": item.status.includes("approved") },
+					{ "bg-red-400": item.status.includes("rejected") },
+					{ "bg-yellow-400": item.status.includes("pending") }
+				);
 
 				return (
 					<div className="request__list-element" key={item._id}>
@@ -142,12 +167,12 @@ const MyRequest = () => {
 						<div className="request__list-element-2">
 							<div className="request__list-element-header">
 								<SlNote size={30} />
-								<h3>{item.requestType}</h3>
+								<h3 className="capitalize">{item.requestType}</h3>
 								<p>1 Days</p>
 							</div>
 							<div className="request__list-element-footer">
 								<h3>{formattedDate}</h3>
-								<p>{item.status}</p>
+								<p className={btnClasses}>{item.status}</p>
 							</div>
 						</div>
 					</div>
