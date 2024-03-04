@@ -1,13 +1,21 @@
 .btn {
-	border-radius: 24px;
-	background: #3498db;
-	padding: 14px 0;
+	border-radius: 10px;
+	background: $normal;
+	padding: 10px 0;
 	color: white;
+	width: 100%;
 
 	&:hover {
-		background-color: #1f5b83;
+		background-color: $normal-hover;
 		color: white;
 	}
+}
+
+.vl {
+	border-left: 2px solid #000000;
+	height: 20px;
+	position: absolute;
+	left: 50%;
 }
 
 option {
@@ -32,6 +40,7 @@ option {
 
 body {
 	background-color: $light_blue;
+	transition: 0.2s all;
 }
 
 .menu {

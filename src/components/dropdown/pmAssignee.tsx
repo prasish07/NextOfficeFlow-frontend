@@ -11,9 +11,16 @@ const PMAssignee = ({
 	setPM,
 }: {
 	children: JSX.Element;
-	setPM: (projectId: string) => void;
+	setPM: React.Dispatch<
+		React.SetStateAction<{
+			userId: string;
+			email: string;
+		}>
+	>;
 }) => {
-	const { data, isLoading, isError } = useGetAllEmployees();
+	const { data, isLoading, isError } = useGetAllEmployees({
+		role: "project manager",
+	});
 	const queryClient = useQueryClient();
 
 	if (isLoading) return <div className="loader" />;
@@ -28,7 +35,10 @@ const PMAssignee = ({
 			</div>
 		),
 		callBack: () => {
-			setPM(employee.email);
+			setPM({
+				userId: employee._id,
+				email: employee.email,
+			});
 		},
 	}));
 

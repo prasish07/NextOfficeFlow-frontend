@@ -1,0 +1,101 @@
+.appraisal {
+	width: 100%;
+	padding: 20px;
+	@include mq(lg) {
+		width: calc(100% - 262px);
+	}
+
+	@include e(main-title) {
+		color: $text;
+		margin-bottom: 20px;
+	}
+
+	@include e(select) {
+		padding: 2px 20px;
+		border: 1px solid #646464;
+		font-size: 20px;
+		color: $text;
+		border-radius: 10px;
+		margin-bottom: 20px;
+	}
+
+	@include e(options) {
+		border-top: 1px solid #ddd;
+		padding-top: 20px;
+		display: flex;
+		gap: 20px;
+		flex-wrap: wrap;
+		padding-bottom: 20px;
+		border-bottom: 1px solid #ddd;
+
+		button {
+			// padding: 4px 10px;
+			width: 180px;
+			height: 40px;
+			border-radius: 4px;
+
+			&:hover {
+				background-color: #c2c2c263;
+				border-radius: 4px;
+			}
+		}
+
+		.active {
+			// outline-bottom: 4px solid black;
+			transition: 0.2s all;
+			font-weight: bold;
+			font-size: 16px;
+			border-bottom: 3px solid black;
+		}
+	}
+
+	@include e(chart-item) {
+		border-bottom: 1px solid #000000;
+		padding-bottom: 40px;
+	}
+
+	@include e(chart) {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: 20px;
+		gap: 20px;
+
+		h3 {
+			color: $text;
+			font-weight: bold;
+			font-size: 18px;
+			text-decoration: underline;
+			text-align: center;
+		}
+	}
+
+	@include e(ticket-chart) {
+		margin-top: 20px;
+		@include mq(xl) {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			gap: 20px;
+		}
+	}
+
+	@include e(filter) {
+		display: flex;
+		flex-direction: column;
+
+		margin-bottom: 20px;
+		@include mq(lg) {
+			flex-direction: row;
+			gap: 20px;
+		}
+
+		input {
+			padding: 6px;
+			border: 1px solid #646464;
+			border-radius: 10px;
+			font-size: 24px;
+			text-align: center;
+		}
+	}
+}

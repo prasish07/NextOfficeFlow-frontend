@@ -1,5 +1,6 @@
 import ManageAction from "@/components/project/ManageAction";
 import ManageTable from "@/components/project/ManageTable";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
 import useScreenWidth from "@/hooks/useScreenWidth";
 import { useGetProjectCount, useGetProjectList } from "@/query/project";
 import React, { useState } from "react";
@@ -8,6 +9,7 @@ const Index = () => {
 	const { isMobileView } = useScreenWidth();
 	const { data: count, isLoading: countLoading } = useGetProjectCount();
 	const [selectedId, setSelectedId] = useState<string>("");
+	const { role } = useGlobalProvider();
 
 	const [currentTab, setCurrentTab] = useState("all");
 
@@ -86,15 +88,17 @@ const Index = () => {
 					>
 						All Projects
 					</button>
-					<button
-						className={`project__header-btn ${
-							(currentTab === "new" || currentTab === "update") &&
-							"project__header-btn--active"
-						}`}
-						onClick={() => setCurrentTab("new")}
-					>
-						New/Edit Projects
-					</button>
+					{(role === "admin" || role === "project manager") && (
+						<button
+							className={`project__header-btn ${
+								(currentTab === "new" || currentTab === "update") &&
+								"project__header-btn--active"
+							}`}
+							onClick={() => setCurrentTab("new")}
+						>
+							New/Edit Projects
+						</button>
+					)}
 				</div>
 				{toggleTab()}
 			</div>

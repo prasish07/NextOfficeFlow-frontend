@@ -8,6 +8,7 @@ import {
 } from "@/query/request";
 import { toast } from "react-toastify";
 import PMAssignee from "../dropdown/pmAssignee";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
 
 export interface Props {
 	showModal: boolean;
@@ -25,7 +26,10 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		requestType: "leave",
 		status: "pending",
 	});
-	const [PM, setPM] = useState<string>("");
+	const [PM, setPM] = useState({
+		userId: "",
+		email: "",
+	});
 	const {
 		data: allData,
 		isLoading,
@@ -33,6 +37,8 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	} = useGetUserRequest(selectedId as string);
 	const isUpdate = type === "update";
 	const queryClient = useQueryClient();
+	const { role } = useGlobalProvider();
+	const isProjectManager = role === "project manager";
 
 	const leaveUpdateMutation = useMutation({
 		mutationFn: updateStatus,
@@ -67,6 +73,10 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 				requestType: "leave",
 				status: "pending",
 			});
+			setPM({
+				userId: "",
+				email: "",
+			});
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
@@ -96,7 +106,8 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		leaveMutation.mutate(data);
+		const formattedData = { ...data, requestedTo: PM.userId };
+		leaveMutation.mutate(formattedData);
 	};
 
 	useEffect(() => {
@@ -182,17 +193,21 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						required
 					/>
 				</div>
-				<div className="form__box-element">
-					<label htmlFor="">Select Project Manager to request the leave</label>
-					<PMAssignee setPM={setPM}>
-						<button
-							className="py-4 px-8 mt-2 mb-5 border-solid border border-[#ddd] rounded-[20px]"
-							type="button"
-						>
-							{PM ? PM : "Add"}
-						</button>
-					</PMAssignee>
-				</div>
+				{!isProjectManager && (
+					<div className="form__box-element">
+						<label htmlFor="">
+							Select Project Manager to request the leave
+						</label>
+						<PMAssignee setPM={setPM}>
+							<button
+								className="py-4 px-8 mt-2 mb-5 border-solid border border-[#ddd] rounded-[20px]"
+								type="button"
+							>
+								{PM.email ? PM.email : "Add"}
+							</button>
+						</PMAssignee>
+					</div>
+				)}
 				{isUpdate && (
 					<div className="form__box-element">
 						<label htmlFor="status">Status</label>

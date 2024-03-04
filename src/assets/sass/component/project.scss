@@ -112,10 +112,34 @@
 		}
 	}
 
+	@include e(manage-info) {
+		width: 340px;
+		overflow: hidden;
+		overflow-x: auto;
+
+		@include mq(md) {
+			width: 720px;
+		}
+
+		@include mq(lg) {
+			width: 100%;
+		}
+	}
+
 	table {
-		width: 100%;
+		width: 400px;
+		overflow-x: auto;
+		white-space: nowrap;
 		border-collapse: collapse;
 		margin-top: 20px;
+
+		@include mq(md) {
+			width: 750px;
+		}
+
+		@include mq(lg) {
+			width: 100%;
+		}
 	}
 
 	th,
@@ -132,10 +156,6 @@
 			border-radius: 4px;
 			margin-right: 5px;
 			margin-bottom: 5px;
-
-			@include mq(lg) {
-				margin-bottom: 0;
-			}
 		}
 
 		button:hover {

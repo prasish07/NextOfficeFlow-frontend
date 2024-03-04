@@ -131,7 +131,7 @@ export function useGetUserInfo() {
 
 export function useGetUserDetails({ userId }: { userId: string }) {
 	return useQuery({
-		queryKey: ["user details", 1],
+		queryKey: ["user details", userId],
 		queryFn: async () => {
 			const { data } = await axios.get(
 				`${baseUrl}/user/information/${userId}`,
@@ -144,13 +144,14 @@ export function useGetUserDetails({ userId }: { userId: string }) {
 	});
 }
 
-export function useGetAllEmployees() {
+export function useGetAllEmployees(filter?: any) {
 	return useQuery<EmployeeProps>({
 		queryKey: ["allEmployee", 1],
 		queryFn: async () => {
 			const { data } = await axios.get<EmployeeProps>(
 				`${baseUrl}/employee/all`,
 				{
+					params: filter,
 					withCredentials: true,
 				}
 			);
