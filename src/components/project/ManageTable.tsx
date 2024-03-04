@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import DeleteModal from "../model/DeleteModal";
 import { toast } from "react-toastify";
 import Assignn from "./Assignn";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
 
 const ManageTable = ({
 	setSelectedId,
@@ -24,6 +25,8 @@ const ManageTable = ({
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const queryClient = useQueryClient();
 	const [showModal, setShowModal] = useState(false);
+	const { role } = useGlobalProvider();
+	const isProjectManager = role === "project manager";
 
 	const deleteMutation = useMutation({
 		mutationFn: deleteProject,
@@ -76,75 +79,95 @@ const ManageTable = ({
 						</tr>
 					</thead>
 					<tbody>
-						{projects.map((project: any) => (
-							<tr key={project.id}>
-								<td>
-									<input type="checkbox" />
-								</td>
-								{isDesktopView && !isTabletView && <td>{project._id}</td>}
-								<td>{project.title}</td>
-								{isDesktopView && !isTabletView && (
-									<>
-										<td>{project.startDate}</td>
-										<td>{project.endDate}</td>
-										<td>
-											<div className="flex justify-center items-center gap-2">
-												{project.AssigneeId?.map((item: any) => {
-													return (
-														<div
-															key={item.id}
-															className="project__manage-info--avatar"
-														>
-															<p
-																className="capitalize w-[30px] h-[30px] rounded-[50%] bg-[#d2d2ec] text-[#5a4e4e] flex justify-center items-center font-bold cursor-pointer"
-																title={item.email}
+						{projects.map((project: any) => {
+							const formattedStartDate = new Date(
+								project.startDate
+							).toLocaleDateString("en-US", {
+								year: "numeric",
+								month: "short",
+								day: "numeric",
+							});
+							const formattedEndDate = new Date(
+								project.endDate
+							).toLocaleDateString("en-US", {
+								year: "numeric",
+								month: "short",
+								day: "numeric",
+							});
+							return (
+								<tr key={project.id}>
+									<td>
+										<input type="checkbox" />
+									</td>
+									{isDesktopView && !isTabletView && <td>{project._id}</td>}
+									<td>{project.title}</td>
+									{isDesktopView && !isTabletView && (
+										<>
+											<td>{formattedStartDate}</td>
+											<td>{formattedEndDate}</td>
+											<td>
+												<div className="flex justify-center items-center gap-2">
+													{project.AssigneeId?.map((item: any) => {
+														return (
+															<div
+																key={item.id}
+																className="project__manage-info--avatar"
 															>
-																{item.email[0]}
-															</p>
-														</div>
-													);
-												})}
-												<FaUserPlus
-													size={24}
-													className="cursor-pointer"
-													title="Add Assignee"
+																<p
+																	className="capitalize w-[30px] h-[30px] rounded-[50%] bg-[#d2d2ec] text-[#5a4e4e] flex justify-center items-center font-bold cursor-pointer"
+																	title={item.email}
+																>
+																	{item.email[0]}
+																</p>
+															</div>
+														);
+													})}
+													<FaUserPlus
+														size={24}
+														className="cursor-pointer"
+														title="Add Assignee"
+														onClick={() => {
+															setSelectedId(project._id);
+															setShowModal(true);
+														}}
+													/>
+												</div>
+											</td>
+											<td>{project.status}</td>
+										</>
+									)}
+									<td>
+										<button
+											onClick={() => {
+												router.push(`/project/${project._id}`);
+											}}
+										>
+											<GrView />
+										</button>
+										{isProjectManager && (
+											<>
+												<button
 													onClick={() => {
 														setSelectedId(project._id);
-														setShowModal(true);
+														setCurrentTab("update");
 													}}
-												/>
-											</div>
-										</td>
-										<td>{project.status}</td>
-									</>
-								)}
-								<td>
-									<button
-										onClick={() => {
-											router.push(`/project/${project._id}`);
-										}}
-									>
-										<GrView />
-									</button>
-									<button
-										onClick={() => {
-											setSelectedId(project._id);
-											setCurrentTab("update");
-										}}
-									>
-										<FaRegEdit />
-									</button>
-									<button
-										onClick={() => {
-											setSelectedId(project._id);
-											setShowDeleteModal(true);
-										}}
-									>
-										<FaRegTrashAlt />
-									</button>
-								</td>
-							</tr>
-						))}
+												>
+													<FaRegEdit />
+												</button>
+												<button
+													onClick={() => {
+														setSelectedId(project._id);
+														setShowDeleteModal(true);
+													}}
+												>
+													<FaRegTrashAlt />
+												</button>
+											</>
+										)}
+									</td>
+								</tr>
+							);
+						})}
 					</tbody>
 				</table>
 			</div>

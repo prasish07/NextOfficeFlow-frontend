@@ -60,6 +60,19 @@ export function useGetAllRequestOfUser(filter?: any) {
 	});
 }
 
+export function useGetAllPMRequested(filter?: any) {
+	return useQuery({
+		queryKey: ["request", filter],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/request/pm/request`, {
+				params: filter,
+				withCredentials: true,
+			});
+			return data;
+		},
+	});
+}
+
 export function useGetUserRequest(requestId: string) {
 	return useQuery({
 		queryKey: ["request", requestId],

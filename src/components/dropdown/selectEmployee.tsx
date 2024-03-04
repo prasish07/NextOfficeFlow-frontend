@@ -6,21 +6,19 @@ import { updateAssignee } from "@/query/ticket";
 import { useGetProjectList } from "@/query/project";
 import { useGetAllEmployees } from "@/query/employee";
 
-const PMAssignee = ({
+const SelectEmployee = ({
 	children,
-	setPM,
+	setEmployee,
 }: {
 	children: JSX.Element;
-	setPM: React.Dispatch<
+	setEmployee: React.Dispatch<
 		React.SetStateAction<{
 			userId: string;
 			email: string;
 		}>
 	>;
 }) => {
-	const { data, isLoading, isError } = useGetAllEmployees({
-		role: "project manager",
-	});
+	const { data, isLoading, isError } = useGetAllEmployees();
 	const queryClient = useQueryClient();
 
 	if (isLoading) return <div className="loader" />;
@@ -35,7 +33,7 @@ const PMAssignee = ({
 			</div>
 		),
 		callBack: () => {
-			setPM({
+			setEmployee({
 				userId: employee._id,
 				email: employee.email,
 			});
@@ -53,4 +51,4 @@ const PMAssignee = ({
 	);
 };
 
-export default PMAssignee;
+export default SelectEmployee;

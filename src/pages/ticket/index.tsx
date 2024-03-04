@@ -8,6 +8,7 @@ import useScreenWidth from "@/hooks/useScreenWidth";
 import { useGetTicketList } from "@/query/ticket";
 import TicketModal from "@/components/ticket/TicketModal";
 import CustomAssignee from "@/components/dropdown/customAssignee";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
 
 const Index = () => {
 	const router = useRouter();
@@ -18,6 +19,8 @@ const Index = () => {
 	const [showAssigneeModal, setShowAssigneeModal] = useState(false);
 	const { data, isLoading, isError } = useGetTicketList();
 	const [type, setType] = useState<string>("");
+	const { role } = useGlobalProvider();
+	const isProjectManager = role === "project manager";
 
 	if (isLoading) {
 		return <div className="loader" />;
@@ -40,19 +43,21 @@ const Index = () => {
 			<h2 className="ticket__main-title">Tickets</h2>
 			<div className="ticket__details">
 				<h2>Ticket Backlog</h2>
-				<button
-					className="add-btn"
-					onClick={() => {
-						setType("add");
-						setShowModal(true);
-					}}
-				>
-					New Ticket
-				</button>
+				{isProjectManager && (
+					<button
+						className="add-btn"
+						onClick={() => {
+							setType("add");
+							setShowModal(true);
+						}}
+					>
+						New Ticket
+					</button>
+				)}
 			</div>
 			<div className="ticket__manage">
 				<div className="ticket__sub-header">
-					<button>Delete</button>
+					{isProjectManager && <button>Delete</button>}
 					<input type="text" placeholder="Search" />
 				</div>
 				<div className="ticket__manage-info">
@@ -104,6 +109,7 @@ const Index = () => {
 														<option value="to-do">To-Do</option>
 														<option value="in-progress">In Progress</option>
 														<option value="done">Done</option>
+														<option value="cancelled">Cancelled</option>
 													</select>
 												</td>
 												<td>
@@ -112,6 +118,7 @@ const Index = () => {
 														id="priority"
 														defaultValue={ticket.priority}
 														onChange={handlePriorityChange}
+														disabled={!isProjectManager}
 													>
 														<option value="low">Low</option>
 														<option value="medium">Medium</option>
@@ -148,16 +155,15 @@ const Index = () => {
 											</>
 										)}
 										<td>
-											<button
+											{/* <button
 												onClick={() => {
-													// router.push(`/project/${ticket._id}`);
 													setSelectedId(ticket._id);
 													setType("view");
 													setShowModal(true);
 												}}
 											>
 												<GrView />
-											</button>
+											</button> */}
 											<button
 												onClick={() => {
 													setSelectedId(ticket._id);
@@ -167,14 +173,16 @@ const Index = () => {
 											>
 												<FaRegEdit />
 											</button>
-											<button
-												onClick={() => {
-													setSelectedId(ticket._id);
-													setShowDeleteModal(true);
-												}}
-											>
-												<FaRegTrashAlt />
-											</button>
+											{isProjectManager && (
+												<button
+													onClick={() => {
+														setSelectedId(ticket._id);
+														setShowDeleteModal(true);
+													}}
+												>
+													<FaRegTrashAlt />
+												</button>
+											)}
 										</td>
 									</tr>
 								);
