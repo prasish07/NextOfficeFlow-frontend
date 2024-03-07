@@ -167,7 +167,7 @@ export const navList: NavItem[] = [
 			{
 				title: "All Announcement",
 				icon: IoIosArrowForward,
-				path: "/dashboard",
+				path: "/announcement",
 				role: ["all"],
 			},
 			{

@@ -1,0 +1,230 @@
+.announcement {
+	width: 100%;
+	padding: 20px;
+	@include mq(lg) {
+		width: calc(100% - 262px);
+	}
+
+	@include e(main-title) {
+		color: $text;
+		margin-bottom: 20px;
+	}
+
+	@include e(filter) {
+		display: flex;
+		flex-direction: column;
+
+		@include mq(md) {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: start;
+		}
+
+		@include m(date-range) {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			gap: 20px;
+
+			@include mq(md) {
+				flex-direction: row;
+				gap: 20px;
+			}
+
+			input {
+				width: 100%;
+				padding: 10px;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+
+				@include mq(md) {
+					width: 200px;
+				}
+			}
+		}
+
+		button {
+			width: 100%;
+			height: 40px;
+			border-radius: 4px;
+			background-color: $normal;
+			color: $white;
+			border: none;
+			font-weight: bold;
+			cursor: pointer;
+			transition: 0.2s all;
+			margin-top: 10px;
+
+			@include mq(md) {
+				width: 200px;
+				margin-top: 0px;
+			}
+
+			&:hover {
+				background-color: $normal-hover;
+				border-radius: 4px;
+			}
+		}
+	}
+
+	@include e(filter-options) {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	@include e(search) {
+		width: 100%;
+		padding: 10px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+
+		@include mq(md) {
+			width: 426px;
+		}
+	}
+
+	@include e(elements) {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	@include e(element) {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		background-color: $white;
+		padding: 20px;
+		border-radius: 10px;
+
+		@include m(header) {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+
+			@include mq(md) {
+				flex-direction: row;
+				justify-content: space-between;
+			}
+		}
+
+		h3 {
+			color: $text;
+			font-weight: bold;
+			font-size: 18px;
+		}
+
+		@include m(content-wrapper) {
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			padding: 10px;
+		}
+
+		p {
+			color: $dark-grey;
+		}
+
+		img {
+			width: 500px;
+			border-radius: 10px;
+		}
+
+		a {
+			color: $normal;
+			font-weight: bold;
+			text-decoration: none;
+			cursor: pointer;
+			transition: 0.2s all;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			display: flex;
+			align-items: center;
+			width: fit-content;
+
+			// Add a url image in after
+			&::after {
+				content: "";
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				margin-left: 10px;
+				background-image: url("https://th.bing.com/th/id/R.fe9cdfde276207347491487c9094df9c?rik=GOG%2fU8JBrfIigw&pid=ImgRaw&r=0");
+				background-size: cover;
+			}
+
+			&:hover {
+				color: $normal-hover;
+				background-color: $grey;
+			}
+		}
+	}
+
+	@include e(menu) {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+
+		button {
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 50%;
+
+			&:hover {
+				background-color: $grey;
+				color: white;
+			}
+		}
+	}
+
+	@include e(element-footer) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		div {
+			display: flex;
+			gap: 10px;
+			align-items: center;
+
+			p,
+			span {
+				color: $dark-grey;
+			}
+		}
+	}
+
+	@include e(model) {
+		color: $text;
+	}
+
+	.form {
+		@include e(box-same-line) {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+
+			@include mq(md) {
+				flex-direction: row;
+				gap: 20px;
+			}
+		}
+
+		@include e(box-element) {
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+		}
+
+		select {
+			border: 1px solid #ddd;
+		}
+	}
+
+	@include e(element-content) {
+		.ql-editor {
+			min-height: 300px;
+		}
+	}
+}
