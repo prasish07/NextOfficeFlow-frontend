@@ -170,12 +170,6 @@ export const navList: NavItem[] = [
 				path: "/announcement",
 				role: ["all"],
 			},
-			{
-				title: "Manage",
-				icon: IoIosArrowForward,
-				path: "/dashboard",
-				role: ["HR", "admin"],
-			},
 		],
 		role: ["all"],
 	},

@@ -51,9 +51,9 @@ const EmployeeRequest = () => {
 				});
 				const btnClasses = classNames(
 					"capitalize",
-					{ "bg-green-400": item.status.includes("approved") },
-					{ "bg-red-400": item.status.includes("rejected") },
-					{ "bg-yellow-400": item.status.includes("pending") }
+					{ "bg-green-400": item.pmStatus.includes("approved") },
+					{ "bg-red-400": item.pmStatus.includes("rejected") },
+					{ "bg-yellow-400": item.pmStatus.includes("pending") }
 				);
 
 				return (
@@ -77,7 +77,7 @@ const EmployeeRequest = () => {
 							</div>
 							<div className="request__list-element-footer">
 								<h3>{formattedStartDate}</h3>
-								<p className={btnClasses}>{item.status}</p>
+								<p className={btnClasses}>{item.pmStatus}</p>
 							</div>
 						</div>
 					</div>

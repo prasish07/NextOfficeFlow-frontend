@@ -24,6 +24,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		endDate: "",
 		reason: "",
 		requestType: "leave",
+		pmStatus: "pending",
 		status: "pending",
 	});
 	const [PM, setPM] = useState({
@@ -39,6 +40,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const queryClient = useQueryClient();
 	const { role } = useGlobalProvider();
 	const isProjectManager = role === "project manager";
+	const isHRAdmin = role === "HR" || role === "admin";
 
 	const leaveUpdateMutation = useMutation({
 		mutationFn: updateStatus,
@@ -72,6 +74,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 				reason: "",
 				requestType: "leave",
 				status: "pending",
+				pmStatus: "pending",
 			});
 			setPM({
 				userId: "",
@@ -97,10 +100,20 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		e.preventDefault();
 		const { name, value } = e.target;
-		console.log(value);
+		console.log(name, value);
 		leaveUpdateMutation.mutate({
 			requestId: selectedId as string,
-			status: value,
+			data: { status: value },
+		});
+	};
+
+	const handlePMStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		e.preventDefault();
+		const { name, value } = e.target;
+		console.log(name, value);
+		leaveUpdateMutation.mutate({
+			requestId: selectedId as string,
+			data: { pmStatus: value },
 		});
 	};
 
@@ -130,6 +143,12 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 				reason: leaveData?.reason,
 				requestType: "leave",
 				status: allData?.request?.status,
+				pmStatus: allData?.request?.pmStatus,
+			});
+
+			setPM({
+				userId: allData?.request?.requestedTo?._id,
+				email: allData?.request?.requestedTo?.email,
 			});
 		}
 		if (type === "add") {
@@ -140,6 +159,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 				reason: "",
 				requestType: "leave",
 				status: "pending",
+				pmStatus: "pending",
 			});
 		}
 	}, [allData, type, isError, isLoading]);
@@ -208,9 +228,26 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						</PMAssignee>
 					</div>
 				)}
-				{isUpdate && (
+				{isUpdate && (isProjectManager || isHRAdmin) && (
 					<div className="form__box-element">
-						<label htmlFor="status">Status</label>
+						<label htmlFor="status">PM Approval Status</label>
+						<select
+							name="pmStatus"
+							id="status"
+							required
+							onChange={handlePMStatusChange}
+							value={data.pmStatus}
+							disabled={!isProjectManager}
+						>
+							<option value="pending">Pending</option>
+							<option value="approved">Approved</option>
+							<option value="rejected">Rejected</option>
+						</select>
+					</div>
+				)}
+				{isUpdate && isHRAdmin && (
+					<div className="form__box-element">
+						<label htmlFor="status">HR/Admin Approval Status</label>
 						<select
 							name="status"
 							id="status"

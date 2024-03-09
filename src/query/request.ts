@@ -87,16 +87,12 @@ export function useGetUserRequest(requestId: string) {
 
 export function updateStatus({
 	requestId,
-	status,
+	data,
 }: {
 	requestId: string;
-	status: string;
+	data: any;
 }) {
 	return axios
-		.patch(
-			`${baseUrl}/request/${requestId}`,
-			{ status },
-			{ withCredentials: true }
-		)
+		.patch(`${baseUrl}/request/${requestId}`, data, { withCredentials: true })
 		.then((res) => res.data);
 }
