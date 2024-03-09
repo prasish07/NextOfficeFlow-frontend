@@ -25,7 +25,7 @@ export function useGetAnnouncement(filter?: any) {
 
 export function useGetSingleAnnouncement(id: number | null) {
 	return useQuery({
-		queryKey: ["announcement", id],
+		queryKey: ["single announcement", id],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/announcement/${id}`, {
 				withCredentials: true,

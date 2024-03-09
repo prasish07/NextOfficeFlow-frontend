@@ -1,18 +1,25 @@
 import AnnouncementModel from "@/components/announcement";
 import DeleteModal from "@/components/model/DeleteModal";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
 import { deleteAnnouncement, useGetAnnouncement } from "@/query/announcement";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 const Announcement: React.FC = () => {
 	const [showModel, setShowModel] = useState(false);
 	const [showDeleteModel, setShowDeleteModel] = useState(false);
-	const { data, isLoading } = useGetAnnouncement();
 	const [selectedId, setSelectedId] = useState<number | null>(null);
+	const [search, setSearch] = useState("");
 	const [type, setType] = useState("add");
 	const queryClient = useQueryClient();
+	const [filter, setFilter] = useState({
+		date: "",
+		endDate: "",
+	});
+	const { data, isLoading, refetch } = useGetAnnouncement(filter);
+	const { role } = useGlobalProvider();
 
 	const deleteAnnouncementMutation = useMutation({
 		mutationFn: deleteAnnouncement,
@@ -30,7 +37,30 @@ const Announcement: React.FC = () => {
 
 	if (!data) return <div>No data</div>;
 
-	const { announcements } = data;
+	let { announcements } = data;
+
+	announcements = announcements.filter((announcement: any) => {
+		return announcement.title.toLowerCase().includes(search.toLowerCase());
+	});
+
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearch(e.target.value);
+	};
+
+	const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter({
+			...filter,
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	const handleDateFilter = () => {
+		if (filter.date === "" || filter.endDate === "") {
+			toast.error("Please select both date range");
+			return;
+		}
+		refetch();
+	};
 
 	return (
 		<div className="announcement">
@@ -41,10 +71,32 @@ const Announcement: React.FC = () => {
 						type="text"
 						placeholder="Search"
 						className="announcement__search"
+						value={search}
+						onChange={handleSearch}
 					/>
 					<div className="announcement__filter--date-range">
-						<input type="date" id="datepicker" />
-						<input type="date" id="datepicker" />
+						<input
+							type="date"
+							id="datepicker"
+							name="date"
+							value={filter.date}
+							onChange={handleDateChange}
+						/>
+						<input
+							type="date"
+							id="datepicker"
+							name="endDate"
+							// ref={endDateValue}
+							value={filter.endDate}
+							onChange={handleDateChange}
+						/>
+						<button
+							onClick={() => {
+								handleDateFilter();
+							}}
+						>
+							Filter
+						</button>
 					</div>
 				</div>
 
@@ -62,49 +114,55 @@ const Announcement: React.FC = () => {
 			<h2>List of announcements</h2>
 			<hr className="mt-5 mb-5" />
 
-			<div className="announcement__elements">
-				{announcements.map((announcement: any) => {
-					return (
-						<div className="announcement__element" key={announcement.id}>
-							<div className="announcement__element--header">
-								<h3>{announcement.title}</h3>
-								<div className="announcement__menu">
-									<button
-										onClick={() => {
-											setShowModel(true);
-											setType("edit");
-											setSelectedId(announcement._id);
-										}}
-									>
-										<FaRegEdit size={24} />
-									</button>
-									<button
-										onClick={() => {
-											setShowDeleteModel(true);
-											setSelectedId(announcement._id);
-										}}
-									>
-										<FaRegTrashAlt size={24} />
-									</button>
+			{announcements.length ? (
+				<div className="announcement__elements">
+					{announcements.map((announcement: any) => {
+						return (
+							<div className="announcement__element" key={announcement.id}>
+								<div className="announcement__element--header">
+									<h3>{announcement.title}</h3>
+									<div className="announcement__menu">
+										<button
+											onClick={() => {
+												setShowModel(true);
+												setType("edit");
+												setSelectedId(announcement._id);
+											}}
+										>
+											<FaRegEdit size={24} />
+										</button>
+										<button
+											onClick={() => {
+												setShowDeleteModel(true);
+												setSelectedId(announcement._id);
+											}}
+										>
+											<FaRegTrashAlt size={24} />
+										</button>
+									</div>
+								</div>
+								<div
+									className="announcement__element--content-wrapper"
+									dangerouslySetInnerHTML={{ __html: announcement.content }}
+								></div>
+								<div className="announcement__element-footer">
+									<h3 className="capitalize">
+										- {announcement.employeeName} (
+										{announcement.employeePosition})
+									</h3>
+									<div>
+										<p>{announcement.date.split("T")[0]}</p>
+										<span>--</span>
+										<p>{announcement.endDate}</p>
+									</div>
 								</div>
 							</div>
-							<div
-								className="announcement__element--content-wrapper"
-								dangerouslySetInnerHTML={{ __html: announcement.content }}
-							></div>
-							<div className="announcement__element-footer">
-								<h3>- {announcement.author}</h3>
-								<div>
-									<p>{announcement.date.split("T")[0]}</p>
-									<span>--</span>
-									<p>{announcement.endDate}</p>
-								</div>
-							</div>
-						</div>
-					);
-				})}
-			</div>
-
+						);
+					})}
+				</div>
+			) : (
+				<div>No announcements</div>
+			)}
 			<AnnouncementModel
 				showModel={showModel}
 				setShowModel={setShowModel}

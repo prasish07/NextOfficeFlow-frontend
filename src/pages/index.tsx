@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import { checkIn, checkOut, useMyTodayAttendance } from "@/query/attendance";
 import { useGetMyDetails } from "@/query/employee";
 import Events from "@/components/dashboard/Events";
+import AnnouncementPreview from "@/components/dashboard/AnnouncementPreview";
 
 const Home = () => {
 	const { role } = useGlobalProvider();
@@ -284,6 +285,7 @@ const Home = () => {
 					</div>
 				</div> */}
 				<Events />
+				<AnnouncementPreview />
 			</section>
 		</>
 	);

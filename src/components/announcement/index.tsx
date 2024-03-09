@@ -9,8 +9,7 @@ import {
 	useGetSingleAnnouncement,
 } from "@/query/announcement";
 import { toast } from "react-toastify";
-
-import { ImageResize } from "quill-image-resize-module";
+import axios from "axios";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
 	ssr: false,
@@ -48,7 +47,7 @@ const AnnouncementModel = ({
 			[{ size: [] }],
 			["bold", "italic", "underline", "strike", "blockquote"],
 			[{ list: "ordered" }, { list: "bullet" }],
-			["link", "image", "video"],
+			["image", "link", "blockquote"],
 			["clean"],
 		],
 	};
@@ -117,6 +116,14 @@ const AnnouncementModel = ({
 				addToCalender: announcement.addToCalender,
 			});
 			setContent(announcement.content);
+		} else {
+			setData({
+				title: "",
+				date: new Date(),
+				endDate: "",
+				addToCalender: "yes",
+			});
+			setContent("");
 		}
 	}, [type, announcementData, isLoading, isError]);
 
@@ -180,7 +187,23 @@ const AnnouncementModel = ({
 						value={content}
 						onChange={handleQuillChange}
 						className="announcement__element-content"
-						modules={modules}
+						modules={{
+							// imageUploader: {
+							// 	upload: async (file: any) => {
+							// 		const bodyFormData = new FormData();
+							// 		bodyFormData.append("image", file);
+							// 		const response = await axios({
+							// 			method: "post",
+							// 			url: "https://api.imgbb.com/1/upload?key=8c77b1b06a10c09dcedea764536b8b18",
+							// 			data: bodyFormData,
+							// 			headers: { "Content-Type": "multipart/form-data" },
+							// 		});
+							// 		return response.data.data.url;
+							// 	},
+							// },
+							// imageResize: { modules: ["Resize", "DisplaySize"] },
+							...modules,
+						}}
 					/>
 				</div>
 				<button className="btn" type="submit">

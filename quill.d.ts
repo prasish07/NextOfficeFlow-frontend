@@ -15,3 +15,6 @@ declare module "quill/modules/display-size" {
 
 	export default DisplaySize;
 }
+
+// In a .d.ts file in your project
+declare module "quill-image-uploader";
