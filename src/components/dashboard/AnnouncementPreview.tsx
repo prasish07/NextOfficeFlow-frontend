@@ -43,7 +43,7 @@ const AnnouncementPreview = () => {
 										<p>{announcement.endDate}</p>
 									</div>
 								</div>
-								{announcements.length > 1 && <hr />}
+								{announcements.length > 1 && <hr className="mt-2" />}
 							</div>
 						);
 					})}

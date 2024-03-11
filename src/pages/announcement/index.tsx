@@ -20,6 +20,8 @@ const Announcement: React.FC = () => {
 	});
 	const { data, isLoading, refetch } = useGetAnnouncement(filter);
 	const { role } = useGlobalProvider();
+	const isProjectManager = role === "project manager";
+	const isAdminOrHr = role === "admin" || role === "HR";
 
 	const deleteAnnouncementMutation = useMutation({
 		mutationFn: deleteAnnouncement,
@@ -100,14 +102,16 @@ const Announcement: React.FC = () => {
 					</div>
 				</div>
 
-				<button
-					onClick={() => {
-						setShowModel(true);
-						setType("add");
-					}}
-				>
-					Add
-				</button>
+				{isAdminOrHr && (
+					<button
+						onClick={() => {
+							setShowModel(true);
+							setType("add");
+						}}
+					>
+						Add
+					</button>
+				)}
 			</div>
 			<hr className="mt-5 mb-5" />
 
@@ -121,25 +125,27 @@ const Announcement: React.FC = () => {
 							<div className="announcement__element" key={announcement.id}>
 								<div className="announcement__element--header">
 									<h3>{announcement.title}</h3>
-									<div className="announcement__menu">
-										<button
-											onClick={() => {
-												setShowModel(true);
-												setType("edit");
-												setSelectedId(announcement._id);
-											}}
-										>
-											<FaRegEdit size={24} />
-										</button>
-										<button
-											onClick={() => {
-												setShowDeleteModel(true);
-												setSelectedId(announcement._id);
-											}}
-										>
-											<FaRegTrashAlt size={24} />
-										</button>
-									</div>
+									{isAdminOrHr && (
+										<div className="announcement__menu">
+											<button
+												onClick={() => {
+													setShowModel(true);
+													setType("edit");
+													setSelectedId(announcement._id);
+												}}
+											>
+												<FaRegEdit size={24} />
+											</button>
+											<button
+												onClick={() => {
+													setShowDeleteModel(true);
+													setSelectedId(announcement._id);
+												}}
+											>
+												<FaRegTrashAlt size={24} />
+											</button>
+										</div>
+									)}
 								</div>
 								<div
 									className="announcement__element--content-wrapper"
