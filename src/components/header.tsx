@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { changePassword } from "@/query/api";
+import Dropdown from "./notification/Dropdown";
 
 const passwordSchema = z
 	.object({
@@ -42,6 +43,9 @@ type TPasswordSchema = z.infer<typeof passwordSchema>;
 const Header = () => {
 	const popupRef = React.useRef<HTMLDivElement>(null);
 	const btnRef = React.useRef<HTMLDivElement>(null);
+	const dropdownRef = React.useRef<HTMLDivElement>(null);
+	const notificationBtnRef = React.useRef<HTMLButtonElement>(null);
+
 	const [showModal, setShowModal] = useState(false);
 	// Inside your functional component
 	const [showPassword, setShowPassword] = useState(false);
@@ -95,10 +99,28 @@ const Header = () => {
 		}
 	};
 
+	const handleNotificationDropdownOpen = () => {
+		if (dropdownRef && dropdownRef.current)
+			dropdownRef.current.classList.toggle("notification-dropdown--open");
+	};
+
+	const handleNotificationDropdownClose = (event: MouseEvent) => {
+		if (
+			dropdownRef.current &&
+			!dropdownRef.current.contains(event.target as Node) &&
+			notificationBtnRef.current &&
+			!notificationBtnRef.current.contains(event.target as Node)
+		) {
+			dropdownRef.current.classList.remove("notification-dropdown--open");
+		}
+	};
+
 	useEffect(() => {
 		document.addEventListener("click", handleClosePopup);
+		document.addEventListener("click", handleNotificationDropdownClose);
 		return () => {
 			document.removeEventListener("click", handleClosePopup);
+			document.removeEventListener("click", handleNotificationDropdownClose);
 		};
 	}, []);
 
@@ -116,9 +138,13 @@ const Header = () => {
 					<div className="header__nav">
 						<ul className="header__nav-list">
 							<li className="header__nav-item">
-								<button>
+								<button
+									ref={notificationBtnRef}
+									onClick={handleNotificationDropdownOpen}
+								>
 									<IoNotifications color="grey" size={30} />
 								</button>
+								<Dropdown dropdownRef={dropdownRef} />
 							</li>
 							<div
 								className="header__nav-item header__nav-item--profile"
