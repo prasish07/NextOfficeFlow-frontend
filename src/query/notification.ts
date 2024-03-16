@@ -14,3 +14,15 @@ export function useGetNotification(filter?: any) {
 		},
 	});
 }
+
+export function useGetNotificationCount() {
+	return useQuery({
+		queryKey: ["notificationCount"],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/notifications/count`, {
+				withCredentials: true,
+			});
+			return data;
+		},
+	});
+}

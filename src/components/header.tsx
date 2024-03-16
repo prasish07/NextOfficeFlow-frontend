@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { changePassword } from "@/query/api";
 import Dropdown from "./notification/Dropdown";
+import Count from "./notification/Count";
 
 const passwordSchema = z
 	.object({
@@ -143,6 +144,7 @@ const Header = () => {
 									onClick={handleNotificationDropdownOpen}
 								>
 									<IoNotifications color="grey" size={30} />
+									<Count />
 								</button>
 								<Dropdown dropdownRef={dropdownRef} />
 							</li>
