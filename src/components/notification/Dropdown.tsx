@@ -1,7 +1,14 @@
-import { useGetNotification } from "@/query/notification";
-import React from "react";
+import {
+	updateAllNotificationStatus,
+	updateNotificationStatus,
+	useGetNotification,
+} from "@/query/notification";
+import React, { useState } from "react";
 import { IoInformationCircle } from "react-icons/io5";
 import { GoDotFill } from "react-icons/go";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const Dropdown = ({
 	dropdownRef,
@@ -9,32 +16,72 @@ const Dropdown = ({
 	dropdownRef: React.RefObject<HTMLDivElement>;
 }) => {
 	const { data, isLoading, isError } = useGetNotification();
+	const router = useRouter();
+	const seenMutation = useMutation({
+		mutationFn: updateNotificationStatus,
+		onSuccess: (data: any) => {
+			queryClient.invalidateQueries({
+				queryKey: ["notification"],
+			});
+		},
+	});
+
+	const seenAllMutation = useMutation({
+		mutationFn: updateAllNotificationStatus,
+		onSuccess: (data: any) => {
+			queryClient.invalidateQueries({
+				queryKey: ["notification"],
+			});
+		},
+	});
+
+	const queryClient = useQueryClient();
 	if (isLoading) return <></>;
 
 	if (isError || !data) return <>No notification</>;
 
 	const { notifications } = data;
 
-	console.log(data);
+	const handleNotificationClick = (id: string, link: string) => {
+		seenMutation.mutate(id);
+		router.push(link);
+		if (dropdownRef.current)
+			dropdownRef.current.classList.remove("notification-dropdown--open");
+	};
+
 	return (
 		<div className="notification-dropdown" ref={dropdownRef}>
 			<div className="notification-dropdown__title">
 				<h2>Notifications</h2>
-				<button>Mark as read</button>
+				<button
+					onClick={() => {
+						seenAllMutation.mutate();
+					}}
+				>
+					Mark as read
+				</button>
 			</div>
 			<hr className="my-2" />
 
 			<div className="notification-dropdown__list">
 				{notifications.map((notification: any, index: number) => (
-					<div key={index} className="notification-dropdown__item">
+					<div
+						key={index}
+						className="notification-dropdown__item"
+						onClick={() =>
+							handleNotificationClick(notification._id, notification.link)
+						}
+					>
 						<div className="notification-dropdown__item--title">
 							<IoInformationCircle size={34} className="text-blue-300" />
-							<div dangerouslySetInnerHTML={{ __html: notification.message }} />
+							<p dangerouslySetInnerHTML={{ __html: notification.message }} />
 						</div>
-						<GoDotFill className="text-blue-500" size={24} />
+						{!notification.isSeen && (
+							<GoDotFill className="text-blue-500" size={24} />
+						)}
 					</div>
 				))}
-				<button>Show all</button>
+				{/* <button>Show all</button> */}
 			</div>
 		</div>
 	);

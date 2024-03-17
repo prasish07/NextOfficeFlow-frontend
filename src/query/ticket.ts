@@ -37,6 +37,7 @@ export function updateAssignee({
 		`${baseUrl}/ticket/${ticketId}`,
 		{
 			assigneeId: assignee,
+			isAssigneeUser: true,
 		},
 		{ withCredentials: true }
 	);
@@ -53,6 +54,7 @@ export function updateStatus({
 		`${baseUrl}/ticket/${ticketId}`,
 		{
 			status,
+			isUpdateStatus:true
 		},
 		{ withCredentials: true }
 	);

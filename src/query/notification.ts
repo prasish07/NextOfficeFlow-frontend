@@ -12,17 +12,37 @@ export function useGetNotification(filter?: any) {
 			});
 			return data;
 		},
+		staleTime: 10000,
+		refetchInterval: 10000,
 	});
 }
 
 export function useGetNotificationCount() {
 	return useQuery({
-		queryKey: ["notificationCount"],
+		queryKey: ["notification"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/notifications/count`, {
 				withCredentials: true,
 			});
 			return data;
 		},
+		staleTime: 10000,
+		refetchInterval: 10000,
 	});
+}
+
+export function updateNotificationStatus(notificationId: string) {
+	return axios.patch(
+		`${baseUrl}/notifications/${notificationId}`,
+		{ isSeen: true },
+		{ withCredentials: true }
+	);
+}
+
+export function updateAllNotificationStatus() {
+	return axios.patch(
+		`${baseUrl}/notifications/all`,
+		{ isSeen: true },
+		{ withCredentials: true }
+	);
 }

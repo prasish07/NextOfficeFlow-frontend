@@ -6,7 +6,11 @@ const Count = () => {
 
 	if (isLoading) return <></>;
 
-	return <p className="notification__count">{data?.count}</p>;
+	return (
+		<>
+			{data.count ? <p className="notification__count">{data?.count}</p> : ""}
+		</>
+	);
 };
 
 export default Count;
