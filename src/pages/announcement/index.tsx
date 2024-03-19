@@ -6,11 +6,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState, useEffect, useRef } from "react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Announcement: React.FC = () => {
 	const [showModel, setShowModel] = useState(false);
 	const [showDeleteModel, setShowDeleteModel] = useState(false);
-	const [selectedId, setSelectedId] = useState<number | null>(null);
+	const [selectedId, setSelectedId] = useState("");
 	const [search, setSearch] = useState("");
 	const [type, setType] = useState("add");
 	const queryClient = useQueryClient();
@@ -22,6 +24,7 @@ const Announcement: React.FC = () => {
 	const { role } = useGlobalProvider();
 	const isProjectManager = role === "project manager";
 	const isAdminOrHr = role === "admin" || role === "HR";
+	let router = useRouter();
 
 	const deleteAnnouncementMutation = useMutation({
 		mutationFn: deleteAnnouncement,
@@ -122,47 +125,45 @@ const Announcement: React.FC = () => {
 				<div className="announcement__elements">
 					{announcements.map((announcement: any) => {
 						return (
-							<div className="announcement__element" key={announcement.id}>
+							<Link
+								href={`/announcement/${announcement._id}`}
+								className="announcement__element"
+								key={announcement.id}
+							>
 								<div className="announcement__element--header">
-									<h3>{announcement.title}</h3>
-									{isAdminOrHr && (
-										<div className="announcement__menu">
-											<button
-												onClick={() => {
-													setShowModel(true);
-													setType("edit");
-													setSelectedId(announcement._id);
-												}}
-											>
-												<FaRegEdit size={24} />
-											</button>
-											<button
-												onClick={() => {
-													setShowDeleteModel(true);
-													setSelectedId(announcement._id);
-												}}
-											>
-												<FaRegTrashAlt size={24} />
-											</button>
-										</div>
-									)}
-								</div>
-								<div
-									className="announcement__element--content-wrapper"
-									dangerouslySetInnerHTML={{ __html: announcement.content }}
-								></div>
-								<div className="announcement__element-footer">
-									<h3 className="capitalize">
-										- {announcement.employeeName} (
-										{announcement.employeePosition})
-									</h3>
-									<div>
-										<p>{announcement.date.split("T")[0]}</p>
-										<span>--</span>
-										<p>{announcement.endDate}</p>
+									<div className="flex gap-5">
+										<h3 className="capitalize">
+											- {announcement.employeeName} (
+											{announcement.employeePosition})
+										</h3>
+										:<h3>{announcement.title}</h3>
 									</div>
+									<p>{announcement.date.split("T")[0]}</p>
 								</div>
-							</div>
+								{isAdminOrHr && (
+									<div className="announcement__menu">
+										<button
+											title="Edit"
+											onClick={() => {
+												setShowModel(true);
+												setType("edit");
+												setSelectedId(announcement._id);
+											}}
+										>
+											<FaRegEdit size={24} />
+										</button>
+										<button
+											title="Delete"
+											onClick={() => {
+												setShowDeleteModel(true);
+												setSelectedId(announcement._id);
+											}}
+										>
+											<FaRegTrashAlt size={24} />
+										</button>
+									</div>
+								)}
+							</Link>
 						);
 					})}
 				</div>

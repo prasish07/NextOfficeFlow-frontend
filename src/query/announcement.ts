@@ -23,7 +23,7 @@ export function useGetAnnouncement(filter?: any) {
 	});
 }
 
-export function useGetSingleAnnouncement(id: number | null) {
+export function useGetSingleAnnouncement(id: string | null) {
 	return useQuery({
 		queryKey: ["single announcement", id],
 		queryFn: async () => {
@@ -43,7 +43,7 @@ export function updateAnnouncement(data: any) {
 		.then((res) => res.data);
 }
 
-export function deleteAnnouncement(id: number | null) {
+export function deleteAnnouncement(id: string | null) {
 	return axios
 		.delete(`${baseUrl}/announcement/${id}`, {
 			withCredentials: true,

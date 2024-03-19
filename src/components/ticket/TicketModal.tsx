@@ -3,6 +3,7 @@ import { Modal } from "../model/Model";
 import Dropzone from "../Dropzone";
 import CustomProject from "../dropdown/customProject";
 import CustomeAssignee2 from "../dropdown/customAsignee2";
+import { useTicketProvider } from "@/context/ticketProvider";
 
 interface employeeProps {
 	showModal: boolean;
@@ -11,12 +12,8 @@ interface employeeProps {
 	ticketId?: string;
 }
 
-const TicketModal = ({
-	showModal,
-	setShowModal,
-	type,
-	ticketId,
-}: employeeProps) => {
+const TicketModal = () => {
+	const { showModal, setShowModal, type } = useTicketProvider();
 	const [images, setImages] = useState([""]);
 	const currentDateTime = new Date();
 	const [projectId, setProjectId] = useState<string>("");

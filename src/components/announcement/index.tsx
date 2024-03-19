@@ -25,7 +25,7 @@ const AnnouncementModel = ({
 	showModel: boolean;
 	setShowModel: (value: boolean) => void;
 	type: string;
-	selectedId: number | null;
+	selectedId: string | null;
 }) => {
 	const [content, setContent] = useState<string>("");
 	const [data, setData] = useState({

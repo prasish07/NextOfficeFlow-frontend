@@ -124,14 +124,14 @@ const ManageAction = ({
 	return (
 		<>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<div className="employee__form">
+				<div className="employee__form-2">
 					<div className="employee__form-item">
 						<div className="employee__form-item--group">
 							<label htmlFor="title">Title</label>
 							<input
 								type="text"
 								{...register("title")}
-								placeholder="title"
+								placeholder="Title"
 								id="title"
 							/>
 							{errors.title && (
@@ -179,27 +179,31 @@ const ManageAction = ({
 						<div className="">
 							<label htmlFor="AssigneeId">Assignees</label>
 							<div>
-								<div className="project__assignee-item">
-									{!!data?.project &&
-										assignee?.map((item: any) => {
-											return (
-												<div
-													key={item.id}
-													className="project__manage-info--avatar"
-												>
-													<span
-														className="w-[50px] h-[50px] rounded-[50%] bg-[#bcbcf3] text-[#5a4e4e] flex justify-center items-center font-bold cursor-pointer capitalize"
-														title={item.email}
+								{assignee?.length !== 0 ? (
+									<div className="project__assignee-item">
+										{!!data?.project &&
+											assignee?.map((item: any) => {
+												return (
+													<div
+														key={item.id}
+														className="project__manage-info--avatar"
 													>
-														{item.email[0]}
-													</span>
-												</div>
-											);
-										})}
-								</div>
+														<span
+															className="w-[50px] h-[50px] rounded-[50%] bg-[#bcbcf3] text-[#5a4e4e] flex justify-center items-center font-bold cursor-pointer capitalize"
+															title={item.email}
+														>
+															{item.email[0]}
+														</span>
+													</div>
+												);
+											})}
+									</div>
+								) : (
+									""
+								)}
 
 								<button
-									className="add-btn"
+									className="add-btn mt-2"
 									type="button"
 									onClick={() => setShowModal(true)}
 								>
@@ -226,7 +230,7 @@ const ManageAction = ({
 							<input
 								type="text"
 								{...register("status")}
-								placeholder="status"
+								placeholder="Status"
 								id="status"
 							/>
 							{errors.status && (
@@ -239,7 +243,7 @@ const ManageAction = ({
 							<input
 								type="number"
 								{...register("estimatedTime")}
-								placeholder="estimatedTime"
+								placeholder="Estimated Time"
 								id="estimatedTime"
 							/>
 							{errors.estimatedTime && (

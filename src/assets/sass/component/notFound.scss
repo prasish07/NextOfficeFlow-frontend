@@ -6,6 +6,10 @@
 	flex-direction: column;
 	gap: 20px;
 
+	@include mq(lg) {
+		width: calc(100% - 262px);
+	}
+
 	a {
 		padding: 10px 20px;
 		background-color: #2989c0;

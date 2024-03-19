@@ -110,6 +110,16 @@
 		background-color: $white;
 		padding: 20px;
 		border-radius: 10px;
+		position: relative;
+		cursor: pointer;
+
+		&:hover {
+			background-color: $light_blue-hover;
+
+			.announcement__menu {
+				display: flex;
+			}
+		}
 
 		@include m(header) {
 			display: flex;
@@ -175,17 +185,25 @@
 	}
 
 	@include e(menu) {
-		display: flex;
+		position: absolute;
+		display: none;
 		align-items: center;
 		gap: 10px;
+		height: 67px;
+		top: 0;
+		width: 120px;
+		background-color: $light_blue-hover;
+		right: 0;
+		border-radius: 10px;
 
 		button {
 			padding: 10px;
-			border: 1px solid #ddd;
+			border: 1px solid $normal;
 			border-radius: 50%;
+			color: $normal;
 
 			&:hover {
-				background-color: $grey;
+				background-color: $normal-hover;
 				color: white;
 			}
 		}
@@ -273,6 +291,41 @@
 			h3 {
 				font-size: 16px;
 			}
+		}
+	}
+
+	@include e(single-page) {
+		width: 100%;
+		padding: 20px;
+		@include mq(lg) {
+			width: calc(100% - 262px);
+		}
+
+		@include m(actions) {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 20px;
+
+			div {
+				display: flex;
+				gap: 20px;
+				button {
+					padding: 10px;
+					border: 1px solid $normal;
+					border-radius: 50%;
+					color: $normal;
+
+					&:hover {
+						background-color: $normal-hover;
+						color: white;
+					}
+				}
+			}
+		}
+
+		h2 {
+			margin-bottom: 10px;
 		}
 	}
 }

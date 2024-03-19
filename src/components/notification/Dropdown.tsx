@@ -61,25 +61,28 @@ const Dropdown = ({
 					Mark as read
 				</button>
 			</div>
-			<hr className="my-2" />
+			<hr className="mt-2" />
 
 			<div className="notification-dropdown__list">
 				{notifications.map((notification: any, index: number) => (
-					<div
-						key={index}
-						className="notification-dropdown__item"
-						onClick={() =>
-							handleNotificationClick(notification._id, notification.link)
-						}
-					>
-						<div className="notification-dropdown__item--title">
-							<IoInformationCircle size={34} className="text-blue-300" />
-							<p dangerouslySetInnerHTML={{ __html: notification.message }} />
+					<>
+						<div
+							key={index}
+							className="notification-dropdown__item"
+							onClick={() =>
+								handleNotificationClick(notification._id, notification.link)
+							}
+						>
+							<div className="notification-dropdown__item--title">
+								<IoInformationCircle size={34} className="text-blue-300" />
+								<p dangerouslySetInnerHTML={{ __html: notification.message }} />
+							</div>
+							{!notification.isSeen && (
+								<GoDotFill className="text-blue-500" size={24} />
+							)}
 						</div>
-						{!notification.isSeen && (
-							<GoDotFill className="text-blue-500" size={24} />
-						)}
-					</div>
+						<hr />
+					</>
 				))}
 				{/* <button>Show all</button> */}
 			</div>
