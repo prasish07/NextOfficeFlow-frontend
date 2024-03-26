@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "../model/Model";
 import Dropzone from "../Dropzone";
 import CustomProject from "../dropdown/customProject";
 import CustomeAssignee2 from "../dropdown/customAsignee2";
 import { useTicketProvider } from "@/context/ticketProvider";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+	addAttachmentTicket,
+	addTicket,
+	useGetTicketById,
+} from "@/query/ticket";
+import { toast } from "react-toastify";
+import { addAttachmentProject } from "@/query/project";
+import { dateFormatter, formattedDateTime } from "@/utils/data";
 
 interface employeeProps {
 	showModal: boolean;
@@ -13,25 +22,90 @@ interface employeeProps {
 }
 
 const TicketModal = () => {
-	const { showModal, setShowModal, type } = useTicketProvider();
-	const [images, setImages] = useState([""]);
+	const { showModal, setShowModal, type, selectedId } = useTicketProvider();
+	const [images, setImages] = useState<string[]>([]);
 	const currentDateTime = new Date();
 	const [projectId, setProjectId] = useState<string>("");
-	const [ticketDetails, setTicketDetails] = useState<any>({});
+	const [ticketDetails, setTicketDetails] = useState<any>({
+		title: "",
+		status: "To-Do",
+		description: "",
+		priority: "Low",
+		dueDate: "",
+		requiredTime: "",
+		createdAt: "",
+		linkedProject: "",
+		grade: 0,
+		estimatedTime: "",
+		spentTime: "",
+	});
 	const [assigneeId, setAssigneeId] = useState<string>("");
+	const { data, isError } = useGetTicketById(selectedId);
 
-	const formattedDateTime = currentDateTime.toLocaleString("en-US", {
-		day: "numeric",
-		month: "long",
-		year: "numeric",
-		hour: "2-digit",
-		minute: "2-digit",
-		hour12: true,
+	const queryClient = useQueryClient();
+
+	const addTicketMutation = useMutation({
+		mutationFn: addTicket,
+		onSuccess: (data: any) => {
+			// setShowModal(false);
+			toast.success(data.message);
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
 	});
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (
+		e:
+			| React.ChangeEvent<HTMLInputElement>
+			| React.ChangeEvent<HTMLSelectElement>
+			| React.ChangeEvent<HTMLTextAreaElement>
+	) => {
 		setTicketDetails({ ...ticketDetails, [e.target.name]: e.target.value });
 	};
+
+	const handleSubmit = async () => {
+		addTicketMutation.mutate({
+			...ticketDetails,
+			createdAt: new Date(),
+			attachments: images,
+			linkedProject: projectId,
+			assigneeId,
+		});
+	};
+
+	useEffect(() => {
+		if (type === "update") {
+			if (isError || !data) return;
+			const { ticket } = data ?? {};
+			console.log(data);
+			setTicketDetails({ ...ticket, dueDate: dateFormatter(ticket.dueDate) });
+			setAssigneeId(ticket.assigneeId._id);
+			setProjectId(ticket.linkedProject);
+			setImages(() => {
+				return ticket.attachments.map((attachment: any) => {
+					return attachment.attachment;
+				});
+			});
+		} else {
+			setTicketDetails({
+				title: "",
+				status: "To-Do",
+				description: "",
+				priority: "Low",
+				dueDate: "",
+				requiredTime: "",
+				createdAt: "",
+				linkedProject: "",
+				grade: 0,
+				estimatedTime: "",
+				spentTime: "",
+			});
+			setAssigneeId("");
+			setProjectId("");
+			setImages([]);
+		}
+	}, [data, type]);
 
 	return (
 		<Modal
@@ -41,20 +115,27 @@ const TicketModal = () => {
 			header={`${type === "add" ? "New" : "Update"} Ticket`}
 		>
 			<div className="ticket__modal">
-				<h3>{type !== "add" && 5002}</h3>
+				<h3>{type !== "add" && data?.ticket?._id}</h3>
 				<input
 					name="title"
 					id="title"
 					placeholder="Add a title"
-					value="Quick Fix Bug in the software"
+					value={ticketDetails.title}
+					onChange={handleChange}
 					className="ticket__modal-title"
 				/>
 
-				<select>
-					<option>Open</option>
-					<option>Close</option>
-					<option>Reopen</option>
-					<option>Canceled</option>
+				<select
+					defaultValue={ticketDetails.status}
+					name="status"
+					id="status"
+					onChange={handleChange}
+				>
+					<option value="To-Do">To-Do</option>
+					<option value="In-Progress">In-Progress</option>
+					<option value="Completed">Completed</option>
+					<option value="Cancelled">Cancelled</option>
+					<option value="Reopen">Reopen</option>
 				</select>
 				<div className="flex flex-col gap-4">
 					<label htmlFor="description">Description</label>
@@ -64,6 +145,8 @@ const TicketModal = () => {
 						placeholder="Add a description"
 						cols={30}
 						rows={10}
+						value={ticketDetails.description}
+						onChange={handleChange}
 					></textarea>
 				</div>
 				<div className="ticket__dropzone">
@@ -72,6 +155,14 @@ const TicketModal = () => {
 						className="p-16 mt-10 border border-neutral-200"
 						setImages={setImages}
 					/>
+					<div className="project-id__attachment--upload-btn">
+						<div className="flex flex-wrap gap-2">
+							{images.length >= 1 &&
+								images.map((image: any, index) => {
+									return <img src={image} alt="attachment" key={index} />;
+								})}
+						</div>
+					</div>
 				</div>
 
 				<div className="ticket__modal-details">
@@ -81,7 +172,7 @@ const TicketModal = () => {
 							<label htmlFor="assignee">Assignee</label>
 							{
 								<CustomeAssignee2 setProjectId={setAssigneeId}>
-									<button className="py-2 px-8 border-solid border border-[#ddd] rounded-[5px]">
+									<button className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px]">
 										{assigneeId ? assigneeId : "Add"}
 									</button>
 								</CustomeAssignee2>
@@ -92,8 +183,8 @@ const TicketModal = () => {
 							<select
 								name="priority"
 								id="priority"
-								// defaultValue={ticket.priority}
-								// onChange={handlePriorityChange}
+								defaultValue={ticketDetails.priority}
+								onChange={handleChange}
 							>
 								<option value="low">Low</option>
 								<option value="medium">Medium</option>
@@ -102,29 +193,46 @@ const TicketModal = () => {
 						</div>
 						<div>
 							<label htmlFor="due-date">Due Date</label>
-							<input type="date" name="due-date" id="due-date" />
+							<input
+								type="date"
+								name="dueDate"
+								value={ticketDetails.dueDate}
+								onChange={handleChange}
+								id="due-date"
+							/>
 						</div>
 						<div>
 							<label htmlFor="requiredTime">Required Time</label>
 							<span>
-								<input type="number" name="time" id="time" /> Hours
+								<input
+									type="number"
+									name="estimatedTime"
+									id="time"
+									value={ticketDetails.estimatedTime}
+									onChange={handleChange}
+								/>{" "}
+								Hours
 							</span>
 						</div>
 						<div>
 							<label htmlFor="Reporter">Reporter</label>
 							<p className="capitalize">
-								{type === "add" ? "Myself" : "reporter"}
+								{type === "add" ? "Myself" : data?.ticket?.reporterId.email}
 							</p>
 						</div>
 						<div>
 							<label htmlFor="createdAt">Created At</label>
-							<p>{type === "add" ? formattedDateTime : "sdf"}</p>
+							<p>
+								{type === "add"
+									? formattedDateTime(currentDateTime.toString())
+									: formattedDateTime(data?.ticket?.createdAt ?? "")}
+							</p>
 						</div>
 						<div>
 							<label htmlFor="linkProject">Link Project Id</label>
 							{
 								<CustomProject setProjectId={setProjectId}>
-									<button className="py-2 px-8 border-solid border border-[#ddd] rounded-[5px]">
+									<button className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px]">
 										{projectId ? projectId : "Add"}
 									</button>
 								</CustomProject>
@@ -133,7 +241,10 @@ const TicketModal = () => {
 					</div>
 				</div>
 				<div className="w-full flex justify-end">
-					<button className="w-full py-3 bg-[#3498db] font-bold text-white rounded-[5px]">
+					<button
+						className="w-full py-3 bg-[#3498db] font-bold text-white rounded-[5px]"
+						onClick={handleSubmit}
+					>
 						Save
 					</button>
 				</div>

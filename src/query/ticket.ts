@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "@/constants/apis";
 
-export function useGetTicketList() {
+export function useGetTicketList(filter?: any) {
 	return useQuery({
 		queryKey: ["ticket list", 1],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/ticket`, {
 				withCredentials: true,
+				params: filter,
 			});
 			return data;
 		},
@@ -54,7 +55,7 @@ export function updateStatus({
 		`${baseUrl}/ticket/${ticketId}`,
 		{
 			status,
-			isUpdateStatus:true
+			isUpdateStatus: true,
 		},
 		{ withCredentials: true }
 	);
@@ -74,4 +75,26 @@ export function updatePriority({
 		},
 		{ withCredentials: true }
 	);
+}
+
+export function addTicket(data: any) {
+	return axios
+		.post(`${baseUrl}/ticket`, data, { withCredentials: true })
+		.then((res) => res.data);
+}
+
+export function addAttachmentTicket({
+	endpoint,
+	attachment,
+}: {
+	endpoint: string;
+	attachment: string;
+}) {
+	return axios
+		.post(
+			`${baseUrl}/attachment`,
+			{ attachment, ticketId: endpoint },
+			{ withCredentials: true }
+		)
+		.then((res) => res.data);
 }

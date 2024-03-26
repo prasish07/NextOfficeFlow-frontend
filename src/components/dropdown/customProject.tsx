@@ -15,9 +15,10 @@ const CustomProject = ({
 	const { data, isLoading, isError } = useGetProjectList();
 	const queryClient = useQueryClient();
 
-	if (isLoading) return <div className="loader" />;
+	// if (isLoading) return <div className="loader" />;
 
 	if (isError || !data) return <div>Error</div>;
+
 	const { projects } = data;
 
 	const dropdownContent = projects.map((project: any) => ({

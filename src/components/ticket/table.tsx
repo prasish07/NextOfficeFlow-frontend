@@ -71,10 +71,11 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 														defaultValue={ticket.status}
 														onChange={handleStatusChange}
 													>
-														<option value="to-do">To-Do</option>
-														<option value="in-progress">In Progress</option>
-														<option value="done">Done</option>
-														<option value="cancelled">Cancelled</option>
+														<option value="To-Do">To-Do</option>
+														<option value="In-Progress">In-Progress</option>
+														<option value="Completed">Completed</option>
+														<option value="Cancelled">Cancelled</option>
+														<option value="Reopen">Reopen</option>
 													</select>
 												</td>
 												<td>

@@ -25,60 +25,64 @@ const Index = () => {
 	const { tickets } = data;
 
 	return (
-		<TicketProvider>
-			<div className="ticket">
-				<h2 className="ticket__main-title">Tickets</h2>
-				<Details />
-				<div className="ticket__manage">
-					<div className="ticket__sub-header">
-						{isProjectManager && <button>Delete</button>}
-						<input type="text" placeholder="Search" />
-					</div>
-					<hr className="my-5" />
-					<div className="ticket__filter-status">
-						<button
-							onClick={() => {
-								setSelectedStatus("all");
-							}}
-							className={classNames({ active: selectedStatus === "all" })}
-						>
-							All
-						</button>
-						<button
-							onClick={() => setSelectedStatus("to-do")}
-							className={classNames({ active: selectedStatus === "to-do" })}
-						>
-							To-Do
-						</button>
-						<button
-							onClick={() => setSelectedStatus("in-progress")}
-							className={classNames({
-								active: selectedStatus === "in-progress",
-							})}
-						>
-							In-Progress
-						</button>
-						<button
-							onClick={() => setSelectedStatus("complete")}
-							className={classNames({ active: selectedStatus === "complete" })}
-						>
-							Completed
-						</button>
-						<button
-							onClick={() => setSelectedStatus("cancelled")}
-							className={classNames({ active: selectedStatus === "cancelled" })}
-						>
-							Cancelled
-						</button>
-					</div>
-					<div className="ticket__list-element">
-						<Table tickets={tickets} status={selectedStatus} />
-					</div>
-
-					<TicketModal />
+		<div className="ticket">
+			<h2 className="ticket__main-title">Tickets</h2>
+			<Details />
+			<div className="ticket__manage">
+				<div className="ticket__sub-header">
+					{isProjectManager && <button>Delete</button>}
+					<input type="text" placeholder="Search" />
 				</div>
+				<hr className="my-5" />
+				<div className="ticket__filter-status">
+					<button
+						onClick={() => {
+							setSelectedStatus("all");
+						}}
+						className={classNames({ active: selectedStatus === "all" })}
+					>
+						All
+					</button>
+					<button
+						onClick={() => setSelectedStatus("To-Do")}
+						className={classNames({ active: selectedStatus === "To-Do" })}
+					>
+						To-Do
+					</button>
+					<button
+						onClick={() => setSelectedStatus("In-Progress")}
+						className={classNames({
+							active: selectedStatus === "In-Progress",
+						})}
+					>
+						In-Progress
+					</button>
+					<button
+						onClick={() => setSelectedStatus("Completed")}
+						className={classNames({ active: selectedStatus === "Completed" })}
+					>
+						Completed
+					</button>
+					<button
+						onClick={() => setSelectedStatus("Cancelled")}
+						className={classNames({ active: selectedStatus === "Cancelled" })}
+					>
+						Cancelled
+					</button>
+					<button
+						onClick={() => setSelectedStatus("Reopen")}
+						className={classNames({ active: selectedStatus === "Reopen" })}
+					>
+						Reopen
+					</button>
+				</div>
+				<div className="ticket__list-element">
+					<Table tickets={tickets} status={selectedStatus} />
+				</div>
+
+				<TicketModal />
 			</div>
-		</TicketProvider>
+		</div>
 	);
 };
 

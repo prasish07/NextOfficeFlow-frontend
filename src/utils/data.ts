@@ -9,3 +9,14 @@ export const dateWordFormatter = (date: string) => {
 		day: "numeric",
 	});
 };
+
+export const formattedDateTime = (date: string) => {
+	return new Date().toLocaleString("en-US", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: true,
+	});
+};

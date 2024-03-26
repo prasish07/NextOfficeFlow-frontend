@@ -285,7 +285,7 @@ const Home = () => {
 					</div>
 				</div> */}
 				<Events />
-				<AnnouncementPreview />
+				{/* <AnnouncementPreview /> */}
 			</section>
 		</>
 	);

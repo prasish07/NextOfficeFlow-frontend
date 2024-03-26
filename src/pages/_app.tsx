@@ -13,6 +13,7 @@ import useScreenWidth from "@/hooks/useScreenWidth";
 import Navbar from "@/components/navbar";
 import { useRouter } from "next/router";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import TicketProvider from "@/context/ticketProvider";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const { isDesktopView } = useScreenWidth();
@@ -35,7 +36,9 @@ export default function App({ Component, pageProps }: AppProps) {
 								<section className="flex w-[100%]">
 									<Navbar />
 									{!isDesktopView && <MenuBtn />}
-									<Component {...pageProps} />
+									<TicketProvider>
+										<Component {...pageProps} />
+									</TicketProvider>
 								</section>
 							</>
 						)}

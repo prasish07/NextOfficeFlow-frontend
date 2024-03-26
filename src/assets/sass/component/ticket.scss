@@ -68,6 +68,44 @@
 		}
 	}
 
+	@include e(manage) {
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+
+		th,
+		td {
+			padding: 12px;
+			text-align: center;
+			border-bottom: 1px solid #ddd;
+			button {
+				background-color: #2989c0;
+				color: white;
+				border: none;
+				padding: 8px 12px;
+				cursor: pointer;
+				border-radius: 4px;
+				margin-right: 5px;
+				margin-bottom: 5px;
+
+				@include mq(lg) {
+					margin-bottom: 0;
+				}
+			}
+
+			button:hover {
+				background-color: #1d6f9e;
+			}
+		}
+
+		th {
+			background-color: #278ceb;
+			color: white;
+		}
+	}
+
 	@include e(manage-info) {
 		background-color: $white;
 		border-radius: 10px;
@@ -126,42 +164,6 @@
 				border: 1px solid $grey;
 			}
 		}
-	}
-
-	table {
-		width: 100%;
-		border-collapse: collapse;
-		margin-top: 20px;
-	}
-
-	th,
-	td {
-		padding: 12px;
-		text-align: center;
-		border-bottom: 1px solid #ddd;
-		button {
-			background-color: #2989c0;
-			color: white;
-			border: none;
-			padding: 8px 12px;
-			cursor: pointer;
-			border-radius: 4px;
-			margin-right: 5px;
-			margin-bottom: 5px;
-
-			@include mq(lg) {
-				margin-bottom: 0;
-			}
-		}
-
-		button:hover {
-			background-color: #1d6f9e;
-		}
-	}
-
-	th {
-		background-color: #278ceb;
-		color: white;
 	}
 
 	@include e(assignee-item) {
@@ -353,6 +355,8 @@
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		appearance: none;
+		// text-align: center;
+		font-weight: 500;
 	}
 
 	option {

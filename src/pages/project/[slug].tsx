@@ -1,6 +1,8 @@
 import Attachment from "@/components/project/Attachment";
 import Comments from "@/components/project/Comments";
 import Details from "@/components/project/Details";
+import LinkedTickets from "@/components/project/LinkedTickets";
+import ProjectProvider from "@/context/projectProvider";
 import { useGetProjectDetails } from "@/query/project";
 import { GetServerSideProps } from "next";
 import React from "react";
@@ -17,6 +19,8 @@ const ProjectDetails = ({ endpoint }: { endpoint: string }) => {
 			case "attachments":
 				return <Attachment endpoint={endpoint} />;
 			// Add more cases for additional tabs if needed
+			case "linkedIssues":
+				return <LinkedTickets endpoint={endpoint} />;
 			default:
 				return null;
 		}

@@ -16,7 +16,7 @@ const CustomeAssignee2 = ({
 	const { data, isLoading, isError } = useGetAllEmployees();
 	const queryClient = useQueryClient();
 
-	if (isLoading) return <div className="loader" />;
+	// if (isLoading) return <div className="loader" />;
 
 	if (isError || !data) return <div>Error</div>;
 	const { data: employeeData } = data;
@@ -28,7 +28,7 @@ const CustomeAssignee2 = ({
 			</div>
 		),
 		callBack: () => {
-			setProjectId(employee.email);
+			setProjectId(employee._id);
 		},
 	}));
 
