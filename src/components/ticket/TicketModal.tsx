@@ -13,6 +13,7 @@ import {
 import { toast } from "react-toastify";
 import { addAttachmentProject } from "@/query/project";
 import { dateFormatter, formattedDateTime } from "@/utils/data";
+import ImageModel from "../ImageModel";
 
 interface employeeProps {
 	showModal: boolean;
@@ -23,6 +24,8 @@ interface employeeProps {
 
 const TicketModal = () => {
 	const { showModal, setShowModal, type, selectedId } = useTicketProvider();
+	const [showImageModal, setShowImageModal] = useState(false);
+	const [selectedImage, setSelectedImage] = useState("");
 	const [images, setImages] = useState<string[]>([]);
 	const currentDateTime = new Date();
 	const [projectId, setProjectId] = useState<string>("");
@@ -159,7 +162,18 @@ const TicketModal = () => {
 						<div className="flex flex-wrap gap-2">
 							{images.length >= 1 &&
 								images.map((image: any, index) => {
-									return <img src={image} alt="attachment" key={index} />;
+									// return <img src={image} alt="attachment" key={index} />;
+									return (
+										<img
+											src={image}
+											alt="attachment"
+											key={index}
+											onClick={() => {
+												setSelectedImage(image);
+												setShowImageModal(true);
+											}}
+										/>
+									);
 								})}
 						</div>
 					</div>
@@ -293,6 +307,11 @@ const TicketModal = () => {
 						</button>
 					</div>
 				</div>
+				<ImageModel
+					shouldShowModal={showImageModal}
+					handleClose={() => setShowImageModal(false)}
+					image={selectedImage}
+				/>
 			</div>
 		</Modal>
 	);
