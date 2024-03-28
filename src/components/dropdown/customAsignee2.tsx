@@ -6,7 +6,7 @@ import { updateAssignee } from "@/query/ticket";
 import { useGetProjectList } from "@/query/project";
 import { useGetAllEmployees } from "@/query/employee";
 
-const CustomeAssignee2 = ({
+const CustomAssignee2 = ({
 	children,
 	setProjectId,
 }: {
@@ -15,8 +15,6 @@ const CustomeAssignee2 = ({
 }) => {
 	const { data, isLoading, isError } = useGetAllEmployees();
 	const queryClient = useQueryClient();
-
-	// if (isLoading) return <div className="loader" />;
 
 	if (isError || !data) return <div>Error</div>;
 	const { data: employeeData } = data;
@@ -43,4 +41,4 @@ const CustomeAssignee2 = ({
 	);
 };
 
-export default CustomeAssignee2;
+export default CustomAssignee2;

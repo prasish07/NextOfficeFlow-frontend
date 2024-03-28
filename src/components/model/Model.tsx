@@ -180,7 +180,7 @@ export const Modal = (props: ModalProps) => {
 						)}
 					</AnimatePresence>,
 					document.getElementById("portal") ??
-						document.getElementById("root") ??
+						document.getElementById("body") ??
 						document.body
 				)}
 			</>

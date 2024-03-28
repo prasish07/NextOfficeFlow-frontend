@@ -8,7 +8,7 @@ import Table from "@/components/ticket/table";
 import Details from "@/components/ticket/details";
 
 const Index = () => {
-	const [selectedStatus, setSelectedStatus] = useState<string>("in-progress");
+	const [selectedStatus, setSelectedStatus] = useState<string>("To-Do");
 
 	const { data, isLoading, isError } = useGetTicketList();
 	const { role } = useGlobalProvider();

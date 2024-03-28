@@ -85,15 +85,15 @@ export function useGetProjectAttachment({ endpoint }: { endpoint: string }) {
 }
 export function addAttachmentProject({
 	endpoint,
-	attachment,
+	attachments,
 }: {
 	endpoint: string;
-	attachment: string;
+	attachments: string[];
 }) {
 	return axios
 		.post(
-			`${baseUrl}/attachment`,
-			{ attachment, projectId: endpoint },
+			`${baseUrl}/project/attachment`,
+			{ attachments, projectId: endpoint },
 			{ withCredentials: true }
 		)
 		.then((res) => res.data);

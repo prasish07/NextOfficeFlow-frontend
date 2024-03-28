@@ -21,7 +21,7 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 
 	if (status !== "all")
 		tickets = tickets.filter((ticket: any) => ticket.status === status);
-
+	console.log(status);
 	return (
 		<>
 			{!!tickets.length ? (
@@ -68,7 +68,8 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 													<select
 														name="status"
 														id="status"
-														defaultValue={ticket.status}
+														value={ticket.status}
+														// defaultValue={status}
 														onChange={handleStatusChange}
 													>
 														<option value="To-Do">To-Do</option>
@@ -82,7 +83,7 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 													<select
 														name="priority"
 														id="priority"
-														defaultValue={ticket.priority}
+														value={ticket.priority}
 														onChange={handlePriorityChange}
 														disabled={!isProjectManager}
 													>

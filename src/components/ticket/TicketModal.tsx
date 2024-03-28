@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "../model/Model";
 import Dropzone from "../Dropzone";
 import CustomProject from "../dropdown/customProject";
-import CustomeAssignee2 from "../dropdown/customAsignee2";
+import CustomAssignee2 from "../dropdown/customAsignee2";
 import { useTicketProvider } from "@/context/ticketProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -13,7 +13,9 @@ import {
 import { toast } from "react-toastify";
 import { addAttachmentProject } from "@/query/project";
 import { dateFormatter, formattedDateTime } from "@/utils/data";
-import ImageModel from "../ImageModel";
+import ImageModal from "../ImageModal";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
+import Link from "next/link";
 
 interface employeeProps {
 	showModal: boolean;
@@ -44,6 +46,9 @@ const TicketModal = () => {
 	});
 	const [assigneeId, setAssigneeId] = useState<string>("");
 	const { data, isError } = useGetTicketById(selectedId);
+	const { role } = useGlobalProvider();
+
+	const isPMOrAdmin = role === "project manager" || role === "admin";
 
 	const queryClient = useQueryClient();
 
@@ -108,7 +113,7 @@ const TicketModal = () => {
 			setProjectId("");
 			setImages([]);
 		}
-	}, [data, type]);
+	}, [data, type, isError]);
 
 	return (
 		<Modal
@@ -126,6 +131,7 @@ const TicketModal = () => {
 					value={ticketDetails.title}
 					onChange={handleChange}
 					className="ticket__modal-title"
+					disabled={!isPMOrAdmin}
 				/>
 
 				<select
@@ -150,29 +156,26 @@ const TicketModal = () => {
 						rows={10}
 						value={ticketDetails.description}
 						onChange={handleChange}
+						disabled={!isPMOrAdmin}
 					></textarea>
 				</div>
 				<div className="ticket__dropzone">
 					<h3 className="font-bold">Attachments</h3>
-					<Dropzone
-						className="p-16 mt-10 border border-neutral-200"
-						setImages={setImages}
-					/>
+					{isPMOrAdmin && (
+						<Dropzone
+							className="p-16 mt-10 border border-neutral-200"
+							setImages={setImages}
+						/>
+					)}
 					<div className="project-id__attachment--upload-btn">
 						<div className="flex flex-wrap gap-2">
 							{images.length >= 1 &&
 								images.map((image: any, index) => {
 									// return <img src={image} alt="attachment" key={index} />;
 									return (
-										<img
-											src={image}
-											alt="attachment"
-											key={index}
-											onClick={() => {
-												setSelectedImage(image);
-												setShowImageModal(true);
-											}}
-										/>
+										<Link href={image} key={index}>
+											<img src={image} alt="attachment" />
+										</Link>
 									);
 								})}
 						</div>
@@ -185,11 +188,14 @@ const TicketModal = () => {
 						<div>
 							<label htmlFor="assignee">Assignee</label>
 							{
-								<CustomeAssignee2 setProjectId={setAssigneeId}>
-									<button className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px]">
+								<CustomAssignee2 setProjectId={setAssigneeId}>
+									<button
+										className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px]"
+										disabled={!isPMOrAdmin}
+									>
 										{assigneeId ? assigneeId : "Add"}
 									</button>
-								</CustomeAssignee2>
+								</CustomAssignee2>
 							}
 						</div>
 						<div>
@@ -199,6 +205,7 @@ const TicketModal = () => {
 								id="priority"
 								defaultValue={ticketDetails.priority}
 								onChange={handleChange}
+								disabled={!isPMOrAdmin}
 							>
 								<option value="low">Low</option>
 								<option value="medium">Medium</option>
@@ -213,6 +220,7 @@ const TicketModal = () => {
 								value={ticketDetails.dueDate}
 								onChange={handleChange}
 								id="due-date"
+								disabled={!isPMOrAdmin}
 							/>
 						</div>
 						<div>
@@ -224,6 +232,7 @@ const TicketModal = () => {
 									id="time"
 									value={ticketDetails.estimatedTime}
 									onChange={handleChange}
+									disabled={!isPMOrAdmin}
 								/>{" "}
 								Hours
 							</span>
@@ -246,7 +255,10 @@ const TicketModal = () => {
 							<label htmlFor="linkProject">Link Project Id</label>
 							{
 								<CustomProject setProjectId={setProjectId}>
-									<button className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px]">
+									<button
+										className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px]"
+										disabled={!isPMOrAdmin}
+									>
 										{projectId ? projectId : "Add"}
 									</button>
 								</CustomProject>
@@ -254,14 +266,16 @@ const TicketModal = () => {
 						</div>
 					</div>
 				</div>
-				<div className="w-full flex justify-end">
-					<button
-						className="w-full py-3 bg-[#3498db] font-bold text-white rounded-[5px]"
-						onClick={handleSubmit}
-					>
-						Save
-					</button>
-				</div>
+				{isPMOrAdmin && (
+					<div className="w-full flex justify-end">
+						<button
+							className="w-full py-3 bg-[#3498db] font-bold text-white rounded-[5px]"
+							onClick={handleSubmit}
+						>
+							Save
+						</button>
+					</div>
+				)}
 				<div className="ticket__modal-details">
 					<h2>Comments</h2>
 					<div className="ticket__comments--other-comments">
@@ -307,10 +321,15 @@ const TicketModal = () => {
 						</button>
 					</div>
 				</div>
-				<ImageModel
+				{/* <ImageModel
 					shouldShowModal={showImageModal}
 					handleClose={() => setShowImageModal(false)}
 					image={selectedImage}
+				/> */}
+				<ImageModal
+					imageUrl={selectedImage}
+					onClose={() => setShowImageModal(false)}
+					shouldShowModal={showImageModal}
 				/>
 			</div>
 		</Modal>

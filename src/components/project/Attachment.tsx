@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import Dropzone from "../Dropzone";
 import prasish from "@/assets/images/prasish.jpg";
 import Image from "next/image";
-import { addAttachmentProject, useGetProjectAttachment } from "@/query/project";
+import {
+	addAttachmentProject,
+	useGetProjectAttachment,
+	useGetProjectDetails,
+} from "@/query/project";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import ImageModal from "../ImageModal";
 
 const Attachment = ({ endpoint }: { endpoint: string }) => {
 	const [images, setImages] = useState<string[]>([]);
+	const [showImageModal, setShowImageModal] = useState(false);
+	const [selectedImage, setSelectedImage] = useState("");
 
-	const { data, isLoading, isError } = useGetProjectAttachment({ endpoint });
+	const { data, isLoading, isError } = useGetProjectDetails({ endpoint });
 	const queryClient = useQueryClient();
 
 	const uploadMutation = useMutation({
@@ -25,15 +32,10 @@ const Attachment = ({ endpoint }: { endpoint: string }) => {
 	const handleUpload = async (e: any) => {
 		e.preventDefault();
 
-		// Define a function for asynchronous uploading
-		const uploadAsync = async (image: any) => {
-			await uploadMutation.mutate({
-				attachment: image,
-				endpoint,
-			});
-		};
-
-		await Promise.all(images.map(uploadAsync));
+		uploadMutation.mutate({
+			attachments: images,
+			endpoint,
+		});
 
 		setImages([]);
 		toast.success("Files uploaded to project");
@@ -47,7 +49,7 @@ const Attachment = ({ endpoint }: { endpoint: string }) => {
 		return <div>Error</div>;
 	}
 
-	const { attachments } = data;
+	const { attachments } = data?.project;
 
 	return (
 		<div className="project-id__attachment">
@@ -61,12 +63,23 @@ const Attachment = ({ endpoint }: { endpoint: string }) => {
 							<div
 								className="project-id__attachment--other-attachments-item--images"
 								key={attachment._id}
-								title={`Add by ${attachment.UserId.email}`}
+								title={`Add by ${attachment.userId.email}`}
 							>
-								<a href={attachment.attachment} key={attachment._id}>
+								{/* <a href={attachment.attachment} key={attachment._id}>
 									<img src={attachment.attachment} alt="attachment" />
-								</a>
-								<h3>{attachment.UserId.email.split("@")[0]}</h3>
+								</a> */}
+								<img
+									src={attachment.attachment}
+									alt="attachment"
+									key={attachment._id}
+									onClick={() => {
+										setSelectedImage(attachment.attachment);
+										setShowImageModal(true);
+										console.log("sdfg");
+									}}
+								/>
+
+								<h3>{attachment.userId.email.split("@")[0]}</h3>
 							</div>
 						);
 					})}
@@ -89,6 +102,11 @@ const Attachment = ({ endpoint }: { endpoint: string }) => {
 					</button>
 				</div>
 			</form>
+			<ImageModal
+				shouldShowModal={showImageModal}
+				onClose={() => setShowImageModal(false)}
+				imageUrl={selectedImage}
+			/>
 		</div>
 	);
 };
