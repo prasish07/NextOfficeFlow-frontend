@@ -211,8 +211,9 @@
 		border-radius: 10px;
 
 		@include mq(lg) {
-			width: 250px;
-			height: 250px;
+			min-width: 250px;
+			max-width: 250px;
+			min-height: 250px;
 		}
 
 		button {
@@ -536,5 +537,50 @@
 	.add-btn {
 		width: 50%;
 		margin-bottom: 10px;
+	}
+}
+
+.github {
+	width: 100%;
+
+	@include e(link) {
+		@include e(input) {
+			width: 100%;
+			padding: 10px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			margin-top: 20px;
+
+			&:focus-visible {
+				outline: none;
+			}
+		}
+
+		@include e(textarea) {
+			width: 100%;
+			padding: 10px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			margin-top: 20px;
+
+			&:focus-visible {
+				outline: none;
+			}
+		}
+	}
+
+	@include e(link-btn) {
+		background-color: $normal;
+		width: 100%;
+		color: white;
+		padding: 10px 20px;
+		border-radius: 5px;
+		text-align: center;
+		font-weight: bold;
+		margin-top: 20px;
+
+		&:hover {
+			background-color: $normal-hover;
+		}
 	}
 }

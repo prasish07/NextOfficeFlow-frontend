@@ -130,7 +130,7 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 												<td>{formattedDueDate}</td>
 											</>
 										)}
-										<td>
+										<td className="ticket__manage--btns">
 											<button
 												onClick={() => {
 													setSelectedId(ticket._id);

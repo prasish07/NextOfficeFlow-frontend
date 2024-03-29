@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { useGetTicketList } from "@/query/ticket";
 
 const LinkedTickets = ({ endpoint }: { endpoint: string }) => {
-	const [selectedStatus, setSelectedStatus] = useState<string>("in-progress");
+	const [selectedStatus, setSelectedStatus] = useState<string>("In-Progress");
 	const { data, isLoading, isError } = useGetTicketList({
 		LinkedTickets: endpoint,
 	});
@@ -38,28 +38,28 @@ const LinkedTickets = ({ endpoint }: { endpoint: string }) => {
 					All
 				</button>
 				<button
-					onClick={() => setSelectedStatus("to-do")}
-					className={classNames({ active: selectedStatus === "to-do" })}
+					onClick={() => setSelectedStatus("To-Do")}
+					className={classNames({ active: selectedStatus === "To-Do" })}
 				>
 					To-Do
 				</button>
 				<button
-					onClick={() => setSelectedStatus("in-progress")}
+					onClick={() => setSelectedStatus("In-Progress")}
 					className={classNames({
-						active: selectedStatus === "in-progress",
+						active: selectedStatus === "In-Progress",
 					})}
 				>
 					In-Progress
 				</button>
 				<button
-					onClick={() => setSelectedStatus("complete")}
-					className={classNames({ active: selectedStatus === "complete" })}
+					onClick={() => setSelectedStatus("Completed")}
+					className={classNames({ active: selectedStatus === "Completed" })}
 				>
 					Completed
 				</button>
 				<button
-					onClick={() => setSelectedStatus("cancelled")}
-					className={classNames({ active: selectedStatus === "cancelled" })}
+					onClick={() => setSelectedStatus("Cancelled")}
+					className={classNames({ active: selectedStatus === "Cancelled" })}
 				>
 					Cancelled
 				</button>

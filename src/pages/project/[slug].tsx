@@ -1,6 +1,7 @@
 import Attachment from "@/components/project/Attachment";
 import Comments from "@/components/project/Comments";
 import Details from "@/components/project/Details";
+import GitHub from "@/components/project/github/GitHub";
 import LinkedTickets from "@/components/project/LinkedTickets";
 import ProjectProvider from "@/context/projectProvider";
 import { useGetProjectDetails } from "@/query/project";
@@ -21,6 +22,8 @@ const ProjectDetails = ({ endpoint }: { endpoint: string }) => {
 			// Add more cases for additional tabs if needed
 			case "linkedIssues":
 				return <LinkedTickets endpoint={endpoint} />;
+			case "GitHub":
+				return <GitHub endpoint={endpoint} />;
 			default:
 				return null;
 		}
@@ -64,9 +67,7 @@ const ProjectDetails = ({ endpoint }: { endpoint: string }) => {
 						Linked Issues
 					</button>
 					<button
-						className={
-							activeTab === "GitHub" ? "project-id__menu--active" : ""
-						}
+						className={activeTab === "GitHub" ? "project-id__menu--active" : ""}
 						onClick={() => setActiveTab("GitHub")}
 					>
 						GitHub

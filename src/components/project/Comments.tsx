@@ -28,10 +28,6 @@ const Comments = ({ endpoint }: { endpoint: string }) => {
 		return <div className="loader" />;
 	}
 
-	// if (!data) {
-	// 	return <div>Error</div>;
-	// }
-
 	const { comments } = data || { comments: [] };
 
 	return (

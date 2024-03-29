@@ -118,3 +118,33 @@ export function deleteProject(id: string) {
 		.delete(`${baseUrl}/project/${id}`, { withCredentials: true })
 		.then((res) => res.data);
 }
+
+export function addGitHubLink({
+	endpoint,
+	repo,
+}: {
+	endpoint: string;
+	repo: string;
+}) {
+	return axios
+		.patch(
+			`${baseUrl}/project/${endpoint}/github`,
+			{ githubRepo: repo },
+			{ withCredentials: true }
+		)
+		.then((res) => res.data);
+}
+
+export function createAndAddGithubLink({
+	endpoint,
+	data,
+}: {
+	endpoint: string;
+	data: any;
+}) {
+	return axios
+		.put(`${baseUrl}/project/${endpoint}/github`, data, {
+			withCredentials: true,
+		})
+		.then((res) => res.data);
+}
