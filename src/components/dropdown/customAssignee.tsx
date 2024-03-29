@@ -3,7 +3,7 @@ import { DropdownPopover } from "./dropdown";
 import { useGetAllEmployees } from "@/query/employee";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { updateAssignee } from "@/query/ticket";
+import { useTicketProvider } from "@/context/ticketProvider";
 
 const CustomAssignee = ({
 	children,
@@ -14,18 +14,18 @@ const CustomAssignee = ({
 }) => {
 	const { data, isLoading, isError } = useGetAllEmployees();
 	const queryClient = useQueryClient();
+	const { updateTicketFieldMutation } = useTicketProvider();
 
 	const [assignee, setAssignee] = useState<string>("");
-	const assigneeMutation = useMutation({
-		mutationFn: updateAssignee,
-		onSuccess: () => {
-			toast.success("Assignee added successfully");
-			queryClient.invalidateQueries({ queryKey: ["ticket list", 1] });
-		},
-		onError: (error: any) => {
-			toast.error(error.response.data.message);
-		},
-	});
+	// const assigneeMutation = useMutation({
+	// 	mutationFn: updateAssignee,
+	// 	onSuccess: () => {
+	// 		toast.success("Assignee added successfully");
+	// 	},
+	// 	onError: (error: any) => {
+	// 		toast.error(error.response.data.message);
+	// 	},
+	// });
 
 	if (isLoading) return <div className="loader" />;
 
@@ -41,9 +41,14 @@ const CustomAssignee = ({
 		callBack: () => {
 			setAssignee(employee._id);
 			console.log(ticketId);
-			assigneeMutation.mutate({
+			// assigneeMutation.mutate({
+			// 	ticketId,
+			// 	assignee: employee._id,
+			// });
+			updateTicketFieldMutation.mutate({
 				ticketId,
-				assignee: employee._id,
+				field: "assigneeId",
+				value: employee._id,
 			});
 		},
 	}));

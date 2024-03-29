@@ -63,6 +63,14 @@ const ProjectDetails = ({ endpoint }: { endpoint: string }) => {
 					>
 						Linked Issues
 					</button>
+					<button
+						className={
+							activeTab === "GitHub" ? "project-id__menu--active" : ""
+						}
+						onClick={() => setActiveTab("GitHub")}
+					>
+						GitHub
+					</button>
 				</div>
 				{renderTabContent()}
 			</div>

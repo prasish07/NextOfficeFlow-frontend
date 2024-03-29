@@ -4,16 +4,21 @@ import useScreenWidth from "@/hooks/useScreenWidth";
 import React from "react";
 import { FaRegEdit, FaRegTrashAlt, FaUserPlus } from "react-icons/fa";
 import CustomAssignee from "../dropdown/customAssignee";
+import { useMutation } from "@tanstack/react-query";
+import { updateTicketOneField } from "@/query/ticket";
+import { toast } from "react-toastify";
+import DeleteModal from "../model/DeleteModal";
 
 const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 	const {
-		handlePriorityChange,
-		handleStatusChange,
+		handleSelectChange,
 		setSelectedId,
 		setShowModal,
 		setShowAssigneeModal,
+		showDeleteModal,
 		setShowDeleteModal,
 		setType,
+		deleteTicketFunction,
 	} = useTicketProvider();
 	const { isDesktopView, isTabletView } = useScreenWidth();
 	const { role } = useGlobalProvider();
@@ -21,7 +26,7 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 
 	if (status !== "all")
 		tickets = tickets.filter((ticket: any) => ticket.status === status);
-	console.log(status);
+
 	return (
 		<>
 			{!!tickets.length ? (
@@ -70,7 +75,9 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 														id="status"
 														value={ticket.status}
 														// defaultValue={status}
-														onChange={handleStatusChange}
+														onChange={(e) => {
+															handleSelectChange(e, ticket._id);
+														}}
 													>
 														<option value="To-Do">To-Do</option>
 														<option value="In-Progress">In-Progress</option>
@@ -84,8 +91,10 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 														name="priority"
 														id="priority"
 														value={ticket.priority}
-														onChange={handlePriorityChange}
 														disabled={!isProjectManager}
+														onChange={(e) => {
+															handleSelectChange(e, ticket._id);
+														}}
 													>
 														<option value="low">Low</option>
 														<option value="medium">Medium</option>
@@ -151,6 +160,12 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 			) : (
 				<p className="empty">No tickets available for this status</p>
 			)}
+			<DeleteModal
+				setShowModal={setShowDeleteModal}
+				title="Are you sure?"
+				showModal={showDeleteModal}
+				action={deleteTicketFunction}
+			/>
 		</>
 	);
 };

@@ -54,16 +54,18 @@ export function useGetProjectComments({ endpoint }: { endpoint: string }) {
 }
 
 export function addCommentProject({
+	field,
 	endpoint,
 	comment,
 }: {
+	field: string;
 	endpoint: string;
 	comment: string;
 }) {
 	return axios
 		.post(
 			`${baseUrl}/comment`,
-			{ comment, projectId: endpoint },
+			{ comment, [field]: endpoint },
 			{ withCredentials: true }
 		)
 		.then((res) => res.data);

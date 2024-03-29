@@ -27,56 +27,6 @@ export function useGetTicketById(ticketId: string) {
 	});
 }
 
-export function updateAssignee({
-	ticketId,
-	assignee,
-}: {
-	ticketId: string;
-	assignee: string;
-}) {
-	return axios.patch(
-		`${baseUrl}/ticket/${ticketId}`,
-		{
-			assigneeId: assignee,
-			isAssigneeUser: true,
-		},
-		{ withCredentials: true }
-	);
-}
-
-export function updateStatus({
-	ticketId,
-	status,
-}: {
-	ticketId: string;
-	status: string;
-}) {
-	return axios.patch(
-		`${baseUrl}/ticket/${ticketId}`,
-		{
-			status,
-			isUpdateStatus: true,
-		},
-		{ withCredentials: true }
-	);
-}
-
-export function updatePriority({
-	ticketId,
-	priority,
-}: {
-	ticketId: string;
-	priority: string;
-}) {
-	return axios.patch(
-		`${baseUrl}/ticket/${ticketId}`,
-		{
-			priority,
-		},
-		{ withCredentials: true }
-	);
-}
-
 export function addTicket(data: any) {
 	return axios
 		.post(`${baseUrl}/ticket`, data, { withCredentials: true })
@@ -96,5 +46,39 @@ export function addAttachmentTicket({
 			{ attachment, ticketId: endpoint },
 			{ withCredentials: true }
 		)
+		.then((res) => res.data);
+}
+
+export function updateTicketOneField({
+	ticketId,
+	field,
+	value,
+}: {
+	ticketId: string;
+	field: string;
+	value: string;
+}) {
+	return axios
+		.patch(
+			`${baseUrl}/ticket/${ticketId}`,
+			{
+				[field]: value,
+			},
+			{ withCredentials: true }
+		)
+		.then((res) => res.data);
+}
+
+export function deleteTicket({ ticketId }: { ticketId: string }) {
+	return axios
+		.delete(`${baseUrl}/ticket/${ticketId}`, { withCredentials: true })
+		.then((res) => res.data);
+}
+
+export function updateTicket(data: any) {
+	return axios
+		.patch(`${baseUrl}/ticket/${data.selectedId}`, data, {
+			withCredentials: true,
+		})
 		.then((res) => res.data);
 }

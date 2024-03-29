@@ -5,13 +5,8 @@ import CustomProject from "../dropdown/customProject";
 import CustomAssignee2 from "../dropdown/customAsignee2";
 import { useTicketProvider } from "@/context/ticketProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-	addAttachmentTicket,
-	addTicket,
-	useGetTicketById,
-} from "@/query/ticket";
+import { addTicket, updateTicket, useGetTicketById } from "@/query/ticket";
 import { toast } from "react-toastify";
-import { addAttachmentProject } from "@/query/project";
 import { dateFormatter, formattedDateTime } from "@/utils/data";
 import ImageModal from "../ImageModal";
 import { useGlobalProvider } from "@/context/GlobalProvicer";
@@ -25,9 +20,15 @@ interface employeeProps {
 }
 
 const TicketModal = () => {
-	const { showModal, setShowModal, type, selectedId } = useTicketProvider();
-	const [showImageModal, setShowImageModal] = useState(false);
-	const [selectedImage, setSelectedImage] = useState("");
+	const {
+		showModal,
+		setShowModal,
+		type,
+		selectedId,
+		comment,
+		setComment,
+		updateTicketFieldMutation,
+	} = useTicketProvider();
 	const [images, setImages] = useState<string[]>([]);
 	const currentDateTime = new Date();
 	const [projectId, setProjectId] = useState<string>("");
@@ -56,6 +57,19 @@ const TicketModal = () => {
 		mutationFn: addTicket,
 		onSuccess: (data: any) => {
 			// setShowModal(false);
+			queryClient.invalidateQueries({ queryKey: ["ticket list", 1] });
+			toast.success(data.message);
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
+	});
+
+	const updateTicketMutation = useMutation({
+		mutationFn: updateTicket,
+		onSuccess: (data: any) => {
+			// setShowModal(false);
+			queryClient.invalidateQueries({ queryKey: ["ticket list", 1] });
 			toast.success(data.message);
 		},
 		onError: (error: any) => {
@@ -73,23 +87,34 @@ const TicketModal = () => {
 	};
 
 	const handleSubmit = async () => {
-		addTicketMutation.mutate({
-			...ticketDetails,
-			createdAt: new Date(),
-			attachments: images,
-			linkedProject: projectId,
-			assigneeId,
-		});
+		if (type === "add") {
+			addTicketMutation.mutate({
+				...ticketDetails,
+				createdAt: new Date(),
+				attachments: images,
+				linkedProject: projectId,
+				assigneeId,
+			});
+		} else if (type === "update") {
+			const updatedData = {
+				...ticketDetails,
+				attachments: images,
+				linkedProject: projectId,
+				assigneeId,
+				selectedId,
+			};
+			// updateTicketOneField(selectedId, updatedData);
+			updateTicketMutation.mutate(updatedData);
+		}
 	};
 
 	useEffect(() => {
 		if (type === "update") {
 			if (isError || !data) return;
 			const { ticket } = data ?? {};
-			console.log(data);
-			setTicketDetails({ ...ticket, dueDate: dateFormatter(ticket.dueDate) });
-			setAssigneeId(ticket.assigneeId._id);
-			setProjectId(ticket.linkedProject);
+			setTicketDetails({ ...ticket, dueDate: dateFormatter(ticket?.dueDate) });
+			setAssigneeId(ticket?.assigneeId?._id);
+			setProjectId(ticket?.linkedProject);
 			setImages(() => {
 				return ticket.attachments.map((attachment: any) => {
 					return attachment.attachment;
@@ -279,25 +304,24 @@ const TicketModal = () => {
 				<div className="ticket__modal-details">
 					<h2>Comments</h2>
 					<div className="ticket__comments--other-comments">
-						{/* {comments.map((comment: any) => {
-							return ( */}
-						<div
-							className="ticket__comments--other-comments-item"
-							// key={comment._id}
-						>
-							<div>
-								<span
-									className="w-[30px] h-[30px] rounded-[50%] bg-[#d2d2ec] text-[#5a4e4e] flex justify-center items-center font-bold cursor-default capitalize"
-									// title={comment.UserId.email}
+						{data?.ticket?.comments.map((comment: any) => {
+							return (
+								<div
+									className="ticket__comments--other-comments-item"
+									key={comment?._id}
 								>
-									{/* {comment.UserId.email[0]} */}s
-								</span>
-							</div>
-							{/* <p>{comment.comment}</p> */}
-							<p>Prasish Shrestha</p>
-						</div>
-						{/* ); */}
-						{/* })} */}
+									<div>
+										<span
+											className="w-[30px] h-[30px] rounded-[50%] bg-[#d2d2ec] text-[#5a4e4e] flex justify-center items-center font-bold cursor-default capitalize"
+											title={comment?.userId.email}
+										>
+											{comment?.userId.email[0]}
+										</span>
+									</div>
+									<p>{comment?.comment}</p>
+								</div>
+							);
+						})}
 					</div>
 					<div className="ticket__comments--add-comment">
 						<div>
@@ -307,14 +331,19 @@ const TicketModal = () => {
 							placeholder="Add Comment"
 							rows={5}
 							cols={50}
-							// value={addComment}
+							value={comment}
 							onChange={(e) => {
-								// setAddComment(e.target.value);
+								setComment(e.target.value);
 							}}
 						/>
 						<button
 							onClick={() => {
 								// commentMutation.mutate({ endpoint, comment: addComment });
+								updateTicketFieldMutation.mutate({
+									ticketId: selectedId,
+									field: "comment",
+									value: comment,
+								});
 							}}
 						>
 							Add comment
@@ -326,11 +355,6 @@ const TicketModal = () => {
 					handleClose={() => setShowImageModal(false)}
 					image={selectedImage}
 				/> */}
-				<ImageModal
-					imageUrl={selectedImage}
-					onClose={() => setShowImageModal(false)}
-					shouldShowModal={showImageModal}
-				/>
 			</div>
 		</Modal>
 	);

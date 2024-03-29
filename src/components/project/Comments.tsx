@@ -13,7 +13,6 @@ const Comments = ({ endpoint }: { endpoint: string }) => {
 	const commentMutation = useMutation({
 		mutationFn: addCommentProject,
 		onSuccess: (data: any) => {
-			console.log(data);
 			toast.success(data.message);
 			setAddComment("");
 			queryClient.invalidateQueries({
@@ -24,15 +23,16 @@ const Comments = ({ endpoint }: { endpoint: string }) => {
 			toast.error(error.response.data.message);
 		},
 	});
+
 	if (isLoading) {
 		return <div className="loader" />;
 	}
 
-	if (!data) {
-		return <div>Error</div>;
-	}
+	// if (!data) {
+	// 	return <div>Error</div>;
+	// }
 
-	const { comments } = data;
+	const { comments } = data || { comments: [] };
 
 	return (
 		<div className="project-id__comments">
@@ -44,17 +44,17 @@ const Comments = ({ endpoint }: { endpoint: string }) => {
 					return (
 						<div
 							className="project-id__comments--other-comments-item"
-							key={comment._id}
+							key={comment?._id}
 						>
 							<div>
 								<span
 									className="w-[30px] h-[30px] rounded-[50%] bg-[#d2d2ec] text-[#5a4e4e] flex justify-center items-center font-bold cursor-default capitalize"
-									title={comment.UserId.email}
+									title={comment?.userId.email}
 								>
-									{comment.UserId.email[0]}
+									{comment?.userId.email[0]}
 								</span>
 							</div>
-							<p>{comment.comment}</p>
+							<p>{comment?.comment}</p>
 						</div>
 					);
 				})}
@@ -74,7 +74,11 @@ const Comments = ({ endpoint }: { endpoint: string }) => {
 				/>
 				<button
 					onClick={() => {
-						commentMutation.mutate({ endpoint, comment: addComment });
+						commentMutation.mutate({
+							endpoint,
+							comment: addComment,
+							field: "projectId",
+						});
 					}}
 				>
 					Add comment
