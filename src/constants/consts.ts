@@ -5,3 +5,4 @@ export const COMPANY_LOCATION = {
 	lng: 85.3318,
 };
 export const API = "f82bd37718824e7a9ace5a7916b46fa4";
+export const GITHUB_USER = "prasish07";

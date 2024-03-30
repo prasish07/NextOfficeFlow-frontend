@@ -583,4 +583,217 @@
 			background-color: $normal-hover;
 		}
 	}
+
+	@include e(info) {
+		margin-top: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		padding: 20px;
+		background-color: $white;
+		border-radius: 10px;
+
+		h3 {
+			font-weight: bold;
+			font-size: 18px;
+		}
+
+		h4 {
+			font-weight: bold;
+		}
+
+		p {
+			border: 1px solid #ddd;
+			padding: 10px;
+			border-radius: 10px;
+		}
+	}
+
+	@include e(options-element) {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 10px;
+		border: 1px solid #ddd;
+		border-radius: 10px;
+		width: 300px;
+		justify-content: center;
+		align-items: center;
+		transition: 0.3s;
+		height: 200px;
+		background-color: $color;
+		color: $normal;
+
+		p {
+			font-weight: bold;
+			font-size: 34px;
+			border: none;
+		}
+	}
+
+	@include e(options) {
+		display: flex;
+		gap: 40px;
+		flex-wrap: wrap;
+	}
+
+	@include e(commits) {
+		margin-top: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		padding: 20px;
+		background-color: $white;
+		border-radius: 10px;
+
+		@include e(container) {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		@include e(element) {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			gap: 10px;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			background-color: $light_blue;
+			transition: all 0.2s;
+
+			&:hover {
+				background-color: $light_blue-hover;
+			}
+
+			.right {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+
+				h3 {
+					font-weight: bold;
+					font-size: 20px;
+				}
+
+				p {
+					color: $dark-grey;
+				}
+			}
+		}
+	}
+
+	@include e(pr) {
+		margin-top: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		padding: 20px;
+		background-color: $white;
+		border-radius: 10px;
+
+		@include e(elements) {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		@include e(element) {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			gap: 10px;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			background-color: $light_blue;
+			transition: all 0.2s;
+			cursor: pointer;
+
+			h3 {
+				font-weight: bold;
+				font-size: 20px;
+				margin-bottom: 10px;
+			}
+
+			p {
+				color: $dark-grey;
+			}
+		}
+	}
+
+	@include e(pr-model) {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		h3 {
+			font-weight: bold;
+			font-size: 18px;
+		}
+
+		.title {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.status {
+			font-weight: bold;
+			color: green;
+			border: 1px solid green;
+			padding: 10px;
+			width: fit-content;
+			border-radius: 10px;
+			text-transform: capitalize;
+		}
+
+		.box {
+			font-weight: bold;
+			color: $dark-grey;
+			border: 1px solid #ddd;
+			padding: 10px;
+			width: fit-content;
+			border-radius: 10px;
+			text-transform: capitalize;
+		}
+
+		.content {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			// margin-top: 10px;
+
+			p {
+				font-weight: 500;
+			}
+		}
+
+		p {
+			font-size: 16px;
+		}
+
+		textarea {
+			padding: 10px;
+			border-radius: 4px;
+			border: 1px solid $grey;
+			width: 100%;
+
+			&:focus {
+				border: none;
+			}
+
+			&:focus-visible {
+				outline: none;
+				border: 1px solid $grey;
+			}
+		}
+	}
+}
+
+.code-block {
+	display: flex !important;
 }

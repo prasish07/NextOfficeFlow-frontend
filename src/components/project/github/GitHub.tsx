@@ -2,11 +2,16 @@ import { useGetProjectDetails } from "@/query/project";
 import React, { useState } from "react";
 import LinkModel from "./LinkModel";
 import CreateRepoModel from "./CreateRepoModel";
+import classNames from "classnames";
+import Info from "./Info";
+import Commits from "./Commits";
+import PR from "./PR";
 
 const GitHub = ({ endpoint }: { endpoint: string }) => {
 	const { data, isLoading, isError } = useGetProjectDetails({ endpoint });
 	const [showModel, setShowModel] = useState(false);
 	const [showCreateModel, setShowCreateModel] = useState(false);
+	const [selectedOption, setSelectedOption] = useState("Info");
 
 	if (isLoading) return <div className="loader" />;
 
@@ -52,7 +57,73 @@ const GitHub = ({ endpoint }: { endpoint: string }) => {
 		);
 	}
 
-	return <div>Github</div>;
+	const GithubFilter = () => {
+		return (
+			<div className="ticket__filter-status mt-5 rounded-[10px]">
+				<button
+					onClick={() => {
+						setSelectedOption("Info");
+					}}
+					className={classNames({ active: selectedOption === "Info" })}
+				>
+					Info
+				</button>
+				<button
+					onClick={() => setSelectedOption("Commits")}
+					className={classNames({ active: selectedOption === "Commits" })}
+				>
+					Commits
+				</button>
+				<button
+					onClick={() => setSelectedOption("Pull Request")}
+					className={classNames({
+						active: selectedOption === "Pull Request",
+					})}
+				>
+					Pull Request
+				</button>
+				{/* <button
+					onClick={() => setSelectedOption("Issues")}
+					className={classNames({
+						active: selectedOption === "Issues",
+					})}
+				>
+					Issues
+				</button>
+				<button
+					onClick={() => setSelectedOption("Insights")}
+					className={classNames({
+						active: selectedOption === "Insights",
+					})}
+				>
+					Insights
+				</button> */}
+			</div>
+		);
+	};
+
+	const githubFilterElement = () => {
+		switch (selectedOption) {
+			case "Info":
+				return <Info repo={project?.githubRepo} />;
+
+			case "Commits":
+				return <Commits repo={project?.githubRepo} />;
+
+			case "Pull Request":
+				return <PR repo={project?.githubRepo} />;
+
+			default:
+				break;
+		}
+	};
+
+	return (
+		<div className="github">
+			<GithubFilter />
+			{githubFilterElement()}
+		</div>
+	);
 };
 
 export default GitHub;
