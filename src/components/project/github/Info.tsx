@@ -32,22 +32,22 @@ const Info = ({ repo }: { repo: string }) => {
 				<div className="github__options-element">
 					<IoGitCommit size={34} />
 					<h3>Commits</h3>
-					<p>100</p>
+					<p>{data.commits}</p>
 				</div>
 				<div className="github__options-element">
 					<IoGitPullRequest size={34} />
 					<h3>Pull Requests</h3>
-					<p>5</p>
+					<p>{data.pullRequests}</p>
 				</div>
 				<div className="github__options-element">
 					<VscIssueReopened size={34} />
 					<h3>Issues</h3>
-					<p>2</p>
+					<p>{data.issues}</p>
 				</div>
 				<div className="github__options-element">
 					<GrLanguage size={34} />
 					<h3>Language</h3>
-					<p>Typescript</p>
+					<p>{data.language}</p>
 				</div>
 			</div>
 		</div>
