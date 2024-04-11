@@ -27,6 +27,10 @@
 		padding: 20px;
 		border-radius: 10px;
 		background-color: $white;
+		display: flex;
+		flex-direction: column;
+		// flex-grow: 1;
+		width: 50%;
 	}
 
 	@include e(attendance-btns) {
@@ -101,16 +105,53 @@
 }
 
 .dashboardEvent {
-	margin: 0 20px;
-	margin-top: 40px;
+	// margin-top: 40px;
 	padding: 0 50px;
 	background-color: $white;
 	border-radius: 10px;
 	padding-bottom: 20px;
 	width: 100%;
+	height: fit-content;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	// margin-right: 40px;
 
 	@include mq(md) {
 		width: 50%;
+	}
+
+	@include e(ticket) {
+		display: flex;
+		gap: 20px;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px;
+		background-color: $color;
+		border-radius: 10px;
+		cursor: pointer;
+
+		&:hover {
+			background-color: $light_blue;
+
+			.dashboardEvent__ticket-pg {
+				background-color: $light_blue-hover;
+			}
+		}
+	}
+	@include e(ticket-pg) {
+		border-left: 1px solid #ddd;
+		padding-left: 50px;
+		// font-weight: bold;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		border-radius: 10px;
+		background-color: $light_blue;
+		color: $normal;
 	}
 }
 
@@ -160,6 +201,7 @@
 	position: relative;
 	z-index: 0;
 	flex-grow: 1;
+	width: 255px;
 
 	@include e(logo) {
 		position: absolute;
@@ -171,12 +213,16 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: rgba(0, 0, 255, 0.363);
+		background-color: $normal;
+		color: white;
 	}
 
 	@include e(text) {
 		padding-top: 78px;
 		padding-right: 10px;
+	}
+	@include e(title) {
+		font-size: 20px;
 	}
 
 	@include e(count) {
@@ -191,7 +237,7 @@
 	@include e(profile-info) {
 		border-radius: 10px;
 		padding: 10px;
-		flex-grow: 1;
+		// flex-grow: 1;
 		background-color: $white;
 		width: 100%;
 

@@ -68,3 +68,27 @@ export function useGetMyTodayAttendance() {
 		},
 	});
 }
+
+export function useGetTotalTodayAttendance() {
+	return useQuery({
+		queryKey: ["attendance", "total"],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/attendance/today/total`, {
+				withCredentials: true,
+			});
+			return data;
+		},
+	});
+}
+
+export function useGetUnCheckEmployees() {
+	return useQuery({
+		queryKey: ["attendance", "unchecked"],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/attendance/today/uncheck`, {
+				withCredentials: true,
+			});
+			return data;
+		},
+	});
+}

@@ -40,7 +40,6 @@ const CalenderEvent = ({ showModal, setShowModal, date }: CalendarProps) => {
 			.subtract(1, "days")
 			.endOf("day")
 			.format("YYYY-MM-DD");
-		console.log("asdf", endDate);
 		setEventData((prevData) => ({
 			...prevData,
 			start: date.startDate,

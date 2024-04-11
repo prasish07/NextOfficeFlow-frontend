@@ -19,6 +19,13 @@ import { checkIn, checkOut, useMyTodayAttendance } from "@/query/attendance";
 import { useGetMyDetails } from "@/query/employee";
 import Events from "@/components/dashboard/Events";
 import AnnouncementPreview from "@/components/dashboard/AnnouncementPreview";
+import CurrentOngoingTickets from "@/components/dashboard/CurrentOngoingTickets";
+import TicketModal from "@/components/ticket/TicketModal";
+import Info from "@/components/dashboard/Info";
+import PendingLeaveRequest from "@/components/dashboard/PendingLeaveRequest";
+import PMInfo from "@/components/dashboard/PMInfo";
+import CurrentProject from "@/components/dashboard/CurrentProject";
+import AdminInfo from "@/components/dashboard/AdminInfo";
 
 const Home = () => {
 	const { role } = useGlobalProvider();
@@ -173,7 +180,7 @@ const Home = () => {
 
 	return (
 		<>
-			<section className="dashboard">
+			<section className="ticket dashboard">
 				<div className="dashboard__top-part">
 					<div className="dashboard__profile-info">
 						<div className="dashboard__message">
@@ -201,10 +208,6 @@ const Home = () => {
 									<FaArrowDownLong className="rotate-[220deg] text-red-700" />
 									Check-Out
 								</button>
-								{/* <button>
-									<FaPlus />
-									Break
-								</button> */}
 							</div>
 							<div className="dashboard__time">
 								<div>
@@ -261,31 +264,17 @@ const Home = () => {
 							</div>
 						</div>
 					)}
-					{role === "HR" && (
-						<div className="dashboardInfo">
-							<div className="dashboardInfo__elements">
-								{<DashboardInfo />}
-								{<DashboardInfo />}
-							</div>
-							<div className="dashboardInfo__elements">
-								{<DashboardInfo />}
-								{<DashboardInfo />}
-							</div>
-						</div>
-					)}
+					{role === "HR" && <Info />}
+					{role === "admin" && <AdminInfo />}
+					{role === "project manager" && <PMInfo />}
 				</div>
-				{/* <div className="dashboardEvent">
-					<h2 className="event__title">Events and Organization Calender</h2>
-					<div className="event__info">
-						<i className="event__icon">p</i>
-						<div className="event__sub-title">
-							<h3>Dashain</h3>
-							<p>25 Falgun 2070</p>
-						</div>
-					</div>
-				</div> */}
-				<Events />
-				{/* <AnnouncementPreview /> */}
+				<div className="flex gap-[40px] p-[20px]">
+					<Events />
+					{role === "employee" && <CurrentOngoingTickets />}
+					{role === "HR" && <PendingLeaveRequest />}
+					{role === "project manager" && <CurrentProject />}
+				</div>
+				<TicketModal />
 			</section>
 		</>
 	);

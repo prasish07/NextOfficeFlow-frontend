@@ -48,7 +48,7 @@ export function addFeedback({ selectedId, data }: Props) {
 		.then((res) => res.data);
 }
 
-export function useGetAllAppraisalHistory(filter: any) {
+export function useGetAllAppraisalHistory(filter?: any) {
 	return useQuery({
 		queryKey: ["appraisal", filter],
 		queryFn: async () => {
