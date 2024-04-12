@@ -119,7 +119,7 @@ const Manage = () => {
 											<td>{item.status}</td>
 										</>
 									)}
-									<td>
+									<td className="button-group">
 										<button onClick={() => handleViewEmployee(item._id)}>
 											<GrView />
 										</button>

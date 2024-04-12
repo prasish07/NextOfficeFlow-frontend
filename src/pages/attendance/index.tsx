@@ -25,13 +25,20 @@ const Index = () => {
 			<h2 className="attendance__main-title">Attendance</h2>
 			<div className="attendance__menu">
 				<div className="attendance__filter">
-					<h3>Period</h3>
-					<select name="filter" id="filter">
-						<option value="this-month">This Month</option>
-						<option value="last-month">Last Month</option>
-						<option value="this-year">This Year</option>
-						<option value="last-year">Last Year</option>
-					</select>
+					<div className="flex gap-2 mt-2 items-center">
+						<input type="date" className="custom-date" />
+						-
+						<input type="date" className="custom-date" />
+						<button>Apply</button>
+					</div>
+				</div>
+				<div className="flex gap-2">
+					<input
+						type="text"
+						className="custom-date w-[500px]"
+						placeholder="Search employee"
+					/>
+					<button>Search</button>
 				</div>
 				<button
 					onClick={() => {
@@ -130,7 +137,6 @@ const Index = () => {
 								</tr>
 							);
 						})}
-						
 					</tbody>
 				</table>
 			</div>

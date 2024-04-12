@@ -7,6 +7,11 @@ export interface AttendanceModalProps {
 }
 
 const AttendanceModal = ({ showModal, setShowModal }: AttendanceModalProps) => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log("submit");
+	};
+
 	return (
 		<>
 			<Modal
@@ -15,7 +20,7 @@ const AttendanceModal = ({ showModal, setShowModal }: AttendanceModalProps) => {
 				handleClose={() => setShowModal(false)}
 				header={<h2>Manual Attendance</h2>}
 			>
-				<form className="attendance__form">
+				<form className="attendance__form" onSubmit={handleSubmit}>
 					<div className="form-group">
 						<label htmlFor="employee-id">Employee Email</label>
 						<input
@@ -53,7 +58,7 @@ const AttendanceModal = ({ showModal, setShowModal }: AttendanceModalProps) => {
 							placeholder="Enter Reason"
 						></textarea>
 					</div>
-					<button>Save</button>
+					<button type="submit">Save</button>
 				</form>
 			</Modal>
 		</>

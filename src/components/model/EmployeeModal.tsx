@@ -232,13 +232,19 @@ const EmployeeModal = ({
 
 							<div className="employee__form-item--group">
 								<label htmlFor="role">Role</label>
-								<input
+								{/* <input
 									type="text"
 									{...register("role")}
 									placeholder="Role"
 									readOnly={isViewOnly}
 									id="role"
-								/>
+								/> */}
+								<select id="role" className="select" {...register("role")}>
+									<option value="admin">Admin</option>
+									<option value="employee">Employee</option>
+									<option value="project manager">Project Manager</option>
+									<option value="HR">HR</option>
+								</select>
 								{errors.role && (
 									<p className="text-red-500">{`${errors.role.message}`}</p>
 								)}
@@ -303,13 +309,20 @@ const EmployeeModal = ({
 						<div className="employee__form-item">
 							<div className="employee__form-item--group">
 								<label htmlFor="status">Status</label>
-								<input
+								{/* <input
 									type="text"
 									{...register("status")}
 									placeholder="Status"
 									readOnly={isViewOnly}
 									id="status"
-								/>
+								/> */}
+								<select id="status" className="select" {...register("status")}>
+									<option value="full-time">Full Time</option>
+									<option value="part-time">Part Time</option>
+									<option value="contract">Contract</option>
+									<option value="intern">Internship</option>
+								</select>
+
 								{errors.status && (
 									<p className="text-red-500">{`${errors.status.message}`}</p>
 								)}

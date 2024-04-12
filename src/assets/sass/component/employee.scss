@@ -53,8 +53,6 @@
 			padding: 8px 12px;
 			cursor: pointer;
 			border-radius: 4px;
-			margin-right: 5px;
-			margin-bottom: 5px;
 
 			@include mq(lg) {
 				margin-bottom: 0;
@@ -186,4 +184,25 @@
 	margin-top: 20px;
 	width: 100%;
 	cursor: pointer;
+}
+
+.select {
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	outline: none;
+	cursor: pointer;
+}
+
+.button-group {
+	display: flex;
+	justify-content: center;
+	gap: 5px;
+	flex-wrap: wrap;
+}
+
+.custom-date {
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid #ddd;
 }
