@@ -92,3 +92,27 @@ export function useGetUnCheckEmployees() {
 		},
 	});
 }
+
+export function manualAttendance(data: any) {
+	return axios
+		.post(
+			`${baseUrl}/attendance/manual`,
+			{ data },
+			{
+				withCredentials: true,
+			}
+		)
+		.then((res) => res.data);
+}
+
+export function useGetSingleAttendance(id: string) {
+	return useQuery({
+		queryKey: ["attendance", id],
+		queryFn: async () => {
+			const { data } = await axios.get(`${baseUrl}/attendance/${id}`, {
+				withCredentials: true,
+			});
+			return data;
+		},
+	});
+}

@@ -163,7 +163,6 @@ export const Modal = (props: ModalProps) => {
 					{footer}
 				</div>
 			)}
-			{/* <LoadingOverlay isLoading={showLoadingOverlay} /> */}
 		</motion.div>
 	);
 

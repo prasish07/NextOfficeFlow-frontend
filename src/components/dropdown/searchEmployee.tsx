@@ -5,22 +5,24 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useTicketProvider } from "@/context/ticketProvider";
 
-const CustomAssignee = ({
+const SearchEmployee = ({
 	children,
-	ticketId,
+	setEmployee,
 }: {
 	children: JSX.Element;
-	ticketId: string;
+	setEmployee: React.Dispatch<
+		React.SetStateAction<{
+			id: string;
+			email: string;
+		}>
+	>;
 }) => {
 	const { data, isLoading, isError } = useGetAllEmployees();
-	const queryClient = useQueryClient();
-	const { updateTicketFieldMutation } = useTicketProvider();
-
-	const [assignee, setAssignee] = useState<string>("");
 
 	if (isLoading) return <div className="loader" />;
 
 	if (isError || !data) return <div>Error</div>;
+
 	const { data: employeeData } = data;
 
 	const dropdownContent = employeeData.map((employee: any) => ({
@@ -30,13 +32,9 @@ const CustomAssignee = ({
 			</div>
 		),
 		callBack: () => {
-			setAssignee(employee._id);
-			console.log(ticketId);
-
-			updateTicketFieldMutation.mutate({
-				ticketId,
-				field: "assigneeId",
-				value: employee._id,
+			setEmployee({
+				id: employee._id,
+				email: employee.email,
 			});
 		},
 	}));
@@ -52,4 +50,4 @@ const CustomAssignee = ({
 	);
 };
 
-export default CustomAssignee;
+export default SearchEmployee;

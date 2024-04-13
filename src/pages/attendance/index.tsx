@@ -9,6 +9,8 @@ const Index = () => {
 	const { isDesktopView, isTabletView } = useScreenWidth();
 	const [showModal, setShowModal] = useState(false);
 	const { data, isLoading, isError } = useGetAllAttendance();
+	const [id, setId] = useState("");
+	const [type, setType] = useState("");
 
 	if (isLoading) {
 		return <div className="loader" />;
@@ -43,6 +45,7 @@ const Index = () => {
 				<button
 					onClick={() => {
 						setShowModal(true);
+						setType("add");
 					}}
 				>
 					Manual Attendance
@@ -129,6 +132,8 @@ const Index = () => {
 										<button
 											onClick={() => {
 												setShowModal(true);
+												setId(attendance._id);
+												setType("view");
 											}}
 										>
 											View
@@ -140,7 +145,12 @@ const Index = () => {
 					</tbody>
 				</table>
 			</div>
-			<Modal showModal={showModal} setShowModal={setShowModal} />
+			<Modal
+				showModal={showModal}
+				setShowModal={setShowModal}
+				id={id}
+				type={type}
+			/>
 		</div>
 	);
 };
