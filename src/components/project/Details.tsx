@@ -32,7 +32,6 @@ const Details = ({ endpoint }: { endpoint: string }) => {
 		<div className="project-id__details">
 			<div className="project-id__details--header">
 				<h3>Project Details</h3>
-				<button>Edit</button>
 			</div>
 			<div className="project-id__details--info">
 				<div className="project-id__details--info-item">
@@ -53,7 +52,7 @@ const Details = ({ endpoint }: { endpoint: string }) => {
 				</div>
 				<div className="project-id__details--info-item">
 					<h3>Assigned To:</h3>
-					{project.AssigneeId?.map((item: any) => {
+					{project.assigneeId?.map((item: any) => {
 						return (
 							<div key={item.id} className="project__manage-info--avatar ml-2">
 								<span
@@ -72,7 +71,7 @@ const Details = ({ endpoint }: { endpoint: string }) => {
 				</div>
 				<div className="project-id__details--info-item">
 					<h3>Description:</h3>
-					<p>{project.Description}</p>
+					<p>{project.description}</p>
 				</div>
 				<div className="project-id__details--info-item">
 					<h3>Estimated Time:</h3>

@@ -21,7 +21,10 @@ const Commits = ({ repo }: { repo: string }) => {
 	if ((isLoading && page === 1) || isFetching || totalPageLoading)
 		return <div className="loader" />;
 
-	if (isError) return <div>Error</div>;
+	if (isError)
+		return (
+			<div className="bg-white p-[10px] rounded-sm mt-4">No Commits Found</div>
+		);
 
 	const totalPagesCount = Math.ceil(totalPages.length / PAGE_SIZE);
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { GiUpgrade, GiReceiveMoney } from "react-icons/gi";
 import { VscFeedback } from "react-icons/vsc";
 import Appraisal from "./appraisal";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
 
 const AppraisalOptions = ({
 	selectedEmployee,
@@ -10,19 +11,23 @@ const AppraisalOptions = ({
 }) => {
 	const [showModal, setShowModal] = useState(false);
 	const [type, setType] = useState("");
+	const { role } = useGlobalProvider();
+	const isHR = role === "HR";
 
 	return (
 		<div className="request__options">
-			<div
-				className="request__options-element"
-				onClick={() => {
-					setShowModal(true);
-					setType("Promote");
-				}}
-			>
-				<GiUpgrade size={34} />
-				<h3>Promote</h3>
-			</div>
+			{!isHR && (
+				<div
+					className="request__options-element"
+					onClick={() => {
+						setShowModal(true);
+						setType("Promote");
+					}}
+				>
+					<GiUpgrade size={34} />
+					<h3>Promote</h3>
+				</div>
+			)}
 			<div
 				className="request__options-element"
 				onClick={() => {

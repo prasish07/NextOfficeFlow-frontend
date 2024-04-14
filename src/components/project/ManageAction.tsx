@@ -15,14 +15,14 @@ import { addAssignee } from "@/query/employee";
 
 const ProjectSchema = z.object({
 	title: z.string().min(1, { message: "Title is required" }),
-	Description: z.string().min(1, { message: "Description is required" }),
+	description: z.string().min(1, { message: "Description is required" }),
 	startDate: z
 		.string()
 		.refine((value) => !!value, { message: "Start Date is required" }),
 	endDate: z
 		.string()
 		.refine((value) => !!value, { message: "End Date is required" }),
-	Progress: z.string(),
+	progress: z.string(),
 	status: z.string(),
 	estimatedTime: z.string().min(1, { message: "Estimated Time is required" }),
 });
@@ -101,14 +101,14 @@ const ManageAction = ({
 				: "";
 
 			setValue("title", project.title);
-			setValue("Description", project.Description);
+			setValue("description", project.description);
 			setValue("startDate", formattedStartDate);
 			setValue("endDate", formattedEndDate);
-			setValue("Progress", project.Progress);
+			setValue("progress", project.progress);
 			setValue("status", project.status);
 			setValue("estimatedTime", project.estimatedTime);
 			setProjectId(project._id);
-			setAssignee(project.AssigneeId);
+			setAssignee(project.assigneeId);
 		}
 	}, [data, isError, isAdd, setValue]);
 
@@ -141,12 +141,12 @@ const ManageAction = ({
 						<div className="employee__form-item--group">
 							<label htmlFor="Description">Description</label>
 							<textarea
-								{...register("Description")}
+								{...register("description")}
 								placeholder="Description"
 								id="Description"
 							/>
-							{errors.Description && (
-								<p className="text-red-500">{`${errors.Description.message}`}</p>
+							{errors.description && (
+								<p className="text-red-500">{`${errors.description.message}`}</p>
 							)}
 						</div>
 
@@ -216,23 +216,30 @@ const ManageAction = ({
 							<label htmlFor="Progress">Progress in %</label>
 							<input
 								type="number"
-								{...register("Progress")}
+								{...register("progress")}
 								placeholder="Progress"
 								id="Progress"
 							/>
-							{errors.Progress && (
-								<p className="text-red-500">{`${errors.Progress.message}`}</p>
+							{errors.progress && (
+								<p className="text-red-500">{`${errors.progress.message}`}</p>
 							)}
 						</div>
 
 						<div className="employee__form-item--group">
 							<label htmlFor="status">Status</label>
-							<input
+							{/* <input
 								type="text"
 								{...register("status")}
 								placeholder="Status"
 								id="status"
-							/>
+							/> */}
+							<select id="status" {...register("status")} className="select">
+								<option value="To-Do">To-Do</option>
+								<option value="in-progress">In Progress</option>
+								<option value="completed">Completed</option>
+								<option value="overdue">OverDue</option>
+								<option value="cancelled">Cancelled</option>
+							</select>
 							{errors.status && (
 								<p className="text-red-500">{`${errors.status.message}`}</p>
 							)}

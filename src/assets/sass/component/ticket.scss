@@ -69,10 +69,12 @@
 	}
 
 	@include e(manage) {
+		width: 100%;
 		@include m(btns) {
 			display: flex;
 			flex-wrap: wrap;
 			gap: 5px;
+			justify-content: center;
 		}
 		table {
 			width: 100%;

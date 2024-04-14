@@ -1,5 +1,4 @@
 %common-styles {
-	// for modal main body content
 	top: 50%;
 	left: 50%;
 	position: fixed;
@@ -7,7 +6,6 @@
 	transform: translate(-50%, -50%);
 }
 
-//for loading state
 .loader {
 	@extend %common-styles;
 	border: 3.6px solid black;
@@ -125,22 +123,6 @@
 		@include e(close) {
 			cursor: pointer;
 			flex-shrink: 0;
-		}
-	}
-
-	@include e(footer) {
-		width: 100%;
-		color: $base-colors-blue-black;
-		padding: 20px 32px;
-		cursor: pointer;
-		font-size: 18px;
-		line-height: 30px;
-		text-align: center;
-		border-radius: 0px 0px 4px 4px;
-		z-index: $zindex-overlay;
-
-		@include m(shadow) {
-			box-shadow: 0px -8px 12px $backdrop-2;
 		}
 	}
 

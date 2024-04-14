@@ -15,7 +15,7 @@ const ProjectAnalysis = ({
 	if (!isError || !data) <div>Error</div>;
 
 	const totalProjectData = {
-		labels: ["Total", "Completed", "Overdue", "Canceled"],
+		labels: ["Total", "Completed", "Overdue", "Cancelled"],
 		datasets: [
 			{
 				data: [

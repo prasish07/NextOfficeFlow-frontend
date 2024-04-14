@@ -17,6 +17,8 @@ const Appraisal = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		newPosition: "",
 		newSalary: 0,
 		feedback: "",
+		pastSalary: 0,
+		pastPosition: "",
 	});
 	const { data, isLoading, isError } = useGetUserDetails({
 		userId: selectedId as string,
@@ -68,19 +70,28 @@ const Appraisal = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		if (isPromote) {
 			promoteMutation.mutate({
 				selectedId: selectedId as string,
-				data: appraisalData,
+				data: {
+					...appraisalData,
+					pastPosition: employeeData.position,
+					pastSalary: employeeData.salary,
+				},
 			});
 		}
 		if (isSalary) {
 			increaseSalaryMutation.mutate({
 				selectedId: selectedId as string,
-				data: appraisalData,
+				data: {
+					...appraisalData,
+					pastSalary: employeeData.salary,
+				},
 			});
 		}
 		if (type === "Feedback") {
 			feedbackMutation.mutate({
 				selectedId: selectedId as string,
-				data: appraisalData,
+				data: {
+					feedback: appraisalData.feedback,
+				},
 			});
 		}
 	};

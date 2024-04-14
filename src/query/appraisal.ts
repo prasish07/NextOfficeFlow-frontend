@@ -21,6 +21,8 @@ interface Props {
 		newPosition?: string;
 		newSalary?: number;
 		feedback: string;
+		pastSalary?: number;
+		pastPosition?: string;
 	};
 }
 

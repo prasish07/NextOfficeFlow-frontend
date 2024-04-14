@@ -73,7 +73,7 @@ const Allowance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		console.log(value);
 		allowanceUpdateMutation.mutate({
 			requestId: selectedId as string,
-			status: value,
+			data: { status: value },
 		});
 	};
 

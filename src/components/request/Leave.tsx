@@ -110,7 +110,6 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const handlePMStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		e.preventDefault();
 		const { name, value } = e.target;
-		console.log(name, value);
 		leaveUpdateMutation.mutate({
 			requestId: selectedId as string,
 			data: { pmStatus: value },
@@ -220,7 +219,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						</label>
 						<PMAssignee setPM={setPM}>
 							<button
-								className="py-4 px-8 mt-2 mb-5 border-solid border border-[#ddd] rounded-[20px]"
+								className="py-4 px-8 mt-2 mb-5 border-solid border border-[#ddd] rounded-[20px] w-full"
 								type="button"
 							>
 								{PM.email ? PM.email : "Add"}

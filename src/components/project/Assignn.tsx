@@ -23,7 +23,7 @@ const Assignn = ({
 		mutationFn: addAssignee,
 		onSuccess: () => {
 			toast.success("Assignee added successfully");
-			queryClient.invalidateQueries({ queryKey: ["project list", 1] });
+			queryClient.invalidateQueries({ queryKey: ["project list"] });
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);

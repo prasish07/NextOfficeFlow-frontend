@@ -194,6 +194,7 @@ const All = () => {
 						key={item._id}
 						onClick={() => {
 							setShowAttendanceModal(true);
+							setSelectedId(item._id);
 						}}
 					>
 						<div className="request__list-element-1-header">

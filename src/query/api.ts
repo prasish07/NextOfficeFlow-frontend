@@ -39,15 +39,16 @@ export function googleLoginUser(data: {
 		.then((res) => res.data);
 }
 
-export function useLoginUserData() {
-	return useQuery<userInfoProps>({
-		queryKey: ["user", 1],
+export function useLoginUserData(id: string) {
+	return useQuery<any>({
+		queryKey: ["user", id],
 		queryFn: async () => {
 			const { data } = await axios.get<userInfoProps>(`${baseUrl}/user/info`, {
 				withCredentials: true,
 			});
 			return data;
 		},
+		retry: false,
 	});
 }
 

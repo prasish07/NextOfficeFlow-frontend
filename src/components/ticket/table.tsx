@@ -130,26 +130,28 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 												<td>{formattedDueDate}</td>
 											</>
 										)}
-										<td className="ticket__manage--btns">
-											<button
-												onClick={() => {
-													setSelectedId(ticket._id);
-													setType("update");
-													setShowModal(true);
-												}}
-											>
-												<FaRegEdit />
-											</button>
-											{isProjectManager && (
+										<td>
+											<div className="ticket__manage--btns">
 												<button
 													onClick={() => {
 														setSelectedId(ticket._id);
-														setShowDeleteModal(true);
+														setType("update");
+														setShowModal(true);
 													}}
 												>
-													<FaRegTrashAlt />
+													<FaRegEdit />
 												</button>
-											)}
+												{isProjectManager && (
+													<button
+														onClick={() => {
+															setSelectedId(ticket._id);
+															setShowDeleteModal(true);
+														}}
+													>
+														<FaRegTrashAlt />
+													</button>
+												)}
+											</div>
 										</td>
 									</tr>
 								);

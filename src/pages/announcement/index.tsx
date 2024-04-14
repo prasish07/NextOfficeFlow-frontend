@@ -125,26 +125,34 @@ const Announcement: React.FC = () => {
 				<div className="announcement__elements">
 					{announcements.map((announcement: any) => {
 						return (
-							<Link
-								href={`/announcement/${announcement._id}`}
+							<div
+								// href={`/announcement/${announcement._id}`}
 								className="announcement__element"
 								key={announcement.id}
 							>
-								<div className="announcement__element--header">
-									<div className="flex gap-5">
-										<h3 className="capitalize">
-											- {announcement.employeeName} (
-											{announcement.employeePosition})
-										</h3>
-										:<h3>{announcement.title}</h3>
+								<div
+									className="w-full cursor-pointer p-[20px]"
+									onClick={() => {
+										router.push(`/announcement/${announcement._id}`);
+									}}
+								>
+									<div className="announcement__element--header">
+										<div className="flex gap-5">
+											<h3 className="capitalize">
+												- {announcement.employeeName} (
+												{announcement.employeePosition})
+											</h3>
+											:<h3>{announcement.title}</h3>
+										</div>
+										<p>{announcement.date.split("T")[0]}</p>
 									</div>
-									<p>{announcement.date.split("T")[0]}</p>
 								</div>
 								{isAdminOrHr && (
 									<div className="announcement__menu">
 										<button
 											title="Edit"
-											onClick={() => {
+											onClick={(e) => {
+												e.stopPropagation();
 												setShowModel(true);
 												setType("edit");
 												setSelectedId(announcement._id);
@@ -154,7 +162,8 @@ const Announcement: React.FC = () => {
 										</button>
 										<button
 											title="Delete"
-											onClick={() => {
+											onClick={(e) => {
+												e.stopPropagation();
 												setShowDeleteModel(true);
 												setSelectedId(announcement._id);
 											}}
@@ -163,7 +172,7 @@ const Announcement: React.FC = () => {
 										</button>
 									</div>
 								)}
-							</Link>
+							</div>
 						);
 					})}
 				</div>

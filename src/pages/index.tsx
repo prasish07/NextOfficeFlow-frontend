@@ -176,6 +176,8 @@ const Home = () => {
 
 	if (isLoading) return <div className="loader" />;
 
+	if (!data) return <div>Error</div>;
+
 	const { data: employeeData } = data;
 
 	return (
@@ -281,17 +283,3 @@ const Home = () => {
 };
 
 export default Home;
-
-export const getServerSideProps = async (
-	context: GetServerSidePropsContext
-) => {
-	const redirect = redirectToLogIn(context);
-
-	if (redirect) {
-		return redirect;
-	}
-
-	return {
-		props: {},
-	};
-};

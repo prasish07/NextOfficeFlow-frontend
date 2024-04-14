@@ -108,7 +108,6 @@
 		flex-direction: column;
 		gap: 20px;
 		background-color: $white;
-		padding: 20px;
 		border-radius: 10px;
 		position: relative;
 		cursor: pointer;
@@ -142,6 +141,36 @@
 			border: 1px solid #ddd;
 			border-radius: 4px;
 			padding: 10px;
+
+			a {
+				color: $normal;
+				font-weight: bold;
+				text-decoration: none;
+				cursor: pointer;
+				transition: 0.2s all;
+				padding: 10px;
+				border: 1px solid #ddd;
+				border-radius: 10px;
+				display: flex;
+				align-items: center;
+				width: fit-content;
+
+				// Add a url image in after
+				&::after {
+					content: "";
+					display: inline-block;
+					width: 20px;
+					height: 20px;
+					margin-left: 10px;
+					background-image: url("https://th.bing.com/th/id/R.fe9cdfde276207347491487c9094df9c?rik=GOG%2fU8JBrfIigw&pid=ImgRaw&r=0");
+					background-size: cover;
+				}
+
+				&:hover {
+					color: $normal-hover;
+					background-color: $grey;
+				}
+			}
 		}
 
 		p {
@@ -151,36 +180,6 @@
 		img {
 			width: 500px;
 			border-radius: 10px;
-		}
-
-		a {
-			color: $normal;
-			font-weight: bold;
-			text-decoration: none;
-			cursor: pointer;
-			transition: 0.2s all;
-			padding: 10px;
-			border: 1px solid #ddd;
-			border-radius: 10px;
-			display: flex;
-			align-items: center;
-			width: fit-content;
-
-			// Add a url image in after
-			&::after {
-				content: "";
-				display: inline-block;
-				width: 20px;
-				height: 20px;
-				margin-left: 10px;
-				background-image: url("https://th.bing.com/th/id/R.fe9cdfde276207347491487c9094df9c?rik=GOG%2fU8JBrfIigw&pid=ImgRaw&r=0");
-				background-size: cover;
-			}
-
-			&:hover {
-				color: $normal-hover;
-				background-color: $grey;
-			}
 		}
 	}
 

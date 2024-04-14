@@ -8,7 +8,7 @@ const Count = () => {
 
 	return (
 		<>
-			{data.count ? <p className="notification__count">{data?.count}</p> : ""}
+			{data?.count ? <p className="notification__count">{data?.count}</p> : ""}
 		</>
 	);
 };

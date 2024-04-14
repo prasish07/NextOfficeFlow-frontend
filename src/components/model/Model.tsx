@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { FiX } from "react-icons/fi";
+import useNoScroll from "@/hooks/useNoScroll";
 
 import { AnimatePresence, Variants, motion } from "framer-motion";
 
@@ -10,10 +11,18 @@ export interface ModalProps {
 	children: JSX.Element;
 	shouldShowModal: boolean;
 	handleClose: () => void;
+	wrapperClass?: string;
 }
 
 export const Modal = (props: ModalProps) => {
-	const { size = "lg", header, children, shouldShowModal, handleClose } = props;
+	const {
+		size = "lg",
+		header,
+		children,
+		shouldShowModal,
+		handleClose,
+		wrapperClass = "",
+	} = props;
 
 	const modalBodyRef = useRef<HTMLDivElement | null>(null);
 	const modalHeaderRef = useRef<HTMLDivElement | null>(null);
@@ -26,8 +35,10 @@ export const Modal = (props: ModalProps) => {
 		}
 	};
 
+	useNoScroll(shouldShowModal);
+
 	const modalBackdropClass = classNames("modal__backdrop");
-	const modalWrapperClass = classNames(`modal modal--${size}`);
+	const modalWrapperClass = classNames(`modal modal--${size} ${wrapperClass}`);
 	const modalBodyClasses = classNames("modal__body");
 
 	const modalVariants: Variants = {

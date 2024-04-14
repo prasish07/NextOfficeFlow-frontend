@@ -14,9 +14,9 @@ export function useGetProjectCount() {
 	});
 }
 
-export function useGetProjectList(filter: any) {
+export function useGetProjectList(filter?: any) {
 	return useQuery({
-		queryKey: ["project list", filter],
+		queryKey: ["project list"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/project`, {
 				params: filter,

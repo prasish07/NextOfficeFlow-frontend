@@ -4,7 +4,7 @@ import { baseUrl } from "@/constants/apis";
 
 export function useGetTicketList(filter?: any) {
 	return useQuery({
-		queryKey: ["ticket list", filter],
+		queryKey: ["ticket list"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/ticket`, {
 				withCredentials: true,

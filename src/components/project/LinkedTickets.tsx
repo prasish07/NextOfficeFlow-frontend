@@ -9,7 +9,7 @@ import { useGetTicketList } from "@/query/ticket";
 const LinkedTickets = ({ endpoint }: { endpoint: string }) => {
 	const [selectedStatus, setSelectedStatus] = useState<string>("In-Progress");
 	const { data, isLoading, isError } = useGetTicketList({
-		LinkedTickets: endpoint,
+		linkedProject: endpoint,
 	});
 	const { role } = useGlobalProvider();
 

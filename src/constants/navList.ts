@@ -142,7 +142,7 @@ export const navList: NavItem[] = [
 				title: "Appraisal Employee",
 				icon: IoIosArrowForward,
 				path: "/appraisal",
-				role: ["admin"],
+				role: ["admin", "HR"],
 			},
 			{
 				title: "History",
@@ -154,7 +154,7 @@ export const navList: NavItem[] = [
 				title: "All History",
 				icon: IoIosArrowForward,
 				path: "/appraisal/all",
-				role: ["admin"],
+				role: ["admin", "HR"],
 			},
 		],
 		role: ["all"],

@@ -8,6 +8,7 @@ import {
 	updateStatus,
 	useGetUserRequest,
 } from "@/query/request";
+import { dateFormatter } from "@/utils/data";
 
 const Attendance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const [data, setData] = useState({
@@ -73,7 +74,7 @@ const Attendance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		console.log(value);
 		attendanceUpdateMutation.mutate({
 			requestId: selectedId as string,
-			status: value,
+			data: { status: value },
 		});
 	};
 
@@ -88,13 +89,11 @@ const Attendance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		}
 		const { attendanceId: attendanceData } = allData.request;
 
-		const formattedDate = attendanceData?.date
-			? attendanceData.date.split("T")[0]
-			: "";
+		console.log(attendanceData, "attendanceData");
 
 		if (type == "update") {
 			setData({
-				date: formattedDate,
+				date: dateFormatter(attendanceData?.date ?? new Date().toString()),
 				reason: attendanceData?.reason,
 				requestType: "attendance",
 				status: allData?.request?.status,

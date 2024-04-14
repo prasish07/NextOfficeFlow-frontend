@@ -65,7 +65,7 @@ const TicketProvider = ({ children }: { children: React.ReactNode }) => {
 	const updateTicketFieldMutation = useMutation({
 		mutationFn: updateTicketOneField,
 		onSuccess: (data: any) => {
-			queryClient.invalidateQueries({ queryKey: ["ticket list", 1] });
+			queryClient.invalidateQueries({ queryKey: ["ticket list"] });
 			queryClient.invalidateQueries({ queryKey: ["ticket", selectedId] });
 			toast.success(data.message);
 			setComment("");
@@ -78,7 +78,7 @@ const TicketProvider = ({ children }: { children: React.ReactNode }) => {
 	const deleteMutation = useMutation({
 		mutationFn: deleteTicket,
 		onSuccess: (data: any) => {
-			queryClient.invalidateQueries({ queryKey: ["ticket list", 1] });
+			queryClient.invalidateQueries({ queryKey: ["ticket list"] });
 			toast.success(data.message);
 		},
 		onError: (error: any) => {

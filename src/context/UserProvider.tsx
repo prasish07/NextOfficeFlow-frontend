@@ -5,29 +5,70 @@ import React, {
 	useEffect,
 	useState,
 } from "react";
-import { useLoginUserData, userInfoProps } from "@/query/api";
+import { useLoginUserData } from "@/query/api";
 import { useRouter } from "next/router";
-import { getCookies } from "@/utils/cookies";
+import { toast } from "react-toastify";
+
+interface UserInfo {
+	userId: string;
+	role: string;
+}
 
 interface UserContextProps {
 	isUserLoggedIn: boolean;
-	userInfo: {
-		userId: string;
-		role: string;
-	};
+	userInfo: UserInfo | null;
 }
 
-export const UserContext = createContext({});
+export const UserContext = createContext<UserContextProps>({
+	isUserLoggedIn: false,
+	userInfo: null,
+});
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
-	// const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-	// const [userInfo, setUserInfo] = useState({
-	// 	userId: "",
-	// 	role: "",
-	// });
+	const [isLoading, setIsLoading] = useState(true);
+	const [userInfo, setUserInfo] = useState<any>({
+		userId: "",
+		role: "",
+		email: "",
+	});
 	const router = useRouter();
+	const isLoginPage = router.pathname === "/login";
 
-	return <UserContext.Provider value={{}}>{children}</UserContext.Provider>;
+	const { data, isLoading: isUserDataLoading } = useLoginUserData(
+		userInfo.userId
+	);
+
+	useEffect(() => {
+		if (isLoading && !isLoginPage) {
+			if (!isUserDataLoading) {
+				if (data) {
+					setUserInfo({
+						userId: data.details._id,
+						role: data.details.role,
+						email: data.details.email,
+					});
+				} else {
+					toast.error("You are not logged in");
+					router.push("/login");
+				}
+				setIsLoading(false);
+			}
+		}
+	}, [data, isLoading, isLoginPage, isUserDataLoading, router]);
+
+	if (isLoading && !isLoginPage) {
+		return (
+			<div className="screen-loader">
+				<div className="loader" />
+			</div>
+		);
+	}
+
+	return (
+		<UserContext.Provider value={{ isUserLoggedIn: !!userInfo, userInfo }}>
+			{children}
+		</UserContext.Provider>
+	);
 };
 
 // create global provider

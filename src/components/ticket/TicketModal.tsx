@@ -56,8 +56,7 @@ const TicketModal = () => {
 	const addTicketMutation = useMutation({
 		mutationFn: addTicket,
 		onSuccess: (data: any) => {
-			// setShowModal(false);
-			queryClient.invalidateQueries({ queryKey: ["ticket list", 1] });
+			queryClient.invalidateQueries({ queryKey: ["ticket list"] });
 			toast.success(data.message);
 		},
 		onError: (error: any) => {
@@ -69,7 +68,7 @@ const TicketModal = () => {
 		mutationFn: updateTicket,
 		onSuccess: (data: any) => {
 			// setShowModal(false);
-			queryClient.invalidateQueries({ queryKey: ["ticket list", 1] });
+			queryClient.invalidateQueries({ queryKey: ["ticket list"] });
 			toast.success(data.message);
 		},
 		onError: (error: any) => {

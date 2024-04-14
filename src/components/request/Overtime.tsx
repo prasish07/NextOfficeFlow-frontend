@@ -8,6 +8,9 @@ import {
 	updateStatus,
 	useGetUserRequest,
 } from "@/query/request";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
+import PMAssignee from "../dropdown/pmAssignee";
+import { dateFormatter } from "@/utils/data";
 
 const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const [data, setData] = useState({
@@ -16,9 +19,17 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		endTime: "",
 		reason: "",
 		requestType: "overtime",
+		pmStatus: "pending",
 		status: "pending",
 	});
 	const queryClient = useQueryClient();
+	const { role } = useGlobalProvider();
+	const isProjectManager = role === "project manager";
+	const isHRAdmin = role === "HR" || role === "admin";
+	const [PM, setPM] = useState({
+		userId: "",
+		email: "",
+	});
 
 	const isUpdate = type === "update";
 	const {
@@ -26,6 +37,23 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		isLoading,
 		isError,
 	} = useGetUserRequest(selectedId as string);
+
+	const overTimeMutation = useMutation({
+		mutationFn: updateStatus,
+		onSuccess: (data: any) => {
+			queryClient.invalidateQueries({
+				queryKey: ["requests"],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["request"],
+			});
+			toast.success(data.message);
+			setShowModal(false);
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
+	});
 
 	const overtimeUpdateMutation = useMutation({
 		mutationFn: updateStatus,
@@ -43,6 +71,14 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 			toast.error(error.response.data.message);
 		},
 	});
+	const handlePMStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		e.preventDefault();
+		const { name, value } = e.target;
+		overTimeMutation.mutate({
+			requestId: selectedId as string,
+			data: { pmStatus: value },
+		});
+	};
 
 	const overtimeMutation = useMutation({
 		mutationFn: addOverTimeRequest,
@@ -55,7 +91,12 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 				endTime: "",
 				reason: "",
 				requestType: "overtime",
+				pmStatus: "pending",
 				status: "pending",
+			});
+			setPM({
+				userId: "",
+				email: "",
 			});
 		},
 		onError: (error: any) => {
@@ -69,7 +110,7 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		console.log(value);
 		overtimeUpdateMutation.mutate({
 			requestId: selectedId as string,
-			status: value,
+			data: { status: value },
 		});
 	};
 
@@ -84,7 +125,8 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		overtimeMutation.mutate(data);
+		const formattedData = { ...data, requestedTo: PM.userId };
+		overtimeMutation.mutate(formattedData);
 	};
 
 	useEffect(() => {
@@ -92,18 +134,20 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 			return;
 		}
 		const { overtimeId: overtimeData } = allData.request;
-		const formattedDate = overtimeData?.dat
-			? overtimeData.date.split("T")[0]
-			: "";
 
 		if (type == "update") {
 			setData({
-				date: formattedDate,
+				date: dateFormatter(overtimeData?.date ?? new Date().toString()),
 				startTime: overtimeData?.startTime,
 				endTime: overtimeData?.endTime,
 				reason: overtimeData?.reason,
 				requestType: "overtime",
+				pmStatus: allData?.request?.pmStatus,
 				status: allData?.request?.status,
+			});
+			setPM({
+				userId: allData?.request?.requestedTo?._id,
+				email: allData?.request?.requestedTo?.email,
 			});
 		}
 		if (type === "add") {
@@ -113,7 +157,12 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 				endTime: "",
 				reason: "",
 				requestType: "overtime",
+				pmStatus: "pending",
 				status: "pending",
+			});
+			setPM({
+				userId: "",
+				email: "",
 			});
 		}
 	}, [allData, type, isError, isLoading]);
@@ -171,6 +220,38 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						value={data.reason}
 					/>
 				</div>
+				{!isProjectManager && (
+					<div className="form__box-element">
+						<label htmlFor="">
+							Select Project Manager to request the leave
+						</label>
+						<PMAssignee setPM={setPM}>
+							<button
+								className="py-4 px-8 mt-2 mb-5 border-solid border border-[#ddd] rounded-[20px] w-full"
+								type="button"
+							>
+								{PM.email ? PM.email : "Add"}
+							</button>
+						</PMAssignee>
+					</div>
+				)}
+				{isUpdate && (isProjectManager || isHRAdmin) && (
+					<div className="form__box-element">
+						<label htmlFor="status">PM Approval Status</label>
+						<select
+							name="pmStatus"
+							id="status"
+							required
+							onChange={handlePMStatusChange}
+							value={data.pmStatus}
+							disabled={!isProjectManager}
+						>
+							<option value="pending">Pending</option>
+							<option value="approved">Approved</option>
+							<option value="rejected">Rejected</option>
+						</select>
+					</div>
+				)}
 				{isUpdate && (
 					<div className="form__box-element">
 						<label htmlFor="status">Status</label>

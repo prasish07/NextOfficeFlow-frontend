@@ -48,7 +48,7 @@ const Info = () => {
 					<DashboardInfo
 						icon={<FiHome size={24} />}
 						title="This Year Total Appraisal"
-						count={appraisal.appraisalHistory.length ?? 0}
+						count={appraisal?.appraisalHistory.length ?? 0}
 					/>
 				}
 			</div>
