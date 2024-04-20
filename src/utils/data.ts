@@ -24,3 +24,11 @@ export const formattedDateTime = (date: string) => {
 		hour12: true,
 	});
 };
+
+export const TimeFormatterDate = (date: string) => {
+	return new Date(date).toLocaleTimeString("en-US", {
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: true,
+	});
+};

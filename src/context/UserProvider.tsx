@@ -3,6 +3,7 @@ import React, {
 	createContext,
 	useContext,
 	useEffect,
+	useRef,
 	useState,
 } from "react";
 import { useLoginUserData } from "@/query/api";
@@ -33,20 +34,26 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 	});
 	const router = useRouter();
 	const isLoginPage = router.pathname === "/login";
+	const initialLoad = useRef(true);
 
-	const { data, isLoading: isUserDataLoading } = useLoginUserData(
-		userInfo.userId
-	);
+	const {
+		data,
+		isLoading: isUserDataLoading,
+		refetch,
+		isError,
+	} = useLoginUserData(userInfo.userId);
 
 	useEffect(() => {
-		if (isLoading && !isLoginPage) {
+		if (isLoading) {
 			if (!isUserDataLoading) {
 				if (data) {
+					toast.success("You are logged in");
 					setUserInfo({
-						userId: data.details._id,
-						role: data.details.role,
-						email: data.details.email,
+						userId: data.response._id,
+						role: data.response.role,
+						email: data.response.email,
 					});
+					if (isLoginPage) router.push("/");
 				} else {
 					toast.error("You are not logged in");
 					router.push("/login");
@@ -55,6 +62,14 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 			}
 		}
 	}, [data, isLoading, isLoginPage, isUserDataLoading, router]);
+
+	useEffect(() => {
+		if (initialLoad.current) {
+			initialLoad.current = false;
+			refetch();
+			setIsLoading(true);
+		}
+	}, [initialLoad, refetch]);
 
 	if (isLoading && !isLoginPage) {
 		return (

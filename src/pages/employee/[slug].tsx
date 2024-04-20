@@ -8,10 +8,13 @@ import { useGetUserInfo } from "@/query/employee";
 import { useGlobalProvider } from "@/context/GlobalProvicer";
 import Description from "@/components/profile/Description";
 import ProfileAttendance from "@/components/attendance/profileAttendance";
+import PhotoChange from "@/components/profile/photoChange";
 
 const MyProfile = ({ endpoint }: { endpoint: string }) => {
 	const [currentContent, setCurrentContent] = useState<string>("profile");
-	const { userName } = useGlobalProvider();
+	const { userName, role } = useGlobalProvider();
+	const isHRAdmin = role === "HR" || role === "Admin";
+	const [showModel, setShowModel] = useState(false);
 
 	const { data: userData, isLoading: userDataLoading } = useGetUserInfo();
 	let userId = "";
@@ -21,7 +24,7 @@ const MyProfile = ({ endpoint }: { endpoint: string }) => {
 		return <div>Error</div>;
 	}
 	if (endpoint === "my-profile") {
-		userId = userData.details._id;
+		userId = userData.response._id;
 	} else {
 		userId = endpoint;
 	}
@@ -36,10 +39,7 @@ const MyProfile = ({ endpoint }: { endpoint: string }) => {
 				return <Description userId={userId} />;
 			case "attendance":
 				return <ProfileAttendance />;
-			case "request":
-			// return <Request />;
-			case "performanceHistory":
-			// return <PerformanceHistory />;V
+
 			default:
 				return null;
 		}
@@ -53,11 +53,22 @@ const MyProfile = ({ endpoint }: { endpoint: string }) => {
 				</div>
 				<div className="profile__contents">
 					<div className="profile__left">
-						<div className="profile__left__image">
-							<Image src={prasish} alt="profile" width={200} height={200} />
+						<div
+							className="profile__left__image"
+							onClick={() => {
+								setShowModel(true);
+							}}
+						>
+							{userData?.response?.employeePic ? (
+								<img src={userData?.response?.employeePic} alt="profile" />
+							) : (
+								<p className="profile-pic">
+									{userData?.response?.employeeName[0]}
+								</p>
+							)}
 						</div>
-						<h3>{userName ? userName.name : ""}</h3>
-						<p>{userName ? userName.position : ""} </p>
+						<h3>{userData ? userData?.response.employeeName : ""}</h3>
+						<p>{userData ? userData?.response.employeePosition : ""} </p>
 						<div className="profile__contact">
 							<h3>
 								Email - <span>{userName.email ? userName.email : ""}</span>
@@ -78,13 +89,20 @@ const MyProfile = ({ endpoint }: { endpoint: string }) => {
 					<button onClick={() => setCurrentContent("jobDescription")}>
 						Job Description
 					</button>
-					<button onClick={() => setCurrentContent("attendance")}>
-						Attendance
-					</button>
-					{/* <button>Request</button>
-					<button>Performance History</button> */}
+					{!isHRAdmin && (
+						<button onClick={() => setCurrentContent("attendance")}>
+							Attendance
+						</button>
+					)}
 				</div>
 			</div>
+			<PhotoChange
+				shouldShowModal={showModel && endpoint === "my-profile"}
+				handleClose={() => {
+					setShowModel(false);
+				}}
+				id={userData?.response.employeeId}
+			/>
 		</>
 	);
 };

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { getCookies } from "@/utils/cookies";
 import { useLoginUserData } from "@/query/api";
-import { redirectToLogIn } from "@/utils/redirect";
 import Header from "@/components/header";
 import Navbar from "@/components/navbar";
 import DashboardInfo from "@/components/dashboardInfo";
@@ -113,7 +112,6 @@ const Home = () => {
 						const data = await response.json();
 
 						if (data.results.length > 0) {
-							console.log(data);
 							// const city = data.results[0].components.city;
 							const city =
 								data.results[0].components.county +

@@ -46,6 +46,18 @@ interface ticketContextProps {
 	>;
 	comment: string;
 	setComment: React.Dispatch<React.SetStateAction<string>>;
+	search: string;
+	setSearch: React.Dispatch<React.SetStateAction<string>>;
+	selectedEmployee: {
+		id: string;
+		email: string;
+	};
+	setSelectedEmployee: React.Dispatch<
+		React.SetStateAction<{
+			id: string;
+			email: string;
+		}>
+	>;
 }
 
 export const TicketContext = createContext<ticketContextProps | undefined>(
@@ -58,6 +70,11 @@ const TicketProvider = ({ children }: { children: React.ReactNode }) => {
 	const [showModal, setShowModal] = useState(false);
 	const [showAssigneeModal, setShowAssigneeModal] = useState(false);
 	const [comment, setComment] = useState<string>("");
+	const [search, setSearch] = useState<string>("");
+	const [selectedEmployee, setSelectedEmployee] = useState({
+		id: "",
+		email: "",
+	});
 
 	const [type, setType] = useState<string>("");
 	const queryClient = useQueryClient();
@@ -135,6 +152,10 @@ const TicketProvider = ({ children }: { children: React.ReactNode }) => {
 				commentMutation,
 				comment,
 				setComment,
+				search,
+				setSearch,
+				selectedEmployee,
+				setSelectedEmployee,
 			}}
 		>
 			{children}

@@ -73,6 +73,12 @@ export function verifyPasswordPin(data: { id: string; pin: string }) {
 		.then((res) => res.data);
 }
 
+export function resetPassword(data: any) {
+	return axios
+		.post(`${baseUrl}/user/resetPassword`, data)
+		.then((res) => res.data);
+}
+
 export function forgetPassword(email: string) {
 	return axios
 		.post(`${baseUrl}/user/sentCode/resetPassword`, { email })

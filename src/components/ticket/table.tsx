@@ -19,13 +19,19 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 		setShowDeleteModal,
 		setType,
 		deleteTicketFunction,
+		search,
 	} = useTicketProvider();
 	const { isDesktopView, isTabletView } = useScreenWidth();
 	const { role } = useGlobalProvider();
 	const isProjectManager = role === "project manager";
+	const isEmployee = role === "employee";
 
 	if (status !== "all")
 		tickets = tickets.filter((ticket: any) => ticket.status === status);
+
+	const filter = tickets.filter((ticket: any) =>
+		ticket.title.toLowerCase().includes(search.toLowerCase())
+	);
 
 	return (
 		<>
@@ -52,7 +58,7 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 							</tr>
 						</thead>
 						<tbody>
-							{tickets.map((ticket: any) => {
+							{filter.map((ticket: any) => {
 								const formattedDueDate = new Date(
 									ticket.dueDate
 								).toLocaleDateString("en-US", {
@@ -103,7 +109,30 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 												</td>
 												<td>
 													<div className="flex justify-center items-center gap-2">
-														<CustomAssignee ticketId={ticket._id}>
+														{!isEmployee ? (
+															<CustomAssignee ticketId={ticket._id}>
+																<div>
+																	{ticket.assigneeId && (
+																		<div className="project__manage-info--avatar">
+																			<p
+																				className="capitalize w-[30px] h-[30px] rounded-[50%] bg-[#d2d2ec] text-[#5a4e4e] flex justify-center items-center font-bold cursor-pointer"
+																				title={ticket.assigneeId.email}
+																			>
+																				{ticket.assigneeId?.email[0]}
+																			</p>
+																		</div>
+																	)}
+
+																	{!ticket.assigneeId && (
+																		<FaUserPlus
+																			size={24}
+																			className="cursor-pointer"
+																			title="Add Assignee"
+																		/>
+																	)}
+																</div>
+															</CustomAssignee>
+														) : (
 															<div>
 																{ticket.assigneeId && (
 																	<div className="project__manage-info--avatar">
@@ -115,16 +144,8 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 																		</p>
 																	</div>
 																)}
-
-																{!ticket.assigneeId && (
-																	<FaUserPlus
-																		size={24}
-																		className="cursor-pointer"
-																		title="Add Assignee"
-																	/>
-																)}
 															</div>
-														</CustomAssignee>
+														)}
 													</div>
 												</td>
 												<td>{formattedDueDate}</td>
@@ -141,7 +162,7 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 												>
 													<FaRegEdit />
 												</button>
-												{isProjectManager && (
+												{!isEmployee && (
 													<button
 														onClick={() => {
 															setSelectedId(ticket._id);

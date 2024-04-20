@@ -288,6 +288,19 @@ const TicketModal = () => {
 								</CustomProject>
 							}
 						</div>
+						{ticketDetails.status === "Completed" && (
+							<div>
+								<label htmlFor="grade">Grade (1 - 10)</label>
+								<input
+									type="number"
+									name="grade"
+									id="grade"
+									value={ticketDetails.grade}
+									onChange={handleChange}
+									disabled={!isPMOrAdmin}
+								/>
+							</div>
+						)}
 					</div>
 				</div>
 				{isPMOrAdmin && (

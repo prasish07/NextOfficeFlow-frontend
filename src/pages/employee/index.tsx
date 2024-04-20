@@ -8,7 +8,6 @@ import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
 import { AxiosError } from "axios";
 import { GetServerSidePropsContext } from "next";
-import { redirectToLogIn } from "@/utils/redirect";
 import DeleteModal from "@/components/model/DeleteModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
@@ -170,17 +169,3 @@ const Manage = () => {
 };
 
 export default Manage;
-
-export const getServerSideProps = async (
-	context: GetServerSidePropsContext
-) => {
-	const redirect = redirectToLogIn(context);
-
-	if (redirect) {
-		return redirect;
-	}
-
-	return {
-		props: {},
-	};
-};

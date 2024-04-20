@@ -4,7 +4,7 @@ import SearchEmployee from "../dropdown/searchEmployee";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { manualAttendance, useGetSingleAttendance } from "@/query/attendance";
 import { toast } from "react-toastify";
-import { dateFormatter, timeFormatter } from "@/utils/data";
+import { TimeFormatterDate, dateFormatter, timeFormatter } from "@/utils/data";
 
 export interface AttendanceModalProps {
 	showModal: boolean;
@@ -68,10 +68,17 @@ const AttendanceModal = ({
 				id: data?.userId,
 				email: data?.employeeEmail,
 			});
+			console.log(data);
 			setFormData({
 				date: dateFormatter(data?.date),
-				checkIn: timeFormatter(data?.checkIn),
-				checkOut: timeFormatter(data?.checkOut),
+				checkIn:
+					new Date(data?.checkIn).toString() !== "Invalid Date"
+						? timeFormatter(data?.checkIn)
+						: "N/A",
+				checkOut:
+					new Date(data?.checkOut).toString() !== "Invalid Date"
+						? timeFormatter(data?.checkOut)
+						: "N/A",
 				status: data?.status,
 				reason: data?.reason,
 			});
@@ -89,7 +96,8 @@ const AttendanceModal = ({
 			});
 		}
 	}, [data, isError, isLoading, type]);
-	console.log(employee);
+	// console.log(employee);
+	console.log(formData);
 
 	return (
 		<>
@@ -120,7 +128,7 @@ const AttendanceModal = ({
 						/>
 					</div>
 					<div className="form-group">
-						<label htmlFor="time-in">Time In</label>
+						<label htmlFor="time-in">Check In</label>
 						<input
 							type="time"
 							name="checkIn"
@@ -130,7 +138,7 @@ const AttendanceModal = ({
 						/>
 					</div>
 					<div className="form-group">
-						<label htmlFor="time-out">Time Out</label>
+						<label htmlFor="time-out">Check Out</label>
 						<input
 							type="time"
 							name="checkOut"

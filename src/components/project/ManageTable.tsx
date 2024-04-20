@@ -23,10 +23,12 @@ const ManageTable = ({
 	const { data, isLoading } = useGetProjectList();
 	const { isDesktopView, isTabletView } = useScreenWidth();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [search, setSearch] = useState("");
 	const queryClient = useQueryClient();
 	const [showModal, setShowModal] = useState(false);
 	const { role } = useGlobalProvider();
 	const isProjectManager = role === "project manager";
+	const isEmployee = role === "employee";
 
 	const deleteMutation = useMutation({
 		mutationFn: deleteProject,
@@ -51,11 +53,22 @@ const ManageTable = ({
 
 	const { projects } = data;
 
+	const filteredProjects = projects.filter((project: any) =>
+		project.title.toLowerCase().includes(search.toLowerCase())
+	);
+
 	return (
 		<div className="project__manage">
 			<div className="project__sub-header">
-				<button>Delete</button>
-				<input type="text" placeholder="Search" />
+				{/* <button>Delete</button> */}
+				<input
+					type="text"
+					placeholder="Search"
+					value={search}
+					onChange={(e) => {
+						setSearch(e.target.value);
+					}}
+				/>
 			</div>
 			<div className="project__manage-info">
 				<table>
@@ -79,7 +92,7 @@ const ManageTable = ({
 						</tr>
 					</thead>
 					<tbody>
-						{projects.map((project: any) => {
+						{filteredProjects.map((project: any) => {
 							const formattedStartDate = new Date(
 								project.startDate
 							).toLocaleDateString("en-US", {
@@ -122,15 +135,17 @@ const ManageTable = ({
 															</div>
 														);
 													})}
-													<FaUserPlus
-														size={24}
-														className="cursor-pointer"
-														title="Add Assignee"
-														onClick={() => {
-															setSelectedId(project._id);
-															setShowModal(true);
-														}}
-													/>
+													{!isEmployee && (
+														<FaUserPlus
+															size={24}
+															className="cursor-pointer"
+															title="Add Assignee"
+															onClick={() => {
+																setSelectedId(project._id);
+																setShowModal(true);
+															}}
+														/>
+													)}
 												</div>
 											</td>
 											<td>{project.status}</td>
@@ -144,7 +159,7 @@ const ManageTable = ({
 										>
 											<GrView />
 										</button>
-										{isProjectManager && (
+										{!isEmployee && (
 											<>
 												<button
 													onClick={() => {

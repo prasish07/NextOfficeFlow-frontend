@@ -15,7 +15,7 @@ const ResetPassword = () => {
 		mutationFn: verifyPasswordPin,
 		onSuccess: (data: any) => {
 			toast.success(data.message);
-			router.push("/");
+			router.push(`/login/change-password?id=${id}`);
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);

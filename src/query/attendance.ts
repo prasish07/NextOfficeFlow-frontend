@@ -45,12 +45,13 @@ export function useMyTodayAttendance() {
 	});
 }
 
-export function useGetAllAttendance() {
+export function useGetAllAttendance(filter?: any) {
 	return useQuery({
 		queryKey: ["attendance", "all"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/attendance/all`, {
 				withCredentials: true,
+				params: filter,
 			});
 			return data;
 		},

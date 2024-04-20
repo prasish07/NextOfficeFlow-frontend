@@ -178,20 +178,20 @@ const Login = () => {
 
 export default Login;
 
-export const getServerSideProps = async (
-	context: GetServerSidePropsContext
-) => {
-	const { req, res } = context;
-	const { token } = req.cookies;
-	if (token) {
-		return {
-			redirect: {
-				destination: "/",
-				permanent: false,
-			},
-		};
-	}
-	return {
-		props: {},
-	};
-};
+// export const getServerSideProps = async (
+// 	context: GetServerSidePropsContext
+// ) => {
+// 	const { req, res } = context;
+// 	const { token } = req.cookies;
+// 	if (token) {
+// 		return {
+// 			redirect: {
+// 				destination: "/",
+// 				permanent: false,
+// 			},
+// 		};
+// 	}
+// 	return {
+// 		props: {},
+// 	};
+// };

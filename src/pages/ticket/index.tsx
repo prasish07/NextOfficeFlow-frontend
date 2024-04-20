@@ -2,17 +2,23 @@ import React, { useState } from "react";
 import { useGetTicketList } from "@/query/ticket";
 import TicketModal from "@/components/ticket/TicketModal";
 import { useGlobalProvider } from "@/context/GlobalProvicer";
-import TicketProvider from "@/context/ticketProvider";
+import TicketProvider, { useTicketProvider } from "@/context/ticketProvider";
 import classNames from "classnames";
 import Table from "@/components/ticket/table";
 import Details from "@/components/ticket/details";
+import SearchEmployee from "@/components/dropdown/searchEmployee";
 
 const Index = () => {
 	const [selectedStatus, setSelectedStatus] = useState<string>("To-Do");
 
-	const { data, isLoading, isError } = useGetTicketList();
 	const { role } = useGlobalProvider();
 	const isProjectManager = role === "project manager";
+	const isEmployee = role === "employee";
+	const { setSearch, setSelectedEmployee, selectedEmployee } =
+		useTicketProvider();
+	const { data, isLoading, isError, refetch } = useGetTicketList({
+		employeeId: selectedEmployee.id,
+	});
 
 	if (isLoading) {
 		return <div className="loader" />;
@@ -31,7 +37,19 @@ const Index = () => {
 			<div className="ticket__manage">
 				<div className="ticket__sub-header">
 					{isProjectManager && <button>Delete</button>}
-					<input type="text" placeholder="Search" />
+					<input
+						type="text"
+						placeholder="Search"
+						onChange={(e) => {
+							setSearch(e.target.value);
+						}}
+					/>
+					<SearchEmployee setEmployee={setSelectedEmployee}>
+						<button className="search-btn" type="button">
+							{selectedEmployee.email ? selectedEmployee.email : "Search User"}
+						</button>
+					</SearchEmployee>
+					<button onClick={() => refetch()}>Search</button>
 				</div>
 				<hr className="my-5" />
 				<div className="ticket__filter-status">

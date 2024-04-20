@@ -36,7 +36,7 @@ interface SingleEmployeeProps {
 }
 
 interface updateEmployeeProps {
-	data: TEmployeeFormSchema2;
+	data: any;
 	employeeId: string | undefined;
 }
 
