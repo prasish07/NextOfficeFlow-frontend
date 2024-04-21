@@ -198,7 +198,7 @@ const EmployeeModal = ({
 				shouldShowModal={showModal}
 				handleClose={() => setShowModal(false)}
 				header={`${employeeFunctionality} Employee`}
-				isLoading={!isAddEmployee && isLoading}
+				// isLoading={!isAddEmployee && isLoading}
 			>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="employee__form">
@@ -232,13 +232,6 @@ const EmployeeModal = ({
 
 							<div className="employee__form-item--group">
 								<label htmlFor="role">Role</label>
-								{/* <input
-									type="text"
-									{...register("role")}
-									placeholder="Role"
-									readOnly={isViewOnly}
-									id="role"
-								/> */}
 								<select id="role" className="select" {...register("role")}>
 									<option value="admin">Admin</option>
 									<option value="employee">Employee</option>
@@ -309,13 +302,6 @@ const EmployeeModal = ({
 						<div className="employee__form-item">
 							<div className="employee__form-item--group">
 								<label htmlFor="status">Status</label>
-								{/* <input
-									type="text"
-									{...register("status")}
-									placeholder="Status"
-									readOnly={isViewOnly}
-									id="status"
-								/> */}
 								<select id="status" className="select" {...register("status")}>
 									<option value="full-time">Full Time</option>
 									<option value="part-time">Part Time</option>

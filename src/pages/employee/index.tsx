@@ -61,6 +61,7 @@ const Manage = () => {
 
 	const EmployeeTableBody = () => {
 		const { data, isLoading, isError, error } = useGetEmployeeData();
+		const [search, setSearch] = useState("");
 
 		if (isLoading) {
 			return <div>Loading...</div>;
@@ -78,8 +79,23 @@ const Manage = () => {
 
 		const employeeData = data?.data || [];
 
+		const filterElement = employeeData.filter((item) => {
+			return item.name.toLowerCase().includes(search.toLowerCase());
+		});
+
 		return (
 			<>
+				<div className="p-4 bg-gray-100 rounded-lg shadow-md">
+					<h3 className="text-lg font-semibold mb-2">Search</h3>
+					<input
+						type="text"
+						className="w-full px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+						placeholder="Search..."
+						value={search}
+						onChange={(e) => setSearch(e.target.value)}
+					/>
+				</div>
+
 				<table>
 					<thead>
 						<tr>
@@ -97,7 +113,7 @@ const Manage = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{employeeData.map((item) => {
+						{filterElement.map((item) => {
 							const startDate = new Date(item.startDate);
 							const formattedStartDate = startDate.toLocaleDateString("en-US", {
 								year: "numeric",

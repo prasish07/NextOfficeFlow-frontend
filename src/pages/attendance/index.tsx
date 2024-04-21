@@ -136,7 +136,6 @@ const Index = () => {
 									checkOutDate.toString() !== "Invalid Date"
 										? TimeFormatterDate(checkOutDate.toString())
 										: "N/A";
-								const attendanceDate = new Date(attendance.date);
 
 								const formattedDate = dateWordFormatter(attendance.date);
 

@@ -133,9 +133,9 @@ const Header = () => {
 		<section className="header">
 			<div className="container">
 				<div className="header__contain">
-					<h1 className="header__title">
+					<Link href="/" className="header__title cursor-pointer">
 						Next<span className="text-[#3498db] font-bold">Office</span>Flow
-					</h1>
+					</Link>
 					<div className="header__nav">
 						<ul className="header__nav-list">
 							<li className="header__nav-item">

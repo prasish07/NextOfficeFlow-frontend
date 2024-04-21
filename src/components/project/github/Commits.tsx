@@ -23,7 +23,9 @@ const Commits = ({ repo }: { repo: string }) => {
 
 	if (isError)
 		return (
-			<div className="bg-white p-[10px] rounded-sm mt-4">No Commits Found</div>
+			<div className="bg-white p-[10px] rounded-[10px] mt-4 font-bold">
+				No Commits Found
+			</div>
 		);
 
 	const totalPagesCount = Math.ceil(totalPages.length / PAGE_SIZE);

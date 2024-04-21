@@ -178,6 +178,69 @@ const Home = () => {
 
 	const { data: employeeData } = data;
 
+	// Component goes here
+	const Attendance = () => (
+		<div className="dashboard__attendance">
+			<h2>Time And Attendance</h2>
+			<div className="dashboard__attendance-btns">
+				<button onClick={handleCheckInClick}>
+					<FaArrowDownLong className="rotate-45 text-green-700" />
+					Check-In
+				</button>
+				<button onClick={handleCheckOutClick}>
+					<FaArrowDownLong className="rotate-[220deg] text-red-700" />
+					Check-Out
+				</button>
+			</div>
+			<div className="dashboard__time">
+				<div>
+					<p>
+						Status: <span className="capitalize">{attendanceDate?.status}</span>
+					</p>
+					<p>
+						Check-In Time:{" "}
+						<span>
+							{attendanceDate?.checkIn ? formattedCheckInDate : "Unknown"}
+						</span>
+					</p>
+					<p>
+						Check-Out Time:{" "}
+						<span>
+							{attendanceDate?.checkOut ? formattedCheckOutDate : "Unknown"}
+						</span>
+					</p>
+					<p>
+						Type:{" "}
+						<span className="capitalize">
+							{attendanceDate?.type ? attendanceDate?.type : "Unknown"}
+						</span>
+					</p>
+					<p>
+						Total Hours:{" "}
+						<span>
+							{!!timeDifferenceInHours
+								? `${timeDifferenceInHours} hours`
+								: "Calculate after check-out"}
+						</span>
+					</p>
+				</div>
+				<div>
+					<p>
+						Location:{" "}
+						<span>
+							{attendanceDate?.location ? attendanceDate?.location : "Unknown"}
+						</span>
+					</p>
+					{/* <p>
+									Total Breaks: <span>1</span>
+								</p>
+								<p>10 Colleagues are on leave today</p> */}
+					{/* <Link href="">View my Attendance</Link> */}
+				</div>
+			</div>
+		</div>
+	);
+
 	return (
 		<>
 			<section className="ticket dashboard">
@@ -188,7 +251,18 @@ const Home = () => {
 							<p>{todayFormattedDate}</p>
 						</div>
 						<div className="dashboard__profile-title">
-							<div>{employeeData.name[0]}</div>
+							<div>
+								{employeeData.profilePicture?.length ? (
+									<img
+										src={employeeData.profilePicture}
+										alt="profile"
+										className="h-full object-cover"
+									/>
+								) : (
+									<>{employeeData.name[0]}</>
+								)}
+							</div>
+
 							<h2>{employeeData.name}</h2>
 							<h3 className="capitalize">
 								{employeeData.userId.role} ---{" "}
@@ -196,83 +270,19 @@ const Home = () => {
 							</h3>
 						</div>
 					</div>
-					{role === "employee" && (
-						<div className="dashboard__attendance">
-							<h2>Time And Attendance</h2>
-							<div className="dashboard__attendance-btns">
-								<button onClick={handleCheckInClick}>
-									<FaArrowDownLong className="rotate-45 text-green-700" />
-									Check-In
-								</button>
-								<button onClick={handleCheckOutClick}>
-									<FaArrowDownLong className="rotate-[220deg] text-red-700" />
-									Check-Out
-								</button>
-							</div>
-							<div className="dashboard__time">
-								<div>
-									<p>
-										Status:{" "}
-										<span className="capitalize">{attendanceDate?.status}</span>
-									</p>
-									<p>
-										Check-In Time:{" "}
-										<span>
-											{attendanceDate?.checkIn
-												? formattedCheckInDate
-												: "Unknown"}
-										</span>
-									</p>
-									<p>
-										Check-Out Time:{" "}
-										<span>
-											{attendanceDate?.checkOut
-												? formattedCheckOutDate
-												: "Unknown"}
-										</span>
-									</p>
-									<p>
-										Type:{" "}
-										<span className="capitalize">
-											{attendanceDate?.type ? attendanceDate?.type : "Unknown"}
-										</span>
-									</p>
-									<p>
-										Total Hours:{" "}
-										<span>
-											{!!timeDifferenceInHours
-												? `${timeDifferenceInHours} hours`
-												: "Calculate after check-out"}
-										</span>
-									</p>
-								</div>
-								<div>
-									<p>
-										Location:{" "}
-										<span>
-											{attendanceDate?.location
-												? attendanceDate?.location
-												: "Unknown"}
-										</span>
-									</p>
-									{/* <p>
-										Total Breaks: <span>1</span>
-									</p>
-									<p>10 Colleagues are on leave today</p> */}
-									{/* <Link href="">View my Attendance</Link> */}
-								</div>
-							</div>
-						</div>
-					)}
+					{role === "employee" && <Attendance />}
 					{role === "HR" && <Info />}
 					{role === "admin" && <AdminInfo />}
 					{role === "project manager" && <PMInfo />}
 				</div>
 				<div className="flex gap-[40px] p-[20px]">
-					<Events />
+					{role !== "project manager" ? <Events /> : <Attendance />}
 					{role === "employee" && <CurrentOngoingTickets />}
 					{role === "HR" && <PendingLeaveRequest />}
 					{role === "project manager" && <CurrentProject />}
+				</div>
+				<div className="flex gap-[40px] p-[20px]">
+					{role === "project manager" && <Events />}
 				</div>
 				<TicketModal />
 			</section>

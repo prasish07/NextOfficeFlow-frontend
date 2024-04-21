@@ -61,8 +61,6 @@ const App: React.FC = () => {
 
 	const { events: eventsWithoutFilters } = withoutFilters;
 
-	console.log(events);
-
 	const handleWeekendsToggle = () => {
 		setWeekendsVisible((prev) => !prev);
 	};

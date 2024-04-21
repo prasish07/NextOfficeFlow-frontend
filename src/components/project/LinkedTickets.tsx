@@ -24,7 +24,7 @@ const LinkedTickets = ({ endpoint }: { endpoint: string }) => {
 	return (
 		<div className="ticket__manage">
 			<div className="ticket__sub-header">
-				{isProjectManager && <button>Delete</button>}
+				{/* {isProjectManager && <button>Delete</button>} */}
 				<input type="text" placeholder="Search" />
 			</div>
 			<hr className="my-5" />

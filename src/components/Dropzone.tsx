@@ -59,7 +59,6 @@ const Dropzone: React.FC<{
 
 			try {
 				const response = await uploadMutation.mutateAsync(formData);
-				console.log(response);
 				setImages((previousImages) => [...previousImages, response.secure_url]);
 
 				setFiles((previousFiles) =>
@@ -77,6 +76,8 @@ const Dropzone: React.FC<{
 		await uploadFile(0);
 		setUploading(false);
 	};
+
+	console.log(files);
 
 	return (
 		<div>
@@ -102,28 +103,32 @@ const Dropzone: React.FC<{
 			</button>
 
 			<ul className="dropdown-preview">
-				{files.map((file: any) => (
-					<li key={file.name} className="relative h-32 rounded-md shadow-lg">
-						<Image
-							src={file.preview}
-							alt={file.name}
-							width={100}
-							height={100}
-							onLoad={() => {
-								URL.revokeObjectURL(file.preview);
-							}}
-							className="h-full w-full object-contain rounded-md"
-						/>
-						<button
-							type="button"
-							className="w-7 h-7 border border-secondary-400 bg-secondary-400 rounded-full flex justify-center items-center absolute -top-3 -right-3 hover:bg-white transition-colors"
-							onClick={() => removeFile(file.name)}
-						>
-							<IoClose className="w-5 h-5  hover:fill-secondary-400 transition-colors" />
-						</button>
-						<p className="mt-2 text-neutral-500 text-[12px] font-medium">
-							{file.name}
-						</p>
+				{files.map((file: any, index) => (
+					<li className="relative h-32 rounded-md shadow-lg" key={index}>
+						{file.preview && (
+							<>
+								<Image
+									src={file.preview}
+									alt={file.name}
+									width={100}
+									height={100}
+									onLoad={() => {
+										URL.revokeObjectURL(file.preview);
+									}}
+									className="h-full w-full object-contain rounded-md"
+								/>
+								<button
+									type="button"
+									className="w-7 h-7 border border-secondary-400 bg-secondary-400 rounded-full flex justify-center items-center absolute -top-3 -right-3 hover:bg-white transition-colors"
+									onClick={() => removeFile(file.name)}
+								>
+									<IoClose className="w-5 h-5  hover:fill-secondary-400 transition-colors" />
+								</button>
+								<p className="mt-2 text-neutral-500 text-[12px] font-medium">
+									{file.name}
+								</p>
+							</>
+						)}
 					</li>
 				))}
 			</ul>

@@ -29,13 +29,10 @@ const PRModel = ({ showModel, handleClose, id, repo }: PRModelProps) => {
 		isError: commentsError,
 	} = useGetGetPRComments(repo, id);
 
-	if (isLoading || prLoadingReview || commentsLoading)
-		return <div className="loader" />;
+	// if (isLoading || prLoadingReview || commentsLoading)
+	// 	return <div className="loader" />;
 
-	if (isError || !data || prErrorReview || commentsError)
-		return <div>Error</div>;
-
-	console.log(prDataReview);
+	if (isError || !data || prErrorReview || commentsError) return <></>;
 
 	return (
 		<Modal
@@ -51,46 +48,49 @@ const PRModel = ({ showModel, handleClose, id, repo }: PRModelProps) => {
 						{data.user.login} wants to merge {data.head.ref} to {data.base.ref}
 					</p>
 					<p className="box">
-						Created At: {formattedDateTime(data.created_at)}{" "}
+						Created At: {data && formattedDateTime(data.created_at)}{" "}
 					</p>
 				</div>
 				<div className="content">
 					<h3>Description : </h3>
-					<p className="box">{data.body}</p>
+					<p className="box">{data?.body}</p>
 				</div>
 				<p className="box">
 					Total comments:{" "}
 					<span className="text-black text-[18px] font-bold">
-						{data.comments}
+						{data?.comments}
 					</span>
 				</p>
 				<p className="box">
 					Total commits:{" "}
 					<span className="text-black text-[18px] font-bold">
-						{data.commits}
+						{data?.commits}
 					</span>
 				</p>
 				<p className="box">
 					Total files changed:{" "}
 					<span className="text-black text-[18px] font-bold">
-						{data.changed_files}
+						{data?.changed_files}
 					</span>
 				</p>
-				{!!prDataReview.length && (
-					<div>
-						<h3>Reviews</h3>
-						{prDataReview.map((review: any) => (
+				<div className="flex gap-2 items-center">
+					<h3>Reviews :</h3>
+					{prDataReview?.length ? (
+						prDataReview.map((review: any) => (
 							<div
 								key={review.id}
 								className="flex items-center mt-2 gap-x-6 box"
 							>
 								<p>{review.user.login}</p> |
-								<p className="font-bold text-black">{review.state}</p>
+								<p className="font-bold text-black">{review?.state}</p>
 							</div>
-						))}
-					</div>
-				)}
-				{!!comments.length && (
+						))
+					) : (
+						<p className="flex items-center mt-2 gap-x-6 box">No reviews</p>
+					)}
+				</div>
+
+				{comments?.length ? (
 					<div>
 						<h3>Comments</h3>
 						{comments.map((comment: any) => (
@@ -98,13 +98,14 @@ const PRModel = ({ showModel, handleClose, id, repo }: PRModelProps) => {
 								key={comment.id}
 								className="flex items-center mt-2 gap-x-6 box"
 							>
-								<p>{comment.user.login}</p>
-								<p>{comment.body}</p>
+								<p>{comment.user.login}</p> |<p>{comment.body}</p>
 							</div>
 						))}
 					</div>
+				) : (
+					<p className="flex items-center mt-2 gap-x-6 box">No comments</p>
 				)}
-				<div className="flex flex-col gap-2">
+				{/* <div className="flex flex-col gap-2">
 					<h3>Write comment</h3>
 					<textarea placeholder="Write your comment" rows={4} />
 					<button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">
@@ -121,10 +122,10 @@ const PRModel = ({ showModel, handleClose, id, repo }: PRModelProps) => {
 					<label htmlFor="approve" className="cursor-pointer">
 						Approved this PR
 					</label>
-				</div>
+				</div> */}
 				<div className="flex flex-col gap-2">
 					<h3>View file changes</h3>
-					<CodeBlock link={data._links.html.href + "/files"} />
+					<CodeBlock link={data?._links.html.href + "/files"} />
 				</div>
 			</div>
 		</Modal>

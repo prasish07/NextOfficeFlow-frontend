@@ -41,6 +41,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const { role } = useGlobalProvider();
 	const isProjectManager = role === "project manager";
 	const isHRAdmin = role === "HR" || role === "admin";
+	const isEmployee = role === "employee";
 
 	const leaveUpdateMutation = useMutation({
 		mutationFn: updateStatus,
@@ -126,7 +127,6 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		if (isError || !allData || !allData?.request) {
 			return;
 		}
-		console.log(allData);
 		const { leaveId: leaveData } = allData.request;
 		const formattedStartDate = leaveData?.startDate
 			? leaveData.startDate.split("T")[0]
@@ -173,7 +173,13 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 			<form className="form__box" onSubmit={handleSubmit}>
 				<div className="form__box-element">
 					<label htmlFor="type">Type</label>
-					<select name="type" id="type" required onChange={handleChange}>
+					<select
+						name="type"
+						id="type"
+						required
+						onChange={handleChange}
+						disabled={isUpdate}
+					>
 						<option value="event">Leave</option>
 						<option value="reminder">Work From Home</option>
 					</select>
@@ -187,6 +193,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						required
 						onChange={handleChange}
 						value={data.startDate}
+						readOnly={isUpdate}
 					/>
 				</div>
 				<div className="form__box-element">
@@ -198,6 +205,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						onChange={handleChange}
 						required
 						value={data.endDate}
+						readOnly={isUpdate}
 					/>
 				</div>
 				<div className="form__box-element">
@@ -210,6 +218,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						onChange={handleChange}
 						value={data.reason}
 						required
+						readOnly={isUpdate}
 					/>
 				</div>
 				{!isProjectManager && (
@@ -221,6 +230,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 							<button
 								className="py-4 px-8 mt-2 mb-5 border-solid border border-[#ddd] rounded-[20px] w-full"
 								type="button"
+								disabled={isUpdate}
 							>
 								{PM.email ? PM.email : "Add"}
 							</button>

@@ -44,6 +44,7 @@ export function useGetRepoCommits(
 			);
 			return data;
 		},
+		retry: false,
 	});
 }
 
@@ -64,13 +65,30 @@ export function useGetRepoPR(repo: string) {
 	});
 }
 
+export function useGetMostUsedLanguage(repo: string) {
+	return useQuery({
+		queryKey: ["repo language", repo],
+		queryFn: async () => {
+			const { data } = await axios.get(
+				`https://api.github.com/repos/${GITHUB_USER}/${repo}/languages`,
+				{
+					headers: {
+						Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+					},
+				}
+			);
+			return data;
+		},
+	});
+}
+
 export function useGetSinglePR(repo: string, id: string) {
 	return useQuery({
 		queryKey: ["repo single pr", repo, id],
 		queryFn: async () => {
 			const { data } = await axios.get(
-				// `https://api.github.com/repos/${GITHUB_USER}/${repo}/pulls/${id}`,
-				`https://api.github.com/repos/parewalabs/programiz-pro-marketing-website/pulls/2968`,
+				`https://api.github.com/repos/${GITHUB_USER}/${repo}/pulls/${id}`,
+				// `https://api.github.com/repos/parewalabs/programiz-pro-marketing-website/pulls/2968`,
 				{
 					headers: {
 						Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
@@ -87,7 +105,7 @@ export function useGetPRReview(repo: string, id: string) {
 		queryKey: ["repo pr review", repo, id],
 		queryFn: async () => {
 			const { data } = await axios.get(
-				`https://api.github.com/repos/parewalabs/programiz-pro-marketing-website/pulls/2968/reviews`,
+				`https://api.github.com/repos/${GITHUB_USER}/${repo}/pulls/${id}/reviews`,
 				{
 					headers: {
 						Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
@@ -104,7 +122,7 @@ export function useGetGetPRComments(repo: string, id: string) {
 		queryKey: ["repo pr comments", repo, id],
 		queryFn: async () => {
 			const { data } = await axios.get(
-				`https://api.github.com/repos/parewalabs/programiz-pro-marketing-website/pulls/2968/comments`,
+				`https://api.github.com/repos/${GITHUB_USER}/${repo}/issues/${id}/comments`,
 				{
 					headers: {
 						Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,

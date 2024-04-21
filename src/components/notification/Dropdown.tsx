@@ -65,9 +65,8 @@ const Dropdown = ({
 
 			<div className="notification-dropdown__list">
 				{notifications.map((notification: any, index: number) => (
-					<>
+					<div key={index}>
 						<div
-							key={index}
 							className="notification-dropdown__item"
 							onClick={() =>
 								handleNotificationClick(notification._id, notification.link)
@@ -82,7 +81,7 @@ const Dropdown = ({
 							)}
 						</div>
 						<hr />
-					</>
+					</div>
 				))}
 				{/* <button>Show all</button> */}
 			</div>

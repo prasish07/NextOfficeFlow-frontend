@@ -4,7 +4,12 @@ import SearchEmployee from "../dropdown/searchEmployee";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { manualAttendance, useGetSingleAttendance } from "@/query/attendance";
 import { toast } from "react-toastify";
-import { TimeFormatterDate, dateFormatter, timeFormatter } from "@/utils/data";
+import {
+	TimeFormatterDate,
+	TimeFormatterDate24hours,
+	dateFormatter,
+	timeFormatter,
+} from "@/utils/data";
 
 export interface AttendanceModalProps {
 	showModal: boolean;
@@ -73,11 +78,11 @@ const AttendanceModal = ({
 				date: dateFormatter(data?.date),
 				checkIn:
 					new Date(data?.checkIn).toString() !== "Invalid Date"
-						? timeFormatter(data?.checkIn)
+						? TimeFormatterDate24hours(data?.checkIn)
 						: "N/A",
 				checkOut:
 					new Date(data?.checkOut).toString() !== "Invalid Date"
-						? timeFormatter(data?.checkOut)
+						? TimeFormatterDate24hours(data?.checkOut)
 						: "N/A",
 				status: data?.status,
 				reason: data?.reason,

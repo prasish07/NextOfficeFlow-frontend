@@ -6,18 +6,30 @@ import classNames from "classnames";
 import Info from "./Info";
 import Commits from "./Commits";
 import PR from "./PR";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
 
 const GitHub = ({ endpoint }: { endpoint: string }) => {
 	const { data, isLoading, isError } = useGetProjectDetails({ endpoint });
 	const [showModel, setShowModel] = useState(false);
 	const [showCreateModel, setShowCreateModel] = useState(false);
 	const [selectedOption, setSelectedOption] = useState("Info");
+	const { role } = useGlobalProvider();
+
+	const isEmployee = role === "employee";
 
 	if (isLoading) return <div className="loader" />;
 
 	if (isError || !data) return <div>Error</div>;
 
 	const { project } = data;
+
+	if (isEmployee && !project.githubRepo) {
+		return (
+			<div className="github m-[20px] bg-white p-[10px] font-bold h-fit rounded-[10px]">
+				No GitHub has been link to this project yet by project manager
+			</div>
+		);
+	}
 
 	if (!project.githubRepo) {
 		return (

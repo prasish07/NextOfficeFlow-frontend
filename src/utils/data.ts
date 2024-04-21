@@ -7,7 +7,7 @@ export const timeFormatter = (date: string) => {
 };
 
 export const dateWordFormatter = (date: string) => {
-	return new Date().toLocaleDateString("en-US", {
+	return new Date(date).toLocaleDateString("en-US", {
 		year: "numeric",
 		month: "short",
 		day: "numeric",
@@ -31,4 +31,30 @@ export const TimeFormatterDate = (date: string) => {
 		minute: "2-digit",
 		hour12: true,
 	});
+};
+
+export const TimeFormatterDate24hours = (date: string) => {
+	return new Date(date).toLocaleTimeString("en-US", {
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: false,
+	});
+};
+
+export const getMostUsedLanguage = (languages: Record<string, number>) => {
+	let mostUsedLanguage = null;
+
+	let maxBytes = 0;
+
+	for (const language in languages) {
+		if (languages.hasOwnProperty(language)) {
+			const bytes = languages[language];
+			if (bytes > maxBytes) {
+				mostUsedLanguage = language;
+				maxBytes = bytes;
+			}
+		}
+	}
+
+	return mostUsedLanguage;
 };

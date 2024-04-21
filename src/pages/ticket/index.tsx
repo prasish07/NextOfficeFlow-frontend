@@ -36,7 +36,7 @@ const Index = () => {
 			<Details />
 			<div className="ticket__manage">
 				<div className="ticket__sub-header">
-					{isProjectManager && <button>Delete</button>}
+					{/* {isProjectManager && <button>Delete</button>} */}
 					<input
 						type="text"
 						placeholder="Search"
