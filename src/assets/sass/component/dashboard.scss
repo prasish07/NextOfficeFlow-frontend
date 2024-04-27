@@ -31,6 +31,7 @@
 		flex-direction: column;
 		// flex-grow: 1;
 		width: 50%;
+		height: fit-content;
 	}
 
 	@include e(attendance-btns) {
@@ -106,7 +107,7 @@
 
 .dashboardEvent {
 	// margin-top: 40px;
-	padding: 0 50px;
+	padding: 0 20px;
 	background-color: $white;
 	border-radius: 10px;
 	padding-bottom: 20px;
@@ -115,6 +116,7 @@
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+	height: 100%;
 	// margin-right: 40px;
 
 	@include mq(md) {
@@ -147,16 +149,16 @@
 	@include e(ticket-pg) {
 		border-left: 1px solid #ddd;
 		padding-left: 50px;
-		// font-weight: bold;
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
 		justify-content: center;
 		align-items: center;
-		padding: 10px;
+		padding: 5px;
 		border-radius: 10px;
 		background-color: $light_blue;
 		color: $normal;
+		min-width: 120px;
 	}
 }
 

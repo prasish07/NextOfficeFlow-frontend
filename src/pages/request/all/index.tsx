@@ -275,13 +275,44 @@ const All = () => {
 			</div>
 
 			<div className="request__filter">
-				<h3>Filter</h3>
-				<select name="filter" id="filter">
-					<option value="this-month">This Month</option>
-					<option value="last-month">Last Month</option>
-					<option value="this-year">This Year</option>
-					<option value="last-year">Last Year</option>
-				</select>
+				<h2>Filter</h2>
+				<div className="request__filter--elements">
+					<input
+						type="date"
+						className="custom-date"
+						onChange={(e) => {
+							// setDate({ ...date, startDate: e.target.value });
+						}}
+					/>
+					-
+					<input
+						type="date"
+						className="custom-date"
+						onChange={(e) => {
+							// setDate({ ...date, endDate: e.target.value });
+						}}
+					/>
+					<button
+						onClick={() => {
+							// refetch();
+						}}
+						className=""
+					>
+						Apply
+					</button>
+					<div className="flex gap-2">
+						<input
+							type="text"
+							className="custom-date w-[500px]"
+							placeholder="Search employee"
+							onChange={(e) => {
+								// setDate({ ...date, searchEmployee: e.target.value });
+							}}
+							// value={date.searchEmployee}
+						/>
+						<button>Search</button>
+					</div>
+				</div>
 			</div>
 
 			<div className="request__list">{<RequestElement />}</div>

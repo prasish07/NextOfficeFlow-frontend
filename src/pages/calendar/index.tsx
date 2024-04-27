@@ -88,23 +88,24 @@ const App: React.FC = () => {
 	const renderSidebarEvent = (event: any) => (
 		<li key={event.id} className="calendar__list-element">
 			<div>
-				<b>
+				<p>
 					{formatDate(event.start, {
 						year: "numeric",
 						month: "short",
 						day: "numeric",
 					})}
-				</b>
+				</p>
 				-
-				<b>
+				<p>
 					{formatDate(event.end, {
 						year: "numeric",
 						month: "short",
 						day: "numeric",
 					})}
-				</b>
+				</p>
 			</div>
-			<i>{event.title}</i>
+			<i>- {event.title}</i>
+			<hr className="my-2" />
 		</li>
 	);
 
@@ -126,9 +127,13 @@ const App: React.FC = () => {
 					dayMaxEvents={true}
 					weekends={weekendsVisible}
 					initialEvents={eventsWithoutFilters}
-					select={role !== "employee" ? handleDateSelect : undefined}
+					select={
+						role === "admin" || role === "HR" ? handleDateSelect : undefined
+					}
 					eventContent={renderEventContent}
-					eventClick={role !== "employee" ? handleEventClick : undefined}
+					eventClick={
+						role === "admin" || role === "HR" ? handleEventClick : undefined
+					}
 					eventsSet={handleEvents}
 					datesSet={(dateInfo) => {
 						displayedDateRef.current = {

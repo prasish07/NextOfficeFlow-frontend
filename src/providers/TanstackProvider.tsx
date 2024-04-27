@@ -16,8 +16,8 @@ const TanstackProvider = ({ children }: { children: React.ReactNode }) => {
 					error?.response?.status === 401 &&
 					!router.pathname.includes("login")
 				) {
-					toast.error("You are not logged in");
-					router.push("/login");
+					// toast.error("You are not logged in");
+					// router.push("/login");
 				}
 			},
 		}),

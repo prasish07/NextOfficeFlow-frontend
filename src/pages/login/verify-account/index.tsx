@@ -15,7 +15,7 @@ const VerifyAccount = () => {
 		mutationFn: verifyAccount,
 		onSuccess: (data: any) => {
 			toast.success(data.message);
-			router.push("/login");
+			router.push(`/login/change-password/?id=${data.userId}`);
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);

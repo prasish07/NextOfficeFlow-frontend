@@ -59,6 +59,7 @@ const TicketModal = () => {
 		onSuccess: (data: any) => {
 			queryClient.invalidateQueries({ queryKey: ["ticket list"] });
 			toast.success(data.message);
+			setShowModal(false);
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
@@ -71,6 +72,7 @@ const TicketModal = () => {
 			// setShowModal(false);
 			queryClient.invalidateQueries({ queryKey: ["ticket list"] });
 			toast.success(data.message);
+			setShowModal(false);
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);

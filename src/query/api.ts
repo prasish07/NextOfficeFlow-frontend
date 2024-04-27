@@ -16,6 +16,7 @@ export interface LoginResponse {
 	userId: string;
 	role: string;
 	verified: boolean;
+	isFirstTimePasswordChange: boolean;
 }
 
 export interface userInfoProps {

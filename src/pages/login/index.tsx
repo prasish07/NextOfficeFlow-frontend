@@ -37,11 +37,15 @@ const Login = () => {
 	const mutateData = useMutation({
 		mutationFn: loginUser,
 		onSuccess: (data: LoginResponse) => {
-			if (data.verified) {
+			console.log(data);
+			if (data.verified && data.isFirstTimePasswordChange) {
 				router.push("/");
 				toast.success(data.message);
 				setCookies("role", data.role, 1);
 				setCookies("UserId", data.userId, 1);
+			} else if (data.verified && !data.isFirstTimePasswordChange) {
+				toast.success(data.message);
+				router.push(`/login/change-password?id=${data.userId}`);
 			} else {
 				toast.error("Please verify your email first");
 				router.push(`/login/verify-account?id=${data.userId}`);

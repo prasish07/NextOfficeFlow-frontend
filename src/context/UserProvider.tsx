@@ -33,7 +33,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 		email: "",
 	});
 	const router = useRouter();
-	const isLoginPage = router.pathname === "/login";
+	const isLoginPage = router.pathname.includes("/login");
 	const initialLoad = useRef(true);
 
 	const {
@@ -54,6 +54,8 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 						email: data.response.email,
 					});
 					if (isLoginPage) router.push("/");
+				} else if (isLoginPage) {
+					return;
 				} else {
 					toast.error("You are not logged in");
 					router.push("/login");
