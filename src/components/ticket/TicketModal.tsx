@@ -11,6 +11,7 @@ import { dateFormatter, formattedDateTime } from "@/utils/data";
 import ImageModal from "../ImageModal";
 import { useGlobalProvider } from "@/context/GlobalProvicer";
 import Link from "next/link";
+import { IoClose } from "react-icons/io5";
 
 interface employeeProps {
 	showModal: boolean;
@@ -105,6 +106,10 @@ const TicketModal = () => {
 			// updateTicketOneField(selectedId, updatedData);
 			updateTicketMutation.mutate(updatedData);
 		}
+	};
+
+	const handleRemoveAssignee = () => {
+		setAssigneeId("");
 	};
 
 	useEffect(() => {
@@ -221,6 +226,13 @@ const TicketModal = () => {
 									</button>
 								</CustomAssignee2>
 							}
+							<button
+								type="button"
+								className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px] ml-2 bg-red-500 text-white"
+								onClick={() => handleRemoveAssignee()}
+							>
+								Remove
+							</button>
 						</div>
 						<div>
 							<label htmlFor="priority">Priority</label>
@@ -287,6 +299,13 @@ const TicketModal = () => {
 									</button>
 								</CustomProject>
 							}
+							<button
+								type="button"
+								className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px] ml-2 bg-red-500 text-white"
+								onClick={() => setProjectId("")}
+							>
+								Remove
+							</button>
 						</div>
 						{ticketDetails.status === "Completed" && (
 							<div>

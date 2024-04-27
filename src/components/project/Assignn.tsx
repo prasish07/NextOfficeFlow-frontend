@@ -4,14 +4,16 @@ import { addAssignee, useGetAllEmployees } from "@/query/employee";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-const Assignn = ({
+const Assignee = ({
 	showModal,
 	setShowModal,
 	projectId,
+	user,
 }: {
 	showModal: boolean;
 	setShowModal: (type: boolean) => void;
 	projectId: string;
+	user: any;
 }) => {
 	const { data, isLoading, isError } = useGetAllEmployees();
 	const [searchValue, setSearchValue] = useState<string>("");
@@ -94,7 +96,10 @@ const Assignn = ({
 									id={employee._id}
 									name={employee.name}
 									value={employee._id}
-									checked={assignee.includes(employee._id)}
+									checked={
+										assignee.includes(employee._id) ||
+										user?.map((item: any) => item._id).includes(employee._id)
+									}
 									onChange={() => handleCheckboxChange(employee._id)}
 								/>
 								<label htmlFor={employee._id}>{employee.email}</label>
@@ -112,4 +117,4 @@ const Assignn = ({
 	);
 };
 
-export default Assignn;
+export default Assignee;

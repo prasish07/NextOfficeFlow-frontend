@@ -10,8 +10,9 @@ import {
 	useGetProjectDetails,
 } from "@/query/project";
 import { IoIosClose } from "react-icons/io";
-import Assignn from "./Assignn";
 import { addAssignee } from "@/query/employee";
+import { IoClose } from "react-icons/io5";
+import SelectAssignee from "./SelectAssignee";
 
 const ProjectSchema = z.object({
 	title: z.string().min(1, { message: "Title is required" }),
@@ -50,7 +51,12 @@ const ManageAction = ({
 	const isAdd = type === "new";
 	const [showModal, setShowModal] = useState(false);
 	const [projectId, setProjectId] = useState<string>("");
-	const [assignee, setAssignee] = useState([]);
+	const [assignee, setAssignee] = useState([
+		{
+			_id: "",
+			email: "",
+		},
+	]);
 
 	const { data, isLoading, isError } = useGetProjectDetails({
 		endpoint: selectedId,
@@ -90,7 +96,6 @@ const ManageAction = ({
 			if (isError || !data) {
 				return;
 			}
-			console.log(data, "data");
 
 			const { project } = data;
 			const formattedStartDate = project.startDate
@@ -104,21 +109,38 @@ const ManageAction = ({
 			setValue("description", project.description);
 			setValue("startDate", formattedStartDate);
 			setValue("endDate", formattedEndDate);
-			setValue("progress", project.progress);
+			setValue("progress", project.progress.toString());
 			setValue("status", project.status);
 			setValue("estimatedTime", project.estimatedTime);
 			setProjectId(project._id);
-			setAssignee(project.assigneeId);
+			setAssignee(
+				project.assigneeId.map((item: any) => {
+					return {
+						_id: item._id,
+						email: item.email,
+					};
+				})
+			);
 		}
 	}, [data, isError, isAdd, setValue]);
 
+	console.log("assignee", assignee);
+
 	const onSubmit = (data: any) => {
 		if (isAdd) {
-			postMutation.mutate(data);
+			postMutation.mutate({ ...data, assigneeId: assignee });
 		}
 		if (isUpdate) {
-			updateMutation.mutate({ data: { ...data }, id: selectedId });
+			updateMutation.mutate({
+				data: { ...data, assigneeId: assignee },
+				id: selectedId,
+			});
 		}
+	};
+
+	const handleRemoveAssignee = (id: string) => {
+		const newAssignee = assignee.filter((item: any) => item._id !== id);
+		setAssignee(newAssignee);
 	};
 
 	return (
@@ -176,43 +198,49 @@ const ManageAction = ({
 							)}
 						</div>
 
-						{!isAdd && (
+						{/* {!isAdd && ( */}
+						<div>
+							<label htmlFor="AssigneeId">Assignees</label>
 							<div>
-								<label htmlFor="AssigneeId">Assignees</label>
-								<div>
-									{assignee?.length !== 0 ? (
-										<div className="project__assignee-item">
-											{!!data?.project &&
-												assignee?.map((item: any) => {
-													return (
-														<div
-															key={item.id}
-															className="project__manage-info--avatar"
-														>
-															<span
-																className="w-[50px] h-[50px] rounded-[50%] bg-[#bcbcf3] text-[#5a4e4e] flex justify-center items-center font-bold cursor-pointer capitalize"
-																title={item.email}
-															>
-																{item.email[0]}
-															</span>
-														</div>
-													);
-												})}
-										</div>
-									) : (
-										""
-									)}
+								{assignee?.length !== 0 ? (
+									<div className="project__assignee-item">
+										{assignee.map((item: any) => {
+											return (
+												<div
+													key={item.id}
+													className="project__manage-info--avatar relative"
+												>
+													<span
+														className="w-[50px] h-[50px] rounded-[50%] bg-[#bcbcf3] text-[#5a4e4e] flex justify-center items-center font-bold cursor-pointer capitalize"
+														title={item?.email}
+													>
+														{item?.email[0]}
+													</span>
+													<button
+														type="button"
+														className="w-7 h-7 border border-secondary-400 bg-blue-200 rounded-full flex justify-center items-center absolute -top-2 -right-3 hover:bg-white transition-colors"
+														onClick={() => handleRemoveAssignee(item._id)}
+													>
+														<IoClose className="w-5 h-5  hover:fill-secondary-400 transition-colors" />
+													</button>
+												</div>
+											);
+										})}
+									</div>
+								) : (
+									""
+								)}
 
-									<button
-										className="add-btn mt-2"
-										type="button"
-										onClick={() => setShowModal(true)}
-									>
-										Add
-									</button>
-								</div>
+								<button
+									className="add-btn mt-2"
+									type="button"
+									onClick={() => setShowModal(true)}
+								>
+									Add
+								</button>
 							</div>
-						)}
+						</div>
+						{/* )} */}
 
 						<div className="employee__form-item--group">
 							<label htmlFor="Progress">Progress in %</label>
@@ -273,10 +301,11 @@ const ManageAction = ({
 					)}
 				</div>
 			</form>
-			<Assignn
+			<SelectAssignee
 				showModal={showModal}
 				setShowModal={setShowModal}
-				projectId={projectId}
+				assignee={assignee}
+				setAssignee={setAssignee}
 			/>
 		</>
 	);

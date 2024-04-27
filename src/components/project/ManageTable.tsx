@@ -7,7 +7,7 @@ import useScreenWidth from "@/hooks/useScreenWidth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import DeleteModal from "../model/DeleteModal";
 import { toast } from "react-toastify";
-import Assignn from "./Assignn";
+import Assignee from "./Assignn";
 import { useGlobalProvider } from "@/context/GlobalProvicer";
 
 const ManageTable = ({
@@ -29,6 +29,7 @@ const ManageTable = ({
 	const { role } = useGlobalProvider();
 	const isProjectManager = role === "project manager";
 	const isEmployee = role === "employee";
+	const [assignee, setAssignee] = useState<any>(null);
 
 	const deleteMutation = useMutation({
 		mutationFn: deleteProject,
@@ -108,7 +109,7 @@ const ManageTable = ({
 								day: "numeric",
 							});
 							return (
-								<tr key={project.id}>
+								<tr key={project._id}>
 									<td>
 										<input type="checkbox" />
 									</td>
@@ -120,10 +121,10 @@ const ManageTable = ({
 											<td>{formattedEndDate}</td>
 											<td>
 												<div className="flex justify-center items-center gap-2">
-													{project.assigneeId?.map((item: any) => {
+													{project.assigneeId?.map((item: any, index: any) => {
 														return (
 															<div
-																key={item.id}
+																key={item._id}
 																className="project__manage-info--avatar"
 															>
 																<p
@@ -143,6 +144,7 @@ const ManageTable = ({
 															onClick={() => {
 																setSelectedId(project._id);
 																setShowModal(true);
+																setAssignee(project.assigneeId);
 															}}
 														/>
 													)}
@@ -192,10 +194,11 @@ const ManageTable = ({
 				action={() => deleteMutation.mutate(selectedId)}
 				title="Are you sure?"
 			/>
-			<Assignn
+			<Assignee
 				showModal={showModal}
 				setShowModal={setShowModal}
 				projectId={selectedId}
+				user={assignee}
 			/>
 		</div>
 	);
