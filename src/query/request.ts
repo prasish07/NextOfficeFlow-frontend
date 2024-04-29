@@ -36,7 +36,7 @@ export function addAttendanceRequest(data: any) {
 
 export function useGetAllRequests(filter?: any) {
 	return useQuery({
-		queryKey: ["requests", filter],
+		queryKey: ["requests"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/requests`, {
 				params: filter,

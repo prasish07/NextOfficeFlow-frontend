@@ -1,5 +1,6 @@
 import { useGlobalProvider } from "@/context/GlobalProvicer";
 import { useGetUserDetails } from "@/query/employee";
+import { dateWordFormatter } from "@/utils/data";
 import React, { useEffect } from "react";
 
 const Profile = ({ userId }: { userId: string }) => {
@@ -8,7 +9,6 @@ const Profile = ({ userId }: { userId: string }) => {
 
 	useEffect(() => {
 		if (data) {
-			console.log(data);
 			setUserName({
 				name: data.data.name,
 				email: data.data.userId.email,
@@ -47,11 +47,11 @@ const Profile = ({ userId }: { userId: string }) => {
 			</p>
 			<p>
 				<span>Start Date:</span>
-				{details.startDate}
+				{dateWordFormatter(details.startDate)}
 			</p>
 			<p>
 				<span>End Date:</span>
-				{details.endDate}
+				{dateWordFormatter(details.endDate)}
 			</p>
 			<p>
 				<span>Salary:</span>

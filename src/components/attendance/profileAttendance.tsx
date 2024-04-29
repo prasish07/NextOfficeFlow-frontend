@@ -1,10 +1,17 @@
 import useScreenWidth from "@/hooks/useScreenWidth";
 import { useGetMyTodayAttendance } from "@/query/attendance";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 const ProfileAttendance = () => {
 	const { isDesktopView, isTabletView } = useScreenWidth();
 	const { data, isLoading, isError } = useGetMyTodayAttendance();
+	const [filterData, setFilterData] = React.useState<any>([]);
+	const startDateRef = useRef<HTMLInputElement>(null);
+	const endDateRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		setFilterData(data?.attendance);
+	}, [data]);
 
 	if (isLoading) {
 		return <div className="loader" />;
@@ -16,18 +23,31 @@ const ProfileAttendance = () => {
 
 	const { attendance: attendances } = data;
 
+	const filter = () => {
+		const startDate = startDateRef.current?.value;
+		const endDate = endDateRef.current?.value;
+		if (startDate && endDate) {
+			console.log(startDate, endDate);
+			const filteredData = attendances.filter((attendance: any) => {
+				const date = new Date(attendance.date);
+				return date >= new Date(startDate) && date <= new Date(endDate);
+			});
+			console.log(filteredData);
+			setFilterData(filteredData);
+		} else {
+			setFilterData(attendances);
+		}
+	};
+
 	return (
 		<>
 			<h2>My Attendance</h2>
-			<div className="attendance__menu">
-				<div className="attendance__filter">
-					<h3>Period</h3>
-					<select name="filter" id="filter">
-						<option value="this-month">This Month</option>
-						<option value="last-month">Last Month</option>
-						<option value="this-year">This Year</option>
-						<option value="last-year">Last Year</option>
-					</select>
+			<div className="request__filter">
+				<div className="request__filter--elements">
+					<input type="date" className="custom-date" ref={startDateRef} />
+					-
+					<input type="date" className="custom-date" ref={endDateRef} />
+					<button onClick={filter}>Search</button>
 				</div>
 			</div>
 			<div
@@ -53,7 +73,7 @@ const ProfileAttendance = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{attendances.map((attendance: any) => {
+						{filterData?.map((attendance: any) => {
 							const formattedCheckInDate = new Date(
 								attendance.checkIn
 							).toLocaleTimeString("en-US", {
@@ -83,9 +103,21 @@ const ProfileAttendance = () => {
 											<td>{formattedDate}</td>
 										</>
 									)}
-									<td>{formattedCheckInDate}</td>
-									<td>{formattedCheckOutDate}</td>
-									<td>{attendance.late ? "Late" : "In-Time"}</td>
+									<td>
+										{formattedCheckInDate === "Invalid Date"
+											? "N/A"
+											: formattedCheckInDate}
+									</td>
+									<td>
+										{formattedCheckOutDate === "Invalid Date"
+											? "N/A"
+											: formattedCheckOutDate}
+									</td>
+									<td>
+										{attendance?.checkInStatus
+											? attendance.checkInStatus
+											: "N/A"}
+									</td>
 									{/* <td>
 										<button
 											onClick={() => {

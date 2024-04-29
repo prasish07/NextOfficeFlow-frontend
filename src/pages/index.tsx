@@ -231,6 +231,18 @@ const Home = () => {
 							{attendanceDate?.location ? attendanceDate?.location : "Unknown"}
 						</span>
 					</p>
+					<p>
+						Check-In Status: <span>{attendanceDate?.checkInStatus}</span>
+					</p>
+					<p>
+						Check-Out Status:{" "}
+						<span>
+							{attendanceDate?.checkOutStatus
+								? attendanceDate.checkOutStatus
+								: "Not Check-Out yet"}
+						</span>
+					</p>
+
 					{/* <p>
 									Total Breaks: <span>1</span>
 								</p>

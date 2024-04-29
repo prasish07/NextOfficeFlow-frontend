@@ -77,8 +77,6 @@ const Dropzone: React.FC<{
 		setUploading(false);
 	};
 
-	console.log(files);
-
 	return (
 		<div>
 			<div

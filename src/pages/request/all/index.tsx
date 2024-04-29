@@ -1,5 +1,5 @@
 import { useGetAllRequests } from "@/query/request";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoTimeSharp } from "react-icons/io5";
 import { MdMoneyOff } from "react-icons/md";
 import { SlNote } from "react-icons/sl";
@@ -11,13 +11,23 @@ import Attendance from "@/components/request/Attendence";
 import classNames from "classnames";
 
 const All = () => {
-	const { data, isLoading, isError } = useGetAllRequests();
 	const [selectedType, setSelectedType] = useState("leave");
 	const [showLeaveModal, setShowLeaveModal] = useState(false);
 	const [showAllowanceModal, setShowAllowanceModal] = useState(false);
 	const [showOvertimeModal, setShowOvertimeModal] = useState(false);
 	const [showAttendanceModal, setShowAttendanceModal] = useState(false);
 	const [selectedId, setSelectedId] = useState("");
+	const [filter, setFilter] = useState({
+		startDate: "",
+		endDate: "",
+		searchEmployee: "",
+	});
+	const { data, isLoading, isError, refetch } = useGetAllRequests({
+		startDate: filter.startDate,
+		endDate: filter.endDate,
+		searchEmployee: filter.searchEmployee,
+		selectedType: selectedType,
+	});
 
 	const activeClass = "active";
 
@@ -31,9 +41,13 @@ const All = () => {
 
 	const { requests } = data;
 
-	const filterElement = requests.filter(
-		(item: any) => item.requestType === selectedType
-	);
+	const filterElement = requests.filter((item: any) => {
+		return item.requestType === selectedType;
+	});
+
+	const filterData = () => {
+		refetch();
+	};
 
 	const RequestElement = () => {
 		if (selectedType === "leave") {
@@ -226,7 +240,10 @@ const All = () => {
 					className={`request__my-options-element ${
 						selectedType === "leave" ? activeClass : ""
 					}`}
-					onClick={() => setSelectedType("leave")}
+					onClick={() => {
+						setSelectedType("leave");
+						refetch();
+					}}
 				>
 					<h3>Leave</h3>
 				</div>
@@ -234,7 +251,10 @@ const All = () => {
 					className={`request__my-options-element ${
 						selectedType === "allowance" ? activeClass : ""
 					}`}
-					onClick={() => setSelectedType("allowance")}
+					onClick={() => {
+						setSelectedType("allowance");
+						refetch();
+					}}
 				>
 					<h3>Allowance</h3>
 				</div>
@@ -242,7 +262,10 @@ const All = () => {
 					className={`request__my-options-element ${
 						selectedType === "overtime" ? activeClass : ""
 					}`}
-					onClick={() => setSelectedType("overtime")}
+					onClick={() => {
+						setSelectedType("overtime");
+						refetch();
+					}}
 				>
 					<h3>Overtime Request</h3>
 				</div>
@@ -250,7 +273,10 @@ const All = () => {
 					className={`request__my-options-element ${
 						selectedType === "attendance" ? activeClass : ""
 					}`}
-					onClick={() => setSelectedType("attendance")}
+					onClick={() => {
+						setSelectedType("attendance");
+						refetch();
+					}}
 				>
 					<h3>Attendance</h3>
 				</div>
@@ -281,7 +307,7 @@ const All = () => {
 						type="date"
 						className="custom-date"
 						onChange={(e) => {
-							// setDate({ ...date, startDate: e.target.value });
+							setFilter({ ...filter, startDate: e.target.value });
 						}}
 					/>
 					-
@@ -289,28 +315,20 @@ const All = () => {
 						type="date"
 						className="custom-date"
 						onChange={(e) => {
-							// setDate({ ...date, endDate: e.target.value });
+							setFilter({ ...filter, endDate: e.target.value });
 						}}
 					/>
-					<button
-						onClick={() => {
-							// refetch();
-						}}
-						className=""
-					>
-						Apply
-					</button>
 					<div className="flex gap-2">
 						<input
 							type="text"
 							className="custom-date w-[500px]"
 							placeholder="Search employee"
 							onChange={(e) => {
-								// setDate({ ...date, searchEmployee: e.target.value });
+								setFilter({ ...filter, searchEmployee: e.target.value });
 							}}
-							// value={date.searchEmployee}
+							value={filter.searchEmployee}
 						/>
-						<button>Search</button>
+						<button onClick={filterData}>Search</button>
 					</div>
 				</div>
 			</div>
