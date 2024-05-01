@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "../model/Model";
 import SearchEmployee from "../dropdown/searchEmployee";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { manualAttendance, useGetSingleAttendance } from "@/query/attendance";
+import {
+	manualAttendance,
+	updateAttendance,
+	useGetSingleAttendance,
+} from "@/query/attendance";
 import { toast } from "react-toastify";
 import {
 	TimeFormatterDate,
@@ -30,11 +34,25 @@ const AttendanceModal = ({
 		onSuccess: (data: any) => {
 			toast.success(data.message);
 			queryClient.invalidateQueries({ queryKey: ["attendance", "all"] });
+			setShowModal(false);
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
 		},
 	});
+
+	const updateMutation = useMutation({
+		mutationFn: updateAttendance,
+		onSuccess: (data: any) => {
+			toast.success(data.message);
+			queryClient.invalidateQueries({ queryKey: ["attendance", "all"] });
+			setShowModal(false);
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
+	});
+
 	const { data, isLoading, isError } = useGetSingleAttendance(id);
 
 	const [formData, setFormData] = useState({
@@ -57,13 +75,32 @@ const AttendanceModal = ({
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const data = {
-			...formData,
-			checkIn: `${formData.date}T${formData.checkIn}`,
-			checkOut: `${formData.date}T${formData.checkOut}`,
-			employeeId: employee.id,
-		};
-		manaualMutation.mutate(data);
+		if (type === "add") {
+			const data = {
+				...formData,
+				checkIn: formData.checkIn.includes("N/A")
+					? ""
+					: `${formData.date}T${formData.checkIn}`,
+				checkOut: formData.checkOut.includes("N/A")
+					? ""
+					: `${formData.date}T${formData.checkOut}`,
+				employeeId: employee.id,
+			};
+			manaualMutation.mutate(data);
+		} else {
+			const data = {
+				...formData,
+				checkIn: formData.checkIn.includes("N/A")
+					? ""
+					: `${formData.date}T${formData.checkIn}`,
+				checkOut: formData.checkOut.includes("N/A")
+					? ""
+					: `${formData.date}T${formData.checkOut}`,
+				id: id,
+			};
+			console.log(data);
+			updateMutation.mutate(data);
+		}
 	};
 
 	useEffect(() => {
@@ -101,8 +138,6 @@ const AttendanceModal = ({
 			});
 		}
 	}, [data, isError, isLoading, type]);
-	// console.log(employee);
-	console.log(formData);
 
 	return (
 		<>

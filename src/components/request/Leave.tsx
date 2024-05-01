@@ -18,7 +18,7 @@ export interface Props {
 }
 
 const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
-	const [data, setDate] = useState({
+	const [data, setData] = useState({
 		type: "leave",
 		startDate: "",
 		endDate: "",
@@ -68,7 +68,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 			queryClient.invalidateQueries({
 				queryKey: ["requests"],
 			});
-			setDate({
+			setData({
 				type: "leave",
 				startDate: "",
 				endDate: "",
@@ -93,7 +93,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 		>
 	) => {
 		const { name, value } = e.target;
-		setDate((prevData) => {
+		setData((prevData) => {
 			return { ...prevData, [name]: value };
 		});
 	};
@@ -135,8 +135,8 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 			? leaveData.endDate.split("T")[0]
 			: "";
 		if (type == "update") {
-			setDate({
-				type: "leave",
+			setData({
+				type: allData?.request?.leaveId?.type,
 				startDate: formattedStartDate,
 				endDate: formattedEndDate,
 				reason: leaveData?.reason,
@@ -151,7 +151,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 			});
 		}
 		if (type === "add") {
-			setDate({
+			setData({
 				type: "leave",
 				startDate: "",
 				endDate: "",
@@ -162,6 +162,8 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 			});
 		}
 	}, [allData, type, isError, isLoading]);
+
+	console.log(data);
 
 	return (
 		<Modal
@@ -179,9 +181,10 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						required
 						onChange={handleChange}
 						disabled={isUpdate}
+						value={data.type}
 					>
 						<option value="event">Leave</option>
-						<option value="reminder">Work From Home</option>
+						<option value="work from home">Work From Home</option>
 					</select>
 				</div>
 				<div className="form__box-element">
@@ -246,7 +249,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 							required
 							onChange={handlePMStatusChange}
 							value={data.pmStatus}
-							disabled={!isProjectManager}
+							disabled={!isProjectManager || data.pmStatus !== "pending"}
 						>
 							<option value="pending">Pending</option>
 							<option value="approved">Approved</option>
@@ -263,6 +266,7 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 							required
 							onChange={handleStatusChange}
 							value={data.status}
+							disabled={data.status !== "pending"}
 						>
 							<option value="pending">Pending</option>
 							<option value="approved">Approved</option>

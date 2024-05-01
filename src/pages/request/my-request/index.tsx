@@ -7,9 +7,19 @@ import { FaHome } from "react-icons/fa";
 import classNames from "classnames";
 
 const MyRequest = () => {
-	const { data, isLoading, isError } = useGetAllRequestOfUser();
 	const [selectedType, setSelectedType] = useState("leave");
 	const activeClass = "active";
+	const [filter, setFilter] = useState({
+		startDate: "",
+		endDate: "",
+		searchEmployee: "",
+	});
+	const { data, isLoading, isError, refetch } = useGetAllRequestOfUser({
+		startDate: filter.startDate,
+		endDate: filter.endDate,
+		searchEmployee: filter.searchEmployee,
+		selectedType: selectedType,
+	});
 
 	if (isLoading) {
 		return <div>Loading...</div>;
@@ -244,7 +254,7 @@ const MyRequest = () => {
 						type="date"
 						className="custom-date"
 						onChange={(e) => {
-							// setFilter({ ...filter, startDate: e.target.value });
+							setFilter({ ...filter, startDate: e.target.value });
 						}}
 					/>
 					-
@@ -252,7 +262,7 @@ const MyRequest = () => {
 						type="date"
 						className="custom-date"
 						onChange={(e) => {
-							// setFilter({ ...filter, endDate: e.target.value });
+							setFilter({ ...filter, endDate: e.target.value });
 						}}
 					/>
 					<div className="flex gap-2">
@@ -261,12 +271,11 @@ const MyRequest = () => {
 							className="custom-date w-[500px]"
 							placeholder="Search employee"
 							onChange={(e) => {
-								// setFilter({ ...filter, searchEmployee: e.target.value });
+								setFilter({ ...filter, searchEmployee: e.target.value });
 							}}
-							// value={filter.searchEmployee}
+							value={filter.searchEmployee}
 						/>
-						{/* <button onClick={filterData}>Search</button> */}
-						<button>Search</button>
+						<button onClick={() => refetch()}>Search</button>
 					</div>
 				</div>
 			</div>

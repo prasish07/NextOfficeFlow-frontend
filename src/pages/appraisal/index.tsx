@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import CustomAssignee from "@/components/dropdown/customAssignee";
-import CustomeAssignee2 from "@/components/dropdown/customAsignee2";
 import classNames from "classnames";
 import ProjectAnalysis from "@/components/appraisal/project";
 import SelectEmployee from "@/components/dropdown/selectEmployee";

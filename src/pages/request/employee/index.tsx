@@ -8,12 +8,21 @@ import Attendance from "@/components/request/Attendence";
 import classNames from "classnames";
 
 const EmployeeRequest = () => {
-	const { data, isLoading, isError } = useGetAllPMRequested();
 	const [selectedType, setSelectedType] = useState("leave");
 	const [showLeaveModal, setShowLeaveModal] = useState(false);
 	const [showOvertimeModal, setShowOvertimeModal] = useState(false);
 	const [selectedId, setSelectedId] = useState("");
-
+	const [filter, setFilter] = useState({
+		startDate: "",
+		endDate: "",
+		searchEmployee: "",
+	});
+	const { data, isLoading, isError, refetch } = useGetAllPMRequested({
+		startDate: filter.startDate,
+		endDate: filter.endDate,
+		searchEmployee: filter.searchEmployee,
+		selectedType: selectedType,
+	});
 	const activeClass = "active";
 
 	if (isLoading) {
@@ -172,13 +181,36 @@ const EmployeeRequest = () => {
 			</div>
 
 			<div className="request__filter">
-				<h3>Filter</h3>
-				<select name="filter" id="filter">
-					<option value="this-month">This Month</option>
-					<option value="last-month">Last Month</option>
-					<option value="this-year">This Year</option>
-					<option value="last-year">Last Year</option>
-				</select>
+				<h2>Filter</h2>
+				<div className="request__filter--elements">
+					<input
+						type="date"
+						className="custom-date"
+						onChange={(e) => {
+							setFilter({ ...filter, startDate: e.target.value });
+						}}
+					/>
+					-
+					<input
+						type="date"
+						className="custom-date"
+						onChange={(e) => {
+							setFilter({ ...filter, endDate: e.target.value });
+						}}
+					/>
+					<div className="flex gap-2">
+						<input
+							type="text"
+							className="custom-date w-[500px]"
+							placeholder="Search employee"
+							onChange={(e) => {
+								setFilter({ ...filter, searchEmployee: e.target.value });
+							}}
+							value={filter.searchEmployee}
+						/>
+						<button onClick={() => refetch()}>Search</button>
+					</div>
+				</div>
 			</div>
 
 			<div className="request__list">{<RequestElement />}</div>

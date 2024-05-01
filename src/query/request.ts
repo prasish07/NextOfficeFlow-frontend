@@ -49,7 +49,7 @@ export function useGetAllRequests(filter?: any) {
 
 export function useGetAllRequestOfUser(filter?: any) {
 	return useQuery({
-		queryKey: ["request", filter],
+		queryKey: ["request"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/request`, {
 				params: filter,
@@ -62,7 +62,7 @@ export function useGetAllRequestOfUser(filter?: any) {
 
 export function useGetAllPMRequested(filter?: any) {
 	return useQuery({
-		queryKey: ["request", filter],
+		queryKey: ["request"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/request/pm/request`, {
 				params: filter,

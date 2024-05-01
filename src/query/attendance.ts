@@ -106,6 +106,18 @@ export function manualAttendance(data: any) {
 		.then((res) => res.data);
 }
 
+export function updateAttendance(data: any) {
+	return axios
+		.patch(
+			`${baseUrl}/attendance/manual/${data.id}`,
+			{ data },
+			{
+				withCredentials: true,
+			}
+		)
+		.then((res) => res.data);
+}
+
 export function useGetSingleAttendance(id: string) {
 	return useQuery({
 		queryKey: ["attendance", id],

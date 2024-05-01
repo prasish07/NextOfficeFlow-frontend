@@ -31,6 +31,7 @@ const ProjectAnalysis = ({
 	};
 
 	const individualProjectData = data?.ticketList.map((ticket: any) => {
+		if (!ticket.ticketCount) return null;
 		return {
 			projectTitle: ticket.projectName,
 			data: {
@@ -62,12 +63,16 @@ const ProjectAnalysis = ({
 			<h3 className="mt-[20px]">Individual Project Matrix</h3>
 			{/* Pie chart with loop */}
 			<div className="appraisal__ticket-chart">
-				{individualProjectData?.map((project: any) => (
-					<div key={project.projectTitle} className="w-[500px] mb-10">
-						<h3>{project.projectTitle}</h3>
-						<Pie data={project.data} />
-					</div>
-				))}
+				{individualProjectData?.map((project: any) => {
+					if (!project) return null;
+
+					return (
+						<div key={project.projectTitle} className="w-[500px] mb-10">
+							<h3>{project.projectTitle}</h3>
+							<Pie data={project.data} />
+						</div>
+					);
+				})}
 			</div>
 		</div>
 	);
