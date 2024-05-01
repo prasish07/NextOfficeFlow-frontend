@@ -22,7 +22,11 @@
 		background-color: $white;
 		border-radius: 10px;
 		margin-top: 20px;
-		width: 320px;
+
+		width: 100%;
+		@include mq(md) {
+			width: 320px;
+		}
 
 		@include e(image) {
 			display: flex;
@@ -54,11 +58,18 @@
 		background-color: $white;
 		border-radius: 10px;
 		padding: 20px;
+		display: flex;
 		flex-grow: 1;
 		width: min-content;
+		width: 100%;
+
+		@include mq(md) {
+			width: calc(100% - 320px);
+		}
 	}
 
 	@include e(details) {
+		width: 100%;
 		h2 {
 			margin-bottom: 20px;
 			font-weight: 600;
@@ -69,7 +80,18 @@
 			span {
 				display: inline-block;
 				font-weight: 600;
-				width: 150px;
+				width: 250px;
+				text-transform: capitalize;
+			}
+		}
+
+		@include m(element) {
+			display: flex;
+			flex-direction: column;
+
+			@include mq(md) {
+				flex-direction: row;
+				gap: 20px;
 			}
 		}
 	}
