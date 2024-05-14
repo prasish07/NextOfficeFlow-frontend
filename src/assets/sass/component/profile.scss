@@ -62,6 +62,7 @@
 		flex-grow: 1;
 		width: min-content;
 		width: 100%;
+		flex-direction: column;
 
 		@include mq(md) {
 			width: calc(100% - 320px);

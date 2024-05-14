@@ -33,15 +33,12 @@ const Index = () => {
 						selectedId={selectedId}
 					/>
 				);
-				break;
 
 			case "update":
 				return <ManageAction type="update" selectedId={selectedId} />;
-				break;
 
 			case "new":
 				return <ManageAction type="new" selectedId={selectedId} />;
-				break;
 
 			default:
 				break;

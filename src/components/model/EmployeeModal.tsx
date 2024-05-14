@@ -143,7 +143,6 @@ const EmployeeModal = ({
 	const handleUpload = () => {
 		// Perform actions with selectedFiles, e.g., upload to server
 		for (let i = 0; i < selectedFiles.length; i++) {
-			console.log("Selected File:", selectedFiles[i].name);
 			// You can perform additional actions here, such as uploading the files to a server.
 		}
 	};

@@ -8,7 +8,6 @@ const Document = ({ userId }: { userId: string }) => {
 
 	useEffect(() => {
 		if (data) {
-			console.log(data);
 			setUserName({
 				name: data.data.name,
 				email: data.data.userId.email,

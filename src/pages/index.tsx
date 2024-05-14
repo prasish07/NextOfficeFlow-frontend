@@ -14,7 +14,12 @@ import { COMPANY_LOCATION, API } from "@/constants/consts";
 import { calculateDistance } from "@/utils/location";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { checkIn, checkOut, useMyTodayAttendance } from "@/query/attendance";
+import {
+	breakUpdate,
+	checkIn,
+	checkOut,
+	useMyTodayAttendance,
+} from "@/query/attendance";
 import { useGetMyDetails } from "@/query/employee";
 import Events from "@/components/dashboard/Events";
 import AnnouncementPreview from "@/components/dashboard/AnnouncementPreview";
@@ -25,11 +30,16 @@ import PendingLeaveRequest from "@/components/dashboard/PendingLeaveRequest";
 import PMInfo from "@/components/dashboard/PMInfo";
 import CurrentProject from "@/components/dashboard/CurrentProject";
 import AdminInfo from "@/components/dashboard/AdminInfo";
+import { IoTimeOutline } from "react-icons/io5";
+import { Modal } from "@/components/model/Model";
+import BreakModel from "@/components/breakModel";
 
 const Home = () => {
 	const { role } = useGlobalProvider();
 	const { data: myAttendance } = useMyTodayAttendance();
 	const { data, isLoading } = useGetMyDetails();
+	const [showTimeModal, setTimeShowModal] = useState(false);
+
 	let timeDifferenceInHours = "";
 	const queryClient = useQueryClient();
 
@@ -242,6 +252,9 @@ const Home = () => {
 								: "Not Check-Out yet"}
 						</span>
 					</p>
+					<button onClick={() => setTimeShowModal(true)} className="custom-btn">
+						Break
+					</button>
 
 					{/* <p>
 									Total Breaks: <span>1</span>
@@ -250,6 +263,11 @@ const Home = () => {
 					{/* <Link href="">View my Attendance</Link> */}
 				</div>
 			</div>
+			<BreakModel
+				showTimeModal={showTimeModal}
+				setTimeShowModal={setTimeShowModal}
+				data={attendanceDate}
+			/>
 		</div>
 	);
 

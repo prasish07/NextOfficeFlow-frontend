@@ -27,12 +27,10 @@ const ProfileAttendance = () => {
 		const startDate = startDateRef.current?.value;
 		const endDate = endDateRef.current?.value;
 		if (startDate && endDate) {
-			console.log(startDate, endDate);
 			const filteredData = attendances.filter((attendance: any) => {
 				const date = new Date(attendance.date);
 				return date >= new Date(startDate) && date <= new Date(endDate);
 			});
-			console.log(filteredData);
 			setFilterData(filteredData);
 		} else {
 			setFilterData(attendances);

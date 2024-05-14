@@ -1,10 +1,12 @@
-import { useGetAllRequestOfUser } from "@/query/request";
+import { removeRequestFunc, useGetAllRequestOfUser } from "@/query/request";
 import React, { useState } from "react";
-import { IoTimeSharp } from "react-icons/io5";
+import { IoClose, IoTimeSharp } from "react-icons/io5";
 import { MdMoneyOff } from "react-icons/md";
 import { SlNote } from "react-icons/sl";
 import { FaHome } from "react-icons/fa";
 import classNames from "classnames";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const MyRequest = () => {
 	const [selectedType, setSelectedType] = useState("leave");
@@ -20,6 +22,19 @@ const MyRequest = () => {
 		searchEmployee: filter.searchEmployee,
 		selectedType: selectedType,
 	});
+	const queryClient = useQueryClient();
+
+	const removeMutation = useMutation({
+		mutationFn: removeRequestFunc,
+		onSuccess: (data: any) => {
+			toast.success("Request removed successfully");
+			queryClient.invalidateQueries({ queryKey: ["request"] });
+		},
+		onError: (error: any) => {
+			console.log(error);
+			toast.error(error.response.data.message);
+		},
+	});
 
 	if (isLoading) {
 		return <div>Loading...</div>;
@@ -34,6 +49,10 @@ const MyRequest = () => {
 	const filterElement = requests.filter(
 		(item: any) => item.requestType === selectedType
 	);
+
+	const removeRequest = (id: string) => {
+		removeMutation.mutate(id);
+	};
 
 	const RequestElement = () => {
 		if (selectedType === "leave") {
@@ -62,7 +81,7 @@ const MyRequest = () => {
 				);
 
 				return (
-					<div className="request__list-element" key={item._id}>
+					<div className="request__list-element relative" key={item._id}>
 						<div className="request__list-element-1-header">
 							<h2>{item.employeeName}</h2>
 							<p>{item.employeePosition}</p>
@@ -78,6 +97,13 @@ const MyRequest = () => {
 								<p className={`${btnClasses}`}>{item.status}</p>
 							</div>
 						</div>
+						<button
+							type="button"
+							className="w-7 h-7 border border-secondary-400 bg-secondary-400 rounded-full flex justify-center items-center absolute -top-3 -right-3 hover:bg-white transition-colors"
+							onClick={() => removeRequest(item._id)}
+						>
+							<IoClose className="w-5 h-5  hover:fill-secondary-400 transition-colors" />
+						</button>
 					</div>
 				);
 			});
@@ -90,7 +116,7 @@ const MyRequest = () => {
 					{ "bg-yellow-400": item.status.includes("pending") }
 				);
 				return (
-					<div className="request__list-element" key={item._id}>
+					<div className="request__list-element relative" key={item._id}>
 						<div className="request__list-element-1-header">
 							<h2>{item.employeeName}</h2>
 							<p>{item.employeePosition}</p>
@@ -105,6 +131,13 @@ const MyRequest = () => {
 								<p className={btnClasses}>{item.status}</p>
 							</div>
 						</div>
+						<button
+							type="button"
+							className="w-7 h-7 border border-secondary-400 bg-secondary-400 rounded-full flex justify-center items-center absolute -top-3 -right-3 hover:bg-white transition-colors"
+							onClick={() => removeRequest(item._id)}
+						>
+							<IoClose className="w-5 h-5  hover:fill-secondary-400 transition-colors" />
+						</button>
 					</div>
 				);
 			});
@@ -133,7 +166,7 @@ const MyRequest = () => {
 				);
 
 				return (
-					<div className="request__list-element" key={item._id}>
+					<div className="request__list-element relative" key={item._id}>
 						<div className="request__list-element-1-header">
 							<h2>{item.employeeName}</h2>
 							<p>{item.employeePosition}</p>
@@ -149,6 +182,13 @@ const MyRequest = () => {
 								<p className={btnClasses}>{item.status}</p>
 							</div>
 						</div>
+						<button
+							type="button"
+							className="w-7 h-7 border border-secondary-400 bg-secondary-400 rounded-full flex justify-center items-center absolute -top-3 -right-3 hover:bg-white transition-colors"
+							onClick={() => removeRequest(item._id)}
+						>
+							<IoClose className="w-5 h-5  hover:fill-secondary-400 transition-colors" />
+						</button>
 					</div>
 				);
 			});
@@ -169,7 +209,7 @@ const MyRequest = () => {
 				);
 
 				return (
-					<div className="request__list-element" key={item._id}>
+					<div className="request__list-element relative" key={item._id}>
 						<div className="request__list-element-1-header">
 							<h2>{item.employeeName}</h2>
 							<p>{item.employeePosition}</p>
@@ -185,6 +225,13 @@ const MyRequest = () => {
 								<p className={btnClasses}>{item.status}</p>
 							</div>
 						</div>
+						<button
+							type="button"
+							className="w-7 h-7 border border-secondary-400 bg-secondary-400 rounded-full flex justify-center items-center absolute -top-3 -right-3 hover:bg-white transition-colors"
+							onClick={() => removeRequest(item._id)}
+						>
+							<IoClose className="w-5 h-5  hover:fill-secondary-400 transition-colors" />
+						</button>
 					</div>
 				);
 			});

@@ -284,3 +284,18 @@
 		}
 	}
 }
+
+.custom-btn {
+	display: flex;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+
+	&:hover {
+		background-color: #ddd;
+	}
+}

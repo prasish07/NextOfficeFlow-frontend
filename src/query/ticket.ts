@@ -82,3 +82,9 @@ export function updateTicket(data: any) {
 		})
 		.then((res) => res.data);
 }
+
+export function removeTickets(ticketList: string[]) {
+	return axios
+		.post(`${baseUrl}/ticket/removeMany`, ticketList, { withCredentials: true })
+		.then((res) => res.data);
+}

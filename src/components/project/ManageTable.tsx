@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { FaRegEdit, FaRegTrashAlt, FaUserPlus } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
 import { useRouter } from "next/router";
-import { deleteProject, useGetProjectList } from "@/query/project";
+import {
+	deleteProject,
+	removeProjects,
+	useGetProjectList,
+} from "@/query/project";
 import useScreenWidth from "@/hooks/useScreenWidth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import DeleteModal from "../model/DeleteModal";
@@ -30,13 +34,28 @@ const ManageTable = ({
 	const isProjectManager = role === "project manager";
 	const isEmployee = role === "employee";
 	const [assignee, setAssignee] = useState<any>(null);
+	const [projectList, setProjectList] = useState<string[]>([]);
 
 	const deleteMutation = useMutation({
 		mutationFn: deleteProject,
 		onSuccess: (data: any) => {
 			toast.success(data.message);
 			queryClient.invalidateQueries({
-				queryKey: ["project details", selectedId],
+				queryKey: ["project list"],
+			});
+		},
+		onError: (error: any) => {
+			toast.error(error.response.data.message);
+		},
+	});
+
+	const deleteManyMutation = useMutation({
+		mutationFn: removeProjects,
+		onSuccess: (data: any) => {
+			toast.success(data.message);
+			setProjectList([]);
+			queryClient.invalidateQueries({
+				queryKey: ["project list"],
 			});
 		},
 		onError: (error: any) => {
@@ -61,7 +80,15 @@ const ManageTable = ({
 	return (
 		<div className="project__manage">
 			<div className="project__sub-header">
-				{/* <button>Delete</button> */}
+				{!isEmployee && (
+					<button
+						onClick={() => {
+							deleteManyMutation.mutate(projectList);
+						}}
+					>
+						Delete
+					</button>
+				)}
 				<input
 					type="text"
 					placeholder="Search"
@@ -76,7 +103,19 @@ const ManageTable = ({
 					<thead>
 						<tr>
 							<th>
-								<input type="checkbox" />
+								<input
+									type="checkbox"
+									checked={projectList.length === filteredProjects.length}
+									onClick={() => {
+										if (projectList.length === filteredProjects.length) {
+											setProjectList([]);
+										} else {
+											setProjectList(
+												filteredProjects.map((project: any) => project._id)
+											);
+										}
+									}}
+								/>
 							</th>
 							{isDesktopView && !isTabletView && <th>ID</th>}
 
@@ -111,7 +150,19 @@ const ManageTable = ({
 							return (
 								<tr key={project._id}>
 									<td>
-										<input type="checkbox" />
+										<input
+											type="checkbox"
+											checked={projectList.includes(project._id)}
+											onClick={() => {
+												if (projectList.includes(project._id)) {
+													setProjectList(
+														projectList.filter((id) => id !== project._id)
+													);
+												} else {
+													setProjectList([...projectList, project._id]);
+												}
+											}}
+										/>
 									</td>
 									{isDesktopView && !isTabletView && <td>{project._id}</td>}
 									<td>{project.title}</td>

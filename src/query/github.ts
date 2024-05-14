@@ -133,3 +133,27 @@ export function useGetGetPRComments(repo: string, id: string) {
 		},
 	});
 }
+
+export function addPRComments({
+	repo,
+	id,
+	comment,
+}: {
+	repo: string;
+	id: string;
+	comment: string;
+}) {
+	return axios
+		.post(
+			`https://api.github.com/repos/${GITHUB_USER}/${repo}/issues/${id}/comments`,
+			{
+				body: comment,
+			},
+			{
+				headers: {
+					Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+				},
+			}
+		)
+		.then((res) => res.data);
+}

@@ -96,3 +96,9 @@ export function updateStatus({
 		.patch(`${baseUrl}/request/${requestId}`, data, { withCredentials: true })
 		.then((res) => res.data);
 }
+
+export function removeRequestFunc(id: string) {
+	return axios
+		.delete(`${baseUrl}/request/${id}`, { withCredentials: true })
+		.then((res) => res.data);
+}

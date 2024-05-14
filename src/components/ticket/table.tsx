@@ -4,9 +4,6 @@ import useScreenWidth from "@/hooks/useScreenWidth";
 import React from "react";
 import { FaRegEdit, FaRegTrashAlt, FaUserPlus } from "react-icons/fa";
 import CustomAssignee from "../dropdown/customAssignee";
-import { useMutation } from "@tanstack/react-query";
-import { updateTicketOneField } from "@/query/ticket";
-import { toast } from "react-toastify";
 import DeleteModal from "../model/DeleteModal";
 
 const Table = ({ tickets, status }: { tickets: any; status: string }) => {
@@ -20,6 +17,8 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 		setType,
 		deleteTicketFunction,
 		search,
+		setTicketList,
+		ticketList,
 	} = useTicketProvider();
 	const { isDesktopView, isTabletView } = useScreenWidth();
 	const { role } = useGlobalProvider();
@@ -41,7 +40,17 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 						<thead>
 							<tr>
 								<th>
-									<input type="checkbox" />
+									<input
+										type="checkbox"
+										checked={ticketList.length === filter.length}
+										onClick={() => {
+											if (ticketList.length === filter.length) {
+												setTicketList([]);
+											} else {
+												setTicketList(filter.map((ticket: any) => ticket._id));
+											}
+										}}
+									/>
 								</th>
 								{isDesktopView && !isTabletView && <th>ID</th>}
 
@@ -69,7 +78,19 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 								return (
 									<tr key={ticket.id}>
 										<td>
-											<input type="checkbox" />
+											<input
+												type="checkbox"
+												checked={ticketList.includes(ticket._id)}
+												onClick={() => {
+													if (ticketList.includes(ticket._id)) {
+														setTicketList(
+															ticketList.filter((id: any) => id !== ticket._id)
+														);
+													} else {
+														setTicketList([...ticketList, ticket._id]);
+													}
+												}}
+											/>
 										</td>
 										{isDesktopView && !isTabletView && <td>{ticket._id}</td>}
 										<td>{ticket.title}</td>

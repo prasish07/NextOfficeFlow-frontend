@@ -4,7 +4,7 @@ import { baseUrl } from "@/constants/apis";
 
 export function addAnnouncement(data: any) {
 	return axios
-		.post(`${baseUrl}/announcement`, data, {
+		.post(`${baseUrl}/announcement/`, data, {
 			withCredentials: true,
 		})
 		.then((res) => res.data);
@@ -14,7 +14,7 @@ export function useGetAnnouncement(filter?: any) {
 	return useQuery({
 		queryKey: ["announcement"],
 		queryFn: async () => {
-			const { data } = await axios.get(`${baseUrl}/announcement`, {
+			const { data } = await axios.get(`${baseUrl}/announcement/`, {
 				params: filter,
 				withCredentials: true,
 			});

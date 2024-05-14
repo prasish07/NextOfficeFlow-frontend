@@ -1,5 +1,9 @@
 import { addCommentProject } from "@/query/project";
-import { deleteTicket, updateTicketOneField } from "@/query/ticket";
+import {
+	deleteTicket,
+	removeTickets,
+	updateTicketOneField,
+} from "@/query/ticket";
 import {
 	UseMutationResult,
 	useMutation,
@@ -58,6 +62,9 @@ interface ticketContextProps {
 			email: string;
 		}>
 	>;
+	ticketList: string[];
+	setTicketList: React.Dispatch<React.SetStateAction<string[]>>;
+	removeManyFunc: () => void;
 }
 
 export const TicketContext = createContext<ticketContextProps | undefined>(
@@ -75,6 +82,7 @@ const TicketProvider = ({ children }: { children: React.ReactNode }) => {
 		id: "",
 		email: "",
 	});
+	const [ticketList, setTicketList] = useState<string[]>([]);
 
 	const [type, setType] = useState<string>("");
 	const queryClient = useQueryClient();
@@ -102,6 +110,22 @@ const TicketProvider = ({ children }: { children: React.ReactNode }) => {
 			toast.error(error.response.data.message);
 		},
 	});
+
+	const removeManyTicketMutation = useMutation({
+		mutationFn: removeTickets,
+		onSuccess: () => {
+			toast.success("Ticket deleted successfully");
+			setTicketList([]);
+			queryClient.invalidateQueries({ queryKey: ["ticket list"] });
+		},
+		onError: () => {
+			toast.error("Failed to delete ticket");
+		},
+	});
+
+	const removeManyFunc = () => {
+		removeManyTicketMutation.mutate(ticketList);
+	};
 
 	const commentMutation = useMutation({
 		mutationFn: addCommentProject,
@@ -156,6 +180,9 @@ const TicketProvider = ({ children }: { children: React.ReactNode }) => {
 				setSearch,
 				selectedEmployee,
 				setSelectedEmployee,
+				ticketList,
+				setTicketList,
+				removeManyFunc,
 			}}
 		>
 			{children}

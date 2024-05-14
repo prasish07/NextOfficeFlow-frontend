@@ -37,7 +37,6 @@ const Login = () => {
 	const mutateData = useMutation({
 		mutationFn: loginUser,
 		onSuccess: (data: LoginResponse) => {
-			console.log(data);
 			if (data.verified && data.isFirstTimePasswordChange) {
 				router.push("/");
 				toast.success(data.message);

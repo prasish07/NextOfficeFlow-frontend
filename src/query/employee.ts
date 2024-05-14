@@ -189,3 +189,9 @@ export function useGetMyDetails() {
 		},
 	});
 }
+
+export function sentResignation(data: any) {
+	return axios
+		.post(`${baseUrl}/user/resignation`, data, { withCredentials: true })
+		.then((res) => res.data);
+}

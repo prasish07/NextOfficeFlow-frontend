@@ -9,6 +9,7 @@ import { useGlobalProvider } from "@/context/GlobalProvicer";
 import Description from "@/components/profile/Description";
 import ProfileAttendance from "@/components/attendance/profileAttendance";
 import PhotoChange from "@/components/profile/photoChange";
+import Resignation from "@/components/profile/Resignation";
 
 const MyProfile = ({ endpoint }: { endpoint: string }) => {
 	const [currentContent, setCurrentContent] = useState<string>("profile");
@@ -39,6 +40,8 @@ const MyProfile = ({ endpoint }: { endpoint: string }) => {
 				return <Description userId={userId} />;
 			case "attendance":
 				return <ProfileAttendance />;
+			case "resignation":
+				return <Resignation />;
 
 			default:
 				return null;
@@ -92,6 +95,11 @@ const MyProfile = ({ endpoint }: { endpoint: string }) => {
 					{!isHRAdmin && (
 						<button onClick={() => setCurrentContent("attendance")}>
 							Attendance
+						</button>
+					)}
+					{!isHRAdmin && (
+						<button onClick={() => setCurrentContent("resignation")}>
+							Resignation
 						</button>
 					)}
 				</div>

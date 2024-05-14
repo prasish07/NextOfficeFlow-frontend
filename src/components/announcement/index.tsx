@@ -188,20 +188,6 @@ const AnnouncementModel = ({
 						onChange={handleQuillChange}
 						className="announcement__element-content"
 						modules={{
-							// imageUploader: {
-							// 	upload: async (file: any) => {
-							// 		const bodyFormData = new FormData();
-							// 		bodyFormData.append("image", file);
-							// 		const response = await axios({
-							// 			method: "post",
-							// 			url: "https://api.imgbb.com/1/upload?key=8c77b1b06a10c09dcedea764536b8b18",
-							// 			data: bodyFormData,
-							// 			headers: { "Content-Type": "multipart/form-data" },
-							// 		});
-							// 		return response.data.data.url;
-							// 	},
-							// },
-							// imageResize: { modules: ["Resize", "DisplaySize"] },
 							...modules,
 						}}
 					/>

@@ -17,27 +17,7 @@ const PR = ({ repo }: { repo: string }) => {
 
 	return (
 		<div className="github__pr">
-			{/* <h2>Pull Requests</h2> */}
-
 			<div className="github__pr__elements">
-				{/* <div
-					className="github__pr__element"
-					onClick={() => {
-						setShowModel(true);
-						setSelectedId("1");
-					}}
-				>
-					<div>
-						<h3>Update npm package</h3>
-						<div className="flex gap-2 items-center">
-							<p>Opened by: user1</p>|<p>Comments: 5</p>
-						</div>
-					</div>
-					<div>
-						<p>State: Open</p>
-						<p>Opened on: 12/12/2021</p>
-					</div>
-				</div> */}
 				{data?.length ? (
 					data.map((pr: any) => (
 						<div

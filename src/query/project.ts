@@ -120,6 +120,20 @@ export function deleteProject(id: string) {
 		.then((res) => res.data);
 }
 
+export function removeAttachment({
+	projectId,
+	attachment,
+}: {
+	projectId: string;
+	attachment: string;
+}) {
+	return axios
+		.delete(`${baseUrl}/project/${projectId}/${attachment}`, {
+			withCredentials: true,
+		})
+		.then((res) => res.data);
+}
+
 export function addGitHubLink({
 	endpoint,
 	repo,
@@ -145,6 +159,14 @@ export function createAndAddGithubLink({
 }) {
 	return axios
 		.put(`${baseUrl}/project/${endpoint}/github`, data, {
+			withCredentials: true,
+		})
+		.then((res) => res.data);
+}
+
+export function removeProjects(projectList: string[]) {
+	return axios
+		.post(`${baseUrl}/project/removeMany`, projectList, {
 			withCredentials: true,
 		})
 		.then((res) => res.data);

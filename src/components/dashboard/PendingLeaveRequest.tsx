@@ -11,15 +11,12 @@ const PendingLeaveRequest = () => {
 		(request: any) =>
 			request.status === "pending" && request.requestType === "leave"
 	);
-	console.log(pendingRequests);
 
 	return (
 		<div className="dashboardEvent">
 			<h2 className="event__title">Your Pending Leave Requests</h2>
 			<div className="flex flex-col gap-[20px]">
 				{pendingRequests?.map((request: any) => {
-					console.log("request", request);
-
 					const startDate = new Date(request.leaveId.startDate);
 					const endDate = new Date(request.leaveId.endDate);
 

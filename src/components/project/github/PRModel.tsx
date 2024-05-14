@@ -1,12 +1,15 @@
 import { Modal } from "@/components/model/Model";
 import {
+	addPRComments,
 	useGetGetPRComments,
 	useGetPRReview,
 	useGetSinglePR,
 } from "@/query/github";
 import { formattedDateTime } from "@/utils/data";
-import React from "react";
+import React, { LegacyRef, useRef } from "react";
 import CodeBlock from "./CodeBlock";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 interface PRModelProps {
 	showModel: boolean;
@@ -23,6 +26,9 @@ const PRModel = ({ showModel, handleClose, id, repo }: PRModelProps) => {
 		isError: prErrorReview,
 	} = useGetPRReview(repo, id);
 
+	const comment = useRef<any>("");
+	const queryClient = useQueryClient();
+
 	const {
 		data: comments,
 		isLoading: commentsLoading,
@@ -32,7 +38,30 @@ const PRModel = ({ showModel, handleClose, id, repo }: PRModelProps) => {
 	// if (isLoading || prLoadingReview || commentsLoading)
 	// 	return <div className="loader" />;
 
+	const addCommentMutation = useMutation({
+		mutationFn: addPRComments,
+		onError: (error: any) => {
+			toast.error("Error adding comment");
+		},
+		onSuccess: (data: any) => {
+			toast.success("Comment added");
+			queryClient.invalidateQueries({ queryKey: ["repo pr review", repo, id] });
+			queryClient.invalidateQueries({
+				queryKey: ["repo pr comments", repo, id],
+			});
+			comment.current!.value = "";
+		},
+	});
+
 	if (isError || !data || prErrorReview || commentsError) return <></>;
+
+	const addComment = (comment: string) => {
+		addCommentMutation.mutate({
+			repo,
+			id,
+			comment,
+		});
+	};
 
 	return (
 		<Modal
@@ -105,24 +134,19 @@ const PRModel = ({ showModel, handleClose, id, repo }: PRModelProps) => {
 				) : (
 					<p className="flex items-center mt-2 gap-x-6 box">No comments</p>
 				)}
-				{/* <div className="flex flex-col gap-2">
+				<div className="flex flex-col gap-2">
 					<h3>Write comment</h3>
-					<textarea placeholder="Write your comment" rows={4} />
-					<button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">
+					<textarea placeholder="Write your comment" rows={4} ref={comment} />
+					<button
+						className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
+						onClick={() => {
+							addComment(comment.current?.value ? comment.current?.value : "");
+						}}
+					>
 						Comment
 					</button>
 				</div>
-				<div className="flex items-center gap-2 font-bold text-[18px]">
-					<input
-						type="checkbox"
-						name="approve"
-						id="approve"
-						className="cursor-pointer"
-					/>
-					<label htmlFor="approve" className="cursor-pointer">
-						Approved this PR
-					</label>
-				</div> */}
+
 				<div className="flex flex-col gap-2">
 					<h3>View file changes</h3>
 					<CodeBlock link={data?._links.html.href + "/files"} />

@@ -14,7 +14,7 @@ const Index = () => {
 	const { role } = useGlobalProvider();
 	const isProjectManager = role === "project manager";
 	const isEmployee = role === "employee";
-	const { setSearch, setSelectedEmployee, selectedEmployee } =
+	const { setSearch, setSelectedEmployee, selectedEmployee, removeManyFunc } =
 		useTicketProvider();
 	const { data, isLoading, isError, refetch } = useGetTicketList({
 		employeeId: selectedEmployee.id,
@@ -36,7 +36,7 @@ const Index = () => {
 			<Details />
 			<div className="ticket__manage">
 				<div className="ticket__sub-header">
-					{/* {isProjectManager && <button>Delete</button>} */}
+					{!isEmployee && <button onClick={removeManyFunc}>Delete</button>}
 					<input
 						type="text"
 						placeholder="Search"

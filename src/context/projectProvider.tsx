@@ -25,9 +25,7 @@ const ProjectProvider = ({ children }: { children: React.ReactNode }) => {
 	const [showAssigneeModal, setShowAssigneeModal] = useState(false);
 	const [type, setType] = useState<string>("");
 
-	const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		console.log(e.target.value);
-	};
+	const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {};
 
 	const handlePriorityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {};
 

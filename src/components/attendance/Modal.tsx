@@ -98,7 +98,6 @@ const AttendanceModal = ({
 					: `${formData.date}T${formData.checkOut}`,
 				id: id,
 			};
-			console.log(data);
 			updateMutation.mutate(data);
 		}
 	};
@@ -110,7 +109,6 @@ const AttendanceModal = ({
 				id: data?.userId,
 				email: data?.employeeEmail,
 			});
-			console.log(data);
 			setFormData({
 				date: dateFormatter(data?.date),
 				checkIn:
@@ -186,6 +184,59 @@ const AttendanceModal = ({
 							value={formData.checkOut}
 							onChange={handleChange}
 						/>
+					</div>
+					<div className="mb-4">
+						<h3 className="font-bold mb-2">Breaks</h3>
+						{type === "view" &&
+							data?.breaks?.map((item: any, index: number) => {
+								const today = new Date();
+								const breakInTimeParts = item.breakIn.split(":").map(Number);
+								const breakOutTimeParts = item.breakOut.split(":").map(Number);
+								const breakInTime = new Date(
+									today.getFullYear(),
+									today.getMonth(),
+									today.getDate(),
+									breakInTimeParts[0],
+									breakInTimeParts[1]
+								);
+								const breakOutTime = new Date(
+									today.getFullYear(),
+									today.getMonth(),
+									today.getDate(),
+									breakOutTimeParts[0],
+									breakOutTimeParts[1]
+								);
+
+								const durationMilliseconds =
+									breakOutTime.getTime() - breakInTime.getTime();
+								const durationMinutes = Math.round(
+									durationMilliseconds / (1000 * 60)
+								);
+								const durationHours = Math.floor(durationMinutes / 60);
+								const remainingMinutes = durationMinutes % 60;
+
+								return (
+									<div
+										key={index}
+										className="flex justify-between items-center bg-gray-100 rounded-md px-4 py-2 mb-2"
+									>
+										<div>
+											<p className="font-semibold">{item.breakIn}</p>
+											<p className="text-sm text-gray-500">Break In</p>
+										</div>
+										<div>
+											<p className="font-semibold">{item.breakOut}</p>
+											<p className="text-sm text-gray-500">Break Out</p>
+										</div>
+										<div>
+											<p className="font-semibold">
+												{durationHours}h {remainingMinutes}m
+											</p>
+											<p className="text-sm text-gray-500">Duration</p>
+										</div>
+									</div>
+								);
+							})}
 					</div>
 					<div className="form-group">
 						<label htmlFor="status">Status</label>

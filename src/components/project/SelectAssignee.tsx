@@ -108,8 +108,6 @@ const SelectAssignee = ({
 					/>
 					<div className="assignee-list">
 						{employeeData.map((employee: any) => {
-							console.log(employee);
-
 							return (
 								<div key={employee._id} className="assignee-element">
 									<input

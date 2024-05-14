@@ -124,8 +124,6 @@ const ManageAction = ({
 		}
 	}, [data, isError, isAdd, setValue]);
 
-	console.log("assignee", assignee);
-
 	const onSubmit = (data: any) => {
 		if (isAdd) {
 			postMutation.mutate({ ...data, assigneeId: assignee });

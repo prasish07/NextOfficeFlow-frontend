@@ -107,7 +107,6 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		e.preventDefault();
 		const { name, value } = e.target;
-		console.log(value);
 		overtimeUpdateMutation.mutate({
 			requestId: selectedId as string,
 			data: { status: value },

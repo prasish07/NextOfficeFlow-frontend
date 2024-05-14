@@ -23,8 +23,6 @@ const CurrentOngoingTickets = () => {
 
 	if (isError) return <div>Something went wrong</div>;
 
-	console.log(data);
-
 	return (
 		<div className="dashboardEvent">
 			<h2 className="event__title">Your Ongoing Ticket on Progress</h2>
@@ -37,7 +35,6 @@ const CurrentOngoingTickets = () => {
 							setSelectedId(ticket._id);
 							setType("update");
 							setShowModal(true);
-							console.log("asdf");
 						}}
 					>
 						<h2 className="dashboardEvent__ticket-h2">{ticket.title}</h2>

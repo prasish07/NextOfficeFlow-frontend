@@ -101,7 +101,6 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		e.preventDefault();
 		const { name, value } = e.target;
-		console.log(name, value);
 		leaveUpdateMutation.mutate({
 			requestId: selectedId as string,
 			data: { status: value },
@@ -162,8 +161,6 @@ const Leave = ({ showModal, setShowModal, type, selectedId }: Props) => {
 			});
 		}
 	}, [allData, type, isError, isLoading]);
-
-	console.log(data);
 
 	return (
 		<Modal

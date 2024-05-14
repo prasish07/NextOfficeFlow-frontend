@@ -71,7 +71,6 @@ const Attendance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		e.preventDefault();
 		const { name, value } = e.target;
-		console.log(value);
 		attendanceUpdateMutation.mutate({
 			requestId: selectedId as string,
 			data: { status: value },
@@ -88,8 +87,6 @@ const Attendance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 			return;
 		}
 		const { attendanceId: attendanceData } = allData.request;
-
-		console.log(attendanceData, "attendanceData");
 
 		if (type == "update") {
 			setData({

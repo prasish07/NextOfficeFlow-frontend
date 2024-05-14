@@ -70,7 +70,6 @@ const Allowance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		e.preventDefault();
 		const { name, value } = e.target;
-		console.log(value);
 		allowanceUpdateMutation.mutate({
 			requestId: selectedId as string,
 			data: { status: value },
@@ -87,7 +86,6 @@ const Allowance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 			return;
 		}
 		const { allowanceId: allowanceData } = allData.request;
-		console.log(allData);
 
 		if (type == "update") {
 			setData({

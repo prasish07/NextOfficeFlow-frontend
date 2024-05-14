@@ -33,6 +33,12 @@ export function checkOut({}: {}) {
 	);
 }
 
+export function breakUpdate(data: any) {
+	return axios.patch(`${baseUrl}/attendance/break`, data, {
+		withCredentials: true,
+	});
+}
+
 export function useMyTodayAttendance() {
 	return useQuery({
 		queryKey: ["attendance", "today"],
