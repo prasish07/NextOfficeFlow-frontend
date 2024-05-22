@@ -102,10 +102,6 @@ const Index = () => {
 					<h3>Late Coming</h3>
 					<p>{data?.TotalLate}</p>
 				</div>
-				<div>
-					<h3>OnTime</h3>
-					<p>{data?.TotalOnTime}</p>
-				</div>
 			</div>
 			<div className="attendance__list">
 				<table>
