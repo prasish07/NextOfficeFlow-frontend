@@ -133,20 +133,6 @@ const EmployeeModal = ({
 		}
 	};
 
-	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-		if (event.target.files) {
-			const files: FileList = event.target.files;
-			setSelectedFiles([...selectedFiles, ...Array.from(files)]);
-		}
-	};
-
-	const handleUpload = () => {
-		// Perform actions with selectedFiles, e.g., upload to server
-		for (let i = 0; i < selectedFiles.length; i++) {
-			// You can perform additional actions here, such as uploading the files to a server.
-		}
-	};
-
 	const { data, isLoading, isError } = useGetEmployeeDataByID(employeeId);
 
 	useEffect(() => {
@@ -197,7 +183,6 @@ const EmployeeModal = ({
 				shouldShowModal={showModal}
 				handleClose={() => setShowModal(false)}
 				header={`${employeeFunctionality} Employee`}
-				// isLoading={!isAddEmployee && isLoading}
 			>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="employee__form">
@@ -399,16 +384,7 @@ const EmployeeModal = ({
 
 					<div className="employee__form-selected-documents">
 						<h3 className="font-bold">Selected Documents</h3>
-						{/* <div className="employee__form-selected-documents--list">
-							{images.map((image, index) => (
-								<div
-									className="employee__form-selected-documents--list-item"
-									key={index}
-								>
-									<img src={image} alt="" width={100} height={100} />
-								</div>
-							))}
-						</div> */}
+
 						<ul className="dropdown-preview">
 							{images.map((image, index) => (
 								<li
