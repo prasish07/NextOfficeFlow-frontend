@@ -161,15 +161,16 @@ const App: React.FC = () => {
 						></input>
 						Toggle weekends
 					</label>
-					{role !== "employee" && (
-						<button
-							onClick={() => {
-								setShowModal(true);
-							}}
-						>
-							Add Event
-						</button>
-					)}
+					{role === "HR" ||
+						(role === "admin" && (
+							<button
+								onClick={() => {
+									setShowModal(true);
+								}}
+							>
+								Add Event
+							</button>
+						))}
 				</div>
 				<div className="calendar__section-events">
 					<h2>All Events ({events?.length})</h2>
