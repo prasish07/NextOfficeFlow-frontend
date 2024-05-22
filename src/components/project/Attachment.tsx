@@ -29,7 +29,7 @@ const Attachment = ({ endpoint }: { endpoint: string }) => {
 		mutationFn: removeAttachment,
 		onSuccess: (data: any) => {
 			queryClient.invalidateQueries({
-				queryKey: ["project attachment", endpoint],
+				queryKey: ["project details", endpoint],
 			});
 			toast.success("File removed");
 		},
@@ -42,7 +42,7 @@ const Attachment = ({ endpoint }: { endpoint: string }) => {
 		mutationFn: addAttachmentProject,
 		onSuccess: (data: any) => {
 			queryClient.invalidateQueries({
-				queryKey: ["project attachment", endpoint],
+				queryKey: ["project details", endpoint],
 			});
 		},
 		onError: (error: any) => {},

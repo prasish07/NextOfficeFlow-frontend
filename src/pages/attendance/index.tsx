@@ -103,7 +103,7 @@ const Index = () => {
 					<p>{data?.TotalLate}</p>
 				</div>
 				<div>
-					<h3>Overtime</h3>
+					<h3>OnTime</h3>
 					<p>{data?.TotalOnTime}</p>
 				</div>
 			</div>

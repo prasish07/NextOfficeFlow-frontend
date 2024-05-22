@@ -19,7 +19,6 @@ const ProjectDetails = ({ endpoint }: { endpoint: string }) => {
 				return <Comments endpoint={endpoint} />;
 			case "attachments":
 				return <Attachment endpoint={endpoint} />;
-			// Add more cases for additional tabs if needed
 			case "linkedIssues":
 				return <LinkedTickets endpoint={endpoint} />;
 			case "GitHub":

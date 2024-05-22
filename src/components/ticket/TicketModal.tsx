@@ -60,6 +60,22 @@ const TicketModal = () => {
 			queryClient.invalidateQueries({ queryKey: ["ticket list"] });
 			toast.success(data.message);
 			setShowModal(false);
+			setTicketDetails({
+				title: "",
+				status: "To-Do",
+				description: "",
+				priority: "Low",
+				dueDate: "",
+				requiredTime: "",
+				createdAt: "",
+				linkedProject: "",
+				grade: 0,
+				estimatedTime: "",
+				spentTime: "",
+			});
+			setAssigneeId("");
+			setProjectId("");
+			setImages([]);
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);

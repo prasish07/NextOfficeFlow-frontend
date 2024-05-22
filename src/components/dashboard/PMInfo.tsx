@@ -14,10 +14,11 @@ const PMInfo = () => {
 		reporter: "me",
 	});
 
-	const { data: totalUserCompletedTicket } = useGetTicketList({
-		status: "Completed",
-		reporter: "me",
-	});
+	const totalUserCompletedTicket = totalUserCreatedTicket?.tickets.filter(
+		(ticket: any) => {
+			return ticket.status === "Completed";
+		}
+	);
 
 	const { data: requests } = useGetAllPMRequested();
 
@@ -48,7 +49,7 @@ const PMInfo = () => {
 					<DashboardInfo
 						icon={<MdOutlineTaskAlt size={24} />}
 						title="Completed Tickets"
-						count={totalUserCompletedTicket?.tickets.length ?? 0}
+						count={totalUserCompletedTicket?.length ?? 0}
 					/>
 				}
 				{

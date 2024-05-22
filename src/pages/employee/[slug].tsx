@@ -14,7 +14,7 @@ import Resignation from "@/components/profile/Resignation";
 const MyProfile = ({ endpoint }: { endpoint: string }) => {
 	const [currentContent, setCurrentContent] = useState<string>("profile");
 	const { userName, role } = useGlobalProvider();
-	const isHRAdmin = role === "HR" || role === "Admin";
+	const isHRAdmin = role === "HR" || role === "admin";
 	const [showModel, setShowModel] = useState(false);
 
 	const { data: userData, isLoading: userDataLoading } = useGetUserInfo();
@@ -76,9 +76,6 @@ const MyProfile = ({ endpoint }: { endpoint: string }) => {
 							<h3>
 								Email - <span>{userName.email ? userName.email : ""}</span>
 							</h3>
-							{/* <h3>
-								Phone - <span>9841234567</span>
-							</h3> */}
 						</div>
 					</div>
 					<div className="profile__right">{renderTabContent()}</div>
