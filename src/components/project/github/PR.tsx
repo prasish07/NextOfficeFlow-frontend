@@ -8,7 +8,7 @@ const PR = ({ repo }: { repo: string }) => {
 	const [selectedId, setSelectedId] = useState("");
 	const { data, isLoading, isError } = useGetRepoPR(repo);
 
-	if (!data.length)
+	if (!data?.length)
 		return (
 			<div className="bg-white p-[10px] rounded-[10px] mt-4 font-bold">
 				No Pull Request Found

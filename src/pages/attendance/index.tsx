@@ -17,6 +17,7 @@ const Index = () => {
 		searchEmployee: "",
 	});
 	const { data, isLoading, isError, refetch } = useGetAllAttendance(date);
+	const { isMobileView } = useScreenWidth();
 
 	if (isLoading) {
 		return <div className="loader" />;
@@ -58,10 +59,10 @@ const Index = () => {
 						</button>
 					</div>
 				</div>
-				<div className="flex gap-2">
+				<div className="flex gap-2 md:m-4 m-0">
 					<input
 						type="text"
-						className="custom-date w-[500px]"
+						className="custom-date w-full xl:w-[500px]"
 						placeholder="Search employee"
 						onChange={(e) => {
 							setDate({ ...date, searchEmployee: e.target.value });
@@ -75,6 +76,7 @@ const Index = () => {
 						setShowModal(true);
 						setType("add");
 					}}
+					className="m-5 md:x-0"
 				>
 					Manual Attendance
 				</button>
@@ -114,10 +116,10 @@ const Index = () => {
 								<>
 									<th>Position</th>
 									<th>Date</th>
+									<th>Check-In</th>
+									<th>Check-Out</th>
 								</>
 							)}
-							<th>Check-In</th>
-							<th>Check-Out</th>
 							<th>Details</th>
 						</tr>
 					</thead>
@@ -146,10 +148,10 @@ const Index = () => {
 											<>
 												<td>{attendance.employeePosition}</td>
 												<td>{formattedDate}</td>
+												<td>{formattedCheckInDate}</td>
+												<td>{formattedCheckOutDate}</td>
 											</>
 										)}
-										<td>{formattedCheckInDate}</td>
-										<td>{formattedCheckOutDate}</td>
 										<td>
 											<button
 												onClick={() => {

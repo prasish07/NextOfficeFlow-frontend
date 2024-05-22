@@ -183,6 +183,7 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						required
 						onChange={handleChange}
 						value={data.date}
+						disabled={isUpdate}
 					/>
 				</div>
 				<div className="form__box-element">
@@ -194,6 +195,7 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						required
 						onChange={handleChange}
 						value={data.startTime}
+						disabled={isUpdate}
 					/>
 				</div>
 				<div className="form__box-element">
@@ -205,6 +207,7 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						required
 						onChange={handleChange}
 						value={data.endTime}
+						disabled={isUpdate}
 					/>
 				</div>
 				<div className="form__box-element">
@@ -217,6 +220,7 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						required
 						onChange={handleChange}
 						value={data.reason}
+						disabled={isUpdate}
 					/>
 				</div>
 				{!isProjectManager && (
@@ -260,6 +264,7 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 							required
 							onChange={handleStatusChange}
 							value={data.status}
+							disabled={!isHRAdmin}
 						>
 							<option value="pending">Pending</option>
 							<option value="approved">Approved</option>

@@ -25,7 +25,7 @@ export interface PopoverProps {
 
 export const DropdownPopover: React.FC<PopoverProps> = ({
 	content,
-	placement = "top",
+	placement = "topRight", // Default placement
 	trigger = "click",
 	className = "",
 	children,
@@ -145,7 +145,7 @@ const getPopoverPosition = (
 ) => {
 	const popoverWidth = popoverRect.width;
 	const popoverHeight = popoverRect.height;
-	const gap = 8; // gap between popover and trigger
+	const gap = 8;
 
 	const leftToUse = triggerRect.left;
 	const topToUse = triggerRect.top;
@@ -153,15 +153,30 @@ const getPopoverPosition = (
 	let left: number;
 	let top: number;
 
+	const spaceAbove = triggerRect.top;
+	const spaceBelow =
+		window.innerHeight - (triggerRect.top + triggerRect.height);
+
+	const shouldShowOnTop = spaceAbove > spaceBelow;
+
 	switch (viewPortSensitivePlacement) {
 		case "topRight":
-			left = leftToUse - popoverWidth + triggerRect.width;
-			top = topToUse - popoverHeight - gap;
+			if (shouldShowOnTop) {
+				left = leftToUse - popoverWidth + triggerRect.width;
+				top = topToUse - popoverHeight - gap;
+			} else {
+				left = leftToUse - popoverWidth + triggerRect.width;
+				top = topToUse + triggerRect.height + gap;
+			}
 			break;
-
 		case "bottomRight":
-			left = leftToUse - popoverWidth + triggerRect.width;
-			top = topToUse + triggerRect.height + gap;
+			if (shouldShowOnTop) {
+				left = leftToUse - popoverWidth + triggerRect.width;
+				top = topToUse - popoverHeight - gap;
+			} else {
+				left = leftToUse - popoverWidth + triggerRect.width;
+				top = topToUse + triggerRect.height + gap;
+			}
 			break;
 		default:
 			left = 0;

@@ -255,12 +255,6 @@ const Home = () => {
 					<button onClick={() => setTimeShowModal(true)} className="custom-btn">
 						Break
 					</button>
-
-					{/* <p>
-									Total Breaks: <span>1</span>
-								</p>
-								<p>10 Colleagues are on leave today</p> */}
-					{/* <Link href="">View my Attendance</Link> */}
 				</div>
 			</div>
 			<BreakModel
@@ -305,7 +299,7 @@ const Home = () => {
 					{role === "admin" && <AdminInfo />}
 					{role === "project manager" && <PMInfo />}
 				</div>
-				<div className="flex gap-[40px] p-[20px]">
+				<div className="flex flex-col xl:flex-row gap-[40px] p-[20px]">
 					{role !== "project manager" ? <Events /> : <Attendance />}
 					{role === "employee" && <CurrentOngoingTickets />}
 					{role === "HR" && <PendingLeaveRequest />}

@@ -62,7 +62,7 @@ const Info = ({ repo }: { repo: string }) => {
 				<div className="github__options-element">
 					<GrLanguage size={34} />
 					<h3>Language</h3>
-					<p>{mostUsedLanguage}</p>
+					<p style={{ fontSize: "20px" }}>{mostUsedLanguage}</p>
 				</div>
 			</div>
 		</div>

@@ -111,6 +111,7 @@ const Table = ({ tickets, status }: { tickets: any; status: string }) => {
 														<option value="Completed">Completed</option>
 														<option value="Cancelled">Cancelled</option>
 														<option value="Reopen">Reopen</option>
+														<option value="Overdue">Overdue</option>
 													</select>
 												</td>
 												<td>

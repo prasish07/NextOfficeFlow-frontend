@@ -315,7 +315,7 @@ const MyRequest = () => {
 					<div className="flex gap-2">
 						<input
 							type="text"
-							className="custom-date w-[500px]"
+							className="custom-date w-full lg:w-[500px]"
 							placeholder="Search employee"
 							onChange={(e) => {
 								setFilter({ ...filter, searchEmployee: e.target.value });

@@ -14,7 +14,7 @@ const PendingLeaveRequest = () => {
 
 	return (
 		<div className="dashboardEvent">
-			<h2 className="event__title">Your Pending Leave Requests</h2>
+			<h2 className="event__title">Your Pending Leave/WFH Requests</h2>
 			<div className="flex flex-col gap-[20px]">
 				{pendingRequests?.map((request: any) => {
 					const startDate = new Date(request.leaveId.startDate);

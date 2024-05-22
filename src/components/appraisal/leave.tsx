@@ -42,7 +42,7 @@ const LeaveAnalysis = ({ selectedEmployee }: { selectedEmployee: string }) => {
 				/>
 			</div>
 			<h3>Leave Matrix</h3>
-			<div className="w-[500px] appraisal__chart-item">
+			<div className="xl:w-[500px] w-[300px] appraisal__chart-item">
 				<Pie data={totalProjectData} />
 			</div>
 		</div>

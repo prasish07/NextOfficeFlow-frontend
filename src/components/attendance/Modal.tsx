@@ -238,6 +238,49 @@ const AttendanceModal = ({
 								);
 							})}
 					</div>
+					{type === "view" && !!data && (
+						<>
+							<div className="form-group">
+								<label htmlFor="reason">location</label>
+								<input
+									name="reason"
+									id="reason"
+									placeholder="Enter Reason"
+									value={data.location ? data.location : "N/A"}
+								></input>
+							</div>
+							<div className="form-group">
+								<label htmlFor="reason">Check-In Status</label>
+								<input
+									name="reason"
+									id="reason"
+									placeholder="Enter Reason"
+									className="capitalize"
+									value={data.checkInStatus ? data.checkInStatus : "N/A"}
+								></input>
+							</div>
+							<div className="form-group">
+								<label htmlFor="reason">Check-Out Status</label>
+								<input
+									name="reason"
+									id="reason"
+									placeholder="Enter Reason"
+									className="capitalize"
+									value={data.checkOutStatus ? data.checkOutStatus : "N/A"}
+								></input>
+							</div>
+							<div className="form-group">
+								<label htmlFor="reason">Type</label>
+								<input
+									name="reason"
+									id="reason"
+									placeholder="Enter Reason"
+									value={data.type ? data.type : "N/A"}
+									className="capitalize"
+								></input>
+							</div>
+						</>
+					)}
 					<div className="form-group">
 						<label htmlFor="status">Status</label>
 						<select

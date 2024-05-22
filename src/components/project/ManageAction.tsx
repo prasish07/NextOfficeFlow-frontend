@@ -109,7 +109,7 @@ const ManageAction = ({
 			setValue("description", project.description);
 			setValue("startDate", formattedStartDate);
 			setValue("endDate", formattedEndDate);
-			setValue("progress", project.progress.toString());
+			setValue("progress", project?.progress?.toString() ?? "0");
 			setValue("status", project.status);
 			setValue("estimatedTime", project.estimatedTime);
 			setProjectId(project._id);

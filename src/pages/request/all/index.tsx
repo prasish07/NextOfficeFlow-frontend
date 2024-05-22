@@ -91,7 +91,9 @@ const All = () => {
 						<div className="request__list-element-2">
 							<div className="request__list-element-header">
 								<FaHome size={30} />
-								<h3>{item.requestType}</h3>
+								<h3>
+									{item.leaveId.type !== "leave" ? "WFH" : item.requestType}
+								</h3>
 								<p>{daysDifference} Days</p>
 							</div>
 							<div className="request__list-element-footer">
@@ -321,7 +323,7 @@ const All = () => {
 					<div className="flex gap-2">
 						<input
 							type="text"
-							className="custom-date w-[500px]"
+							className="custom-date w-full lg:w-[500px]"
 							placeholder="Search employee"
 							onChange={(e) => {
 								setFilter({ ...filter, searchEmployee: e.target.value });

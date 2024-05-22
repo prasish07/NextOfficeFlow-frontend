@@ -43,7 +43,6 @@ export const TimeFormatterDate24hours = (date: string) => {
 
 export const getMostUsedLanguage = (languages: Record<string, number>) => {
 	let mostUsedLanguage = null;
-
 	let maxBytes = 0;
 
 	for (const language in languages) {
@@ -54,6 +53,10 @@ export const getMostUsedLanguage = (languages: Record<string, number>) => {
 				maxBytes = bytes;
 			}
 		}
+	}
+
+	if (mostUsedLanguage === "TypeScript") {
+		mostUsedLanguage = "Javascript/Typescript";
 	}
 
 	return mostUsedLanguage;

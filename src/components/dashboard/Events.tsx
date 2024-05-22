@@ -32,7 +32,9 @@ const Events = () => {
 				);
 				return (
 					<div key={event._id} className="event__sub-title">
-						<h3>{event.title}</h3>
+						<h3>
+							{event.title} - {event.type}
+						</h3>
 						<p>{event.description}</p>
 						<p>
 							{formattedStartDate} - {formattedEndDate}

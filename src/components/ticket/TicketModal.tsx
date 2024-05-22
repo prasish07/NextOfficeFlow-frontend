@@ -114,6 +114,10 @@ const TicketModal = () => {
 		setAssigneeId("");
 	};
 
+	const handleImageRemove = (image: string) => {
+		setImages((preImage) => preImage.filter((img) => img !== image));
+	};
+
 	useEffect(() => {
 		if (type === "update") {
 			if (isError || !data) return;
@@ -176,6 +180,7 @@ const TicketModal = () => {
 					<option value="Completed">Completed</option>
 					<option value="Cancelled">Cancelled</option>
 					<option value="Reopen">Reopen</option>
+					<option value="Overdue">Overdue</option>
 				</select>
 				<div className="flex flex-col gap-4">
 					<label htmlFor="description">Description</label>
@@ -204,9 +209,25 @@ const TicketModal = () => {
 								images.map((image: any, index) => {
 									// return <img src={image} alt="attachment" key={index} />;
 									return (
-										<Link href={image} key={index}>
-											<img src={image} alt="attachment" />
-										</Link>
+										<div
+											key={index}
+											className="relative border border-black p-2 rounded-[20px]"
+										>
+											<Link href={image}>
+												<img src={image} alt="attachment" />
+											</Link>
+											{isPMOrAdmin && (
+												<i
+													className="w-7 h-7 border border-secondary-400 bg-secondary-400 rounded-full flex justify-center items-center absolute -top-3 -right-3 hover:bg-white transition-colors cursor-pointer"
+													onClick={(e) => {
+														e.stopPropagation();
+														handleImageRemove(image);
+													}}
+												>
+													<IoClose className="w-5 h-5  hover:fill-secondary-400 transition-colors" />
+												</i>
+											)}
+										</div>
 									);
 								})}
 						</div>
@@ -228,13 +249,15 @@ const TicketModal = () => {
 									</button>
 								</CustomAssignee2>
 							}
-							<button
-								type="button"
-								className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px] ml-2 bg-red-500 text-white"
-								onClick={() => handleRemoveAssignee()}
-							>
-								Remove
-							</button>
+							{isPMOrAdmin && (
+								<button
+									type="button"
+									className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px] ml-2 bg-red-500 text-white"
+									onClick={() => handleRemoveAssignee()}
+								>
+									Remove
+								</button>
+							)}
 						</div>
 						<div>
 							<label htmlFor="priority">Priority</label>
@@ -301,13 +324,15 @@ const TicketModal = () => {
 									</button>
 								</CustomProject>
 							}
-							<button
-								type="button"
-								className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px] ml-2 bg-red-500 text-white"
-								onClick={() => setProjectId("")}
-							>
-								Remove
-							</button>
+							{isPMOrAdmin && (
+								<button
+									type="button"
+									className="p-[10px] border-solid border border-[#ddd] rounded-[5px] text-[18px] ml-2 bg-red-500 text-white"
+									onClick={() => setProjectId("")}
+								>
+									Remove
+								</button>
+							)}
 						</div>
 						{ticketDetails.status === "Completed" && (
 							<div>

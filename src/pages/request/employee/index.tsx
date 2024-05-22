@@ -96,9 +96,9 @@ const EmployeeRequest = () => {
 			return filterElement.map((item: any) => {
 				const btnClasses = classNames(
 					"capitalize",
-					{ "bg-green-400": item.status.includes("approved") },
-					{ "bg-red-400": item.status.includes("rejected") },
-					{ "bg-yellow-400": item.status.includes("pending") }
+					{ "bg-green-400": item.pmStatus.includes("approved") },
+					{ "bg-red-400": item.pmStatus.includes("rejected") },
+					{ "bg-yellow-400": item.pmStatus.includes("pending") }
 				);
 				const startTime = new Date(`2000-01-01 ${item.overtimeId.startTime}`);
 				const endTime = new Date(`2000-01-01 ${item.overtimeId.endTime}`);
@@ -137,7 +137,7 @@ const EmployeeRequest = () => {
 							</div>
 							<div className="request__list-element-footer">
 								<h3>{formattedDate}</h3>
-								<p className={btnClasses}>{item.status}</p>
+								<p className={btnClasses}>{item.pmStatus}</p>
 							</div>
 						</div>
 					</div>
@@ -201,7 +201,7 @@ const EmployeeRequest = () => {
 					<div className="flex gap-2">
 						<input
 							type="text"
-							className="custom-date w-[500px]"
+							className="custom-date w-full lg:w-[500px]"
 							placeholder="Search employee"
 							onChange={(e) => {
 								setFilter({ ...filter, searchEmployee: e.target.value });

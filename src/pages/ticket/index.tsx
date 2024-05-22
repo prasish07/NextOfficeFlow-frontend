@@ -93,6 +93,12 @@ const Index = () => {
 					>
 						Reopen
 					</button>
+					<button
+						onClick={() => setSelectedStatus("Overdue")}
+						className={classNames({ active: selectedStatus === "Overdue" })}
+					>
+						Overdue
+					</button>
 				</div>
 				<div className="ticket__list-element">
 					<Table tickets={tickets} status={selectedStatus} />

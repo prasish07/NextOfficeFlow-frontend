@@ -3,14 +3,13 @@ import axios from "axios";
 import { baseUrl } from "@/constants/apis";
 import { GITHUB_USER } from "@/constants/consts";
 
-export function useGetRepoInfo(repo: string) {
+export function useGetRepoInfo(repo: string, enabled: boolean = true) {
 	return useQuery({
 		queryKey: ["repo info", repo],
 		queryFn: async () => {
 			const { data } = await axios.get(
 				`https://api.github.com/repos/${GITHUB_USER}/${repo}`,
 				{
-					// Add token
 					headers: {
 						Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
 					},
@@ -18,6 +17,7 @@ export function useGetRepoInfo(repo: string) {
 			);
 			return data;
 		},
+		enabled,
 	});
 }
 

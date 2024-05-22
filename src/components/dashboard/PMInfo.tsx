@@ -6,7 +6,7 @@ import { useGetTicketList } from "@/query/ticket";
 import { BiTask } from "react-icons/bi";
 import { MdOutlineTaskAlt } from "react-icons/md";
 import { IoMdPaperPlane } from "react-icons/io";
-import { useGetAllRequests } from "@/query/request";
+import { useGetAllPMRequested, useGetAllRequests } from "@/query/request";
 
 const PMInfo = () => {
 	const { data: totalProject } = useGetProjectCount();
@@ -19,7 +19,11 @@ const PMInfo = () => {
 		reporter: "me",
 	});
 
-	const { data: requests } = useGetAllRequests({ shouldFilterPM: false });
+	const { data: requests } = useGetAllPMRequested();
+
+	const pendingRequest = requests?.requests?.filter((request: any) => {
+		return request.status === "pending";
+	});
 
 	return (
 		<div className="dashboardInfo">
@@ -51,7 +55,7 @@ const PMInfo = () => {
 					<DashboardInfo
 						icon={<IoMdPaperPlane size={24} />}
 						title="Leave/Overtime Requests"
-						count={requests?.leaveRequest + requests?.overtimeRequest ?? 0}
+						count={pendingRequest?.length ?? 0}
 					/>
 				}
 			</div>

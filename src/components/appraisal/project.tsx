@@ -56,7 +56,7 @@ const ProjectAnalysis = ({
 		<div className="appraisal__chart">
 			<h3>Assignee total Project Matrix</h3>
 			{/* Pie chart */}
-			<div className="w-[500px] appraisal__chart-item">
+			<div className="xl:w-[500px] w-[300px] appraisal__chart-item">
 				<Pie data={totalProjectData} />
 			</div>
 

@@ -94,22 +94,6 @@ const GitHub = ({ endpoint }: { endpoint: string }) => {
 				>
 					Pull Request
 				</button>
-				{/* <button
-					onClick={() => setSelectedOption("Issues")}
-					className={classNames({
-						active: selectedOption === "Issues",
-					})}
-				>
-					Issues
-				</button>
-				<button
-					onClick={() => setSelectedOption("Insights")}
-					className={classNames({
-						active: selectedOption === "Insights",
-					})}
-				>
-					Insights
-				</button> */}
 			</div>
 		);
 	};

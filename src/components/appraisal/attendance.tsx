@@ -105,7 +105,7 @@ const AttendanceAnalysis = ({
 				/>
 			</div>
 			<h3>Attendance Matrix</h3>
-			<div className="w-[800px] appraisal__chart-item">
+			<div className="xl:w-[800px] w-[400px] appraisal__chart-item">
 				<Bar data={dataAttendance} options={options} />
 			</div>
 		</div>

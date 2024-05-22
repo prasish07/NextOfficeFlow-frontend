@@ -6,6 +6,8 @@ import React, { useEffect } from "react";
 const Profile = ({ userId }: { userId: string }) => {
 	const { data, isLoading } = useGetUserDetails({ userId });
 	const { setUserName } = useGlobalProvider();
+	const { role } = useGlobalProvider();
+	const isHRAdmin = role === "HR" || role === "admin";
 
 	useEffect(() => {
 		if (data) {
@@ -70,22 +72,24 @@ const Profile = ({ userId }: { userId: string }) => {
 						<span>Working Hours:</span>Mon - Fri, {details.from} to {details.to}
 					</p>
 				</div>
-
-				<div>
-					<p>
-						<span>Total paid leaves:</span> {details.availableLeaves}
-					</p>
-					<p>
-						<span>Total paid leaves taken:</span> {details.totalPaidLeaveTaken}
-					</p>
-					<p>
-						<span>Total unpaid leaves taken:</span>{" "}
-						{details.totalUnpaidLeaveTaken}
-					</p>
-					<p>
-						<span>Total leaves taken:</span> {details.leavesTaken}
-					</p>
-				</div>
+				{!isHRAdmin && (
+					<div>
+						<p>
+							<span>Total paid leaves:</span> {details.availableLeaves}
+						</p>
+						<p>
+							<span>Total paid leaves taken:</span>{" "}
+							{details.totalPaidLeaveTaken}
+						</p>
+						<p>
+							<span>Total unpaid leaves taken:</span>{" "}
+							{details.totalUnpaidLeaveTaken}
+						</p>
+						<p>
+							<span>Total leaves taken:</span> {details.leavesTaken}
+						</p>
+					</div>
+				)}
 			</div>
 		</div>
 	);

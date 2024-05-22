@@ -21,7 +21,7 @@ const EmployeeFormSchema = z
 		position: z.string().min(1, { message: "Position is required" }),
 		department: z.string().min(1, { message: "Department is required" }),
 		team: z.string().min(1, { message: "Team is required" }),
-		manager: z.string(),
+		manager: z.string().email({ message: "Invalid email format" }),
 		description: z.string(),
 		salary: z.string().min(1, { message: "Salary required" }),
 		startDate: z.string(),
@@ -315,7 +315,7 @@ const EmployeeModal = ({
 							<div className="employee__form-item--group">
 								<label htmlFor="manager">Manager</label>
 								<input
-									type="text"
+									type="email"
 									{...register("manager")}
 									placeholder="Manager"
 									readOnly={isViewOnly}
