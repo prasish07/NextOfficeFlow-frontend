@@ -15,6 +15,7 @@ import { z } from "zod";
 import { changePassword } from "@/query/api";
 import Dropdown from "./notification/Dropdown";
 import Count from "./notification/Count";
+import { removeCookie } from "@/utils/cookies";
 
 const passwordSchema = z
 	.object({
@@ -66,17 +67,6 @@ const Header = () => {
 		onSuccess: (data: ResponseProps) => {
 			toast.success(data.message);
 			setShowModal(false);
-		},
-		onError: (error: any) => {
-			toast.error(error.response.data.message);
-		},
-	});
-
-	const logoutMutate = useMutation({
-		mutationFn: Logout,
-		onSuccess: (data: ResponseProps) => {
-			router.push("/login");
-			toast.success(data.message);
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
@@ -169,7 +159,15 @@ const Header = () => {
 										<IoPersonSharp />
 										Profile
 									</Link>
-									<button onClick={() => logoutMutate.mutate()}>
+									<button
+										onClick={() => {
+											removeCookie("token");
+											removeCookie("UserId");
+											removeCookie("role");
+											router.push("/login");
+											toast.success("Successfully Logout");
+										}}
+									>
 										<IoLogOut />
 										Sign Out
 									</button>
