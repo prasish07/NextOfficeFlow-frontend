@@ -19,6 +19,7 @@ export function checkIn({
 			location,
 			lat: data.lat,
 			lng: data.lng,
+			checkInTime: new Date(),
 		},
 		{
 			headers: {
@@ -31,7 +32,9 @@ export function checkIn({
 export function checkOut({}: {}) {
 	return axios.post(
 		`${baseUrl}/attendance/checkout`,
-		{},
+		{
+			checkOutTime: new Date(),
+		},
 		{
 			headers: {
 				Authorization: `Bearer ${token()}`,
