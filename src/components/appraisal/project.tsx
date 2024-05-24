@@ -67,7 +67,10 @@ const ProjectAnalysis = ({
 					if (!project) return null;
 
 					return (
-						<div key={project.projectTitle} className="w-[500px] mb-10">
+						<div
+							key={project.projectTitle}
+							className="xl:w-[500px] w-[300px] mb-10"
+						>
 							<h3>{project.projectTitle}</h3>
 							<Pie data={project.data} />
 						</div>

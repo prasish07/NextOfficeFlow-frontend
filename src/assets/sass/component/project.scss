@@ -1,5 +1,7 @@
 .project {
-	padding: 20px;
+	@include mq(md) {
+		padding: 20px;
+	}
 
 	@include mq(lg) {
 		width: calc(100% - 262px);

@@ -34,7 +34,7 @@ const Index = () => {
 			<h2 className="attendance__main-title">Attendance</h2>
 			<div className="attendance__menu">
 				<div className="attendance__filter">
-					<div className="flex gap-2 mt-2 items-center">
+					<div className="flex gap-2 mt-2 items-center flex-col md:flex-row">
 						<input
 							type="date"
 							className="custom-date"

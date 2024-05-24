@@ -3,14 +3,19 @@
 	background-color: white;
 	z-index: 1000;
 	top: 56px;
-	width: 500px;
-	right: 0px;
+	right: -147px;
+	width: 350px;
 	padding: 10px;
 	box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.123);
 	border-radius: 10px;
 	display: none;
 	overflow: hidden;
 	padding: 10px;
+
+	@include mq(md) {
+		right: 0px;
+		width: 500px;
+	}
 
 	button {
 		color: $normal;
@@ -62,7 +67,11 @@
 			gap: 20px;
 			p {
 				font-size: 16px;
-				width: 330px;
+				width: 220px;
+
+				@include mq(md) {
+					width: 330px;
+				}
 			}
 		}
 	}

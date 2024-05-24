@@ -33,6 +33,11 @@
 		flex-wrap: wrap;
 		gap: 10px;
 		background-color: $white;
+		justify-content: center;
+
+		@include mq(md) {
+			justify-content: start;
+		}
 
 		button {
 			width: 180px;
@@ -237,13 +242,26 @@
 
 			div {
 				display: flex;
-				align-items: center;
+				align-items: end;
+				flex-direction: column;
+				gap: 10px;
+
+				@include mq(md) {
+					align-items: center;
+					flex-direction: row;
+					gap: 0px;
+				}
 			}
 		}
 
 		label {
 			width: 300px;
 			display: inline-block;
+			text-align: end;
+
+			@include mq(md) {
+				text-align: start;
+			}
 		}
 
 		p {
