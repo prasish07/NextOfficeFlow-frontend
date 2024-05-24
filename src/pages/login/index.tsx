@@ -42,6 +42,7 @@ const Login = () => {
 				toast.success(data.message);
 				setCookies("role", data.role, 1);
 				setCookies("UserId", data.userId, 1);
+				setCookies("token", data.token, 7);
 			} else if (data.verified && !data.isFirstTimePasswordChange) {
 				toast.success(data.message);
 				router.push(`/login/change-password?id=${data.userId}`);

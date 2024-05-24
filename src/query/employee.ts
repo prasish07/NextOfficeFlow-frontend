@@ -5,6 +5,7 @@ import {
 	TEmployeeFormSchema,
 	TEmployeeFormSchema2,
 } from "@/components/model/EmployeeModal";
+import { token } from "@/constants/consts";
 
 interface EmployeeProps {
 	message: string;
@@ -54,7 +55,9 @@ export function useGetEmployeeData() {
 		queryKey: ["employee", 1],
 		queryFn: async () => {
 			const { data } = await axios.get<EmployeeProps>(`${baseUrl}/employee`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -65,7 +68,11 @@ export function addEmployee(
 	data: TEmployeeFormSchema2
 ): Promise<ResponseProps> {
 	return axios
-		.post(`${baseUrl}/employee`, data, { withCredentials: true })
+		.post(`${baseUrl}/employee`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
@@ -74,7 +81,11 @@ export function updateEmployee({
 	employeeId,
 }: updateEmployeeProps): Promise<ResponseProps> {
 	return axios
-		.patch(`${baseUrl}/employee/${employeeId}`, data, { withCredentials: true })
+		.patch(`${baseUrl}/employee/${employeeId}`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
@@ -82,7 +93,11 @@ export function deleteEmployee(
 	employeeId: string | undefined
 ): Promise<ResponseProps> {
 	return axios
-		.delete(`${baseUrl}/employee/${employeeId}`, { withCredentials: true })
+		.delete(`${baseUrl}/employee/${employeeId}`, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
@@ -93,7 +108,9 @@ export function useGetEmployeeDataByID(id: string | undefined) {
 			const { data } = await axios.get<EmployeeProps2>(
 				`${baseUrl}/employee/${id}`,
 				{
-					withCredentials: true,
+					headers: {
+						Authorization: `Bearer ${token()}`,
+					},
 				}
 			);
 			return data;
@@ -106,7 +123,11 @@ export function Logout(): Promise<ResponseProps> {
 		.post(
 			`${baseUrl}/user/sign-out`,
 			{ action: "logout" },
-			{ withCredentials: true }
+			{
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
+			}
 		)
 		.then((res) => res.data);
 }
@@ -122,7 +143,9 @@ export function useGetUserInfo() {
 		queryKey: ["user", 1],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/user/info`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -136,7 +159,9 @@ export function useGetUserDetails({ userId }: { userId: string }) {
 			const { data } = await axios.get(
 				`${baseUrl}/user/information/${userId}`,
 				{
-					withCredentials: true,
+					headers: {
+						Authorization: `Bearer ${token()}`,
+					},
 				}
 			);
 			return data;
@@ -152,7 +177,9 @@ export function useGetAllEmployees(filter?: any) {
 				`${baseUrl}/employee/all`,
 				{
 					params: filter,
-					withCredentials: true,
+					headers: {
+						Authorization: `Bearer ${token()}`,
+					},
 				}
 			);
 			return data;
@@ -172,7 +199,9 @@ export function addAssignee({
 			`${baseUrl}/project/${projectId}/addAssignee`,
 			{ assigneeIds: assigneeIds },
 			{
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			}
 		)
 		.then((res) => res.data);
@@ -183,7 +212,9 @@ export function useGetMyDetails() {
 		queryKey: ["my details", 1],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/employee/me`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -192,6 +223,10 @@ export function useGetMyDetails() {
 
 export function sentResignation(data: any) {
 	return axios
-		.post(`${baseUrl}/user/resignation`, data, { withCredentials: true })
+		.post(`${baseUrl}/user/resignation`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }

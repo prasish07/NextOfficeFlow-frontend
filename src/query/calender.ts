@@ -1,10 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "@/constants/apis";
+import { token } from "@/constants/consts";
 
 export function addEvent(data: any) {
 	return axios
-		.post(`${baseUrl}/event`, data, { withCredentials: true })
+		.post(`${baseUrl}/event`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
@@ -14,7 +19,9 @@ export function useGetEvents(filter?: { start: string; end: string }) {
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/events`, {
 				params: filter,
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -29,7 +36,9 @@ export function useGetEventsWithoutFilter(filter?: {
 		queryKey: ["events", 1],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/events`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -38,7 +47,11 @@ export function useGetEventsWithoutFilter(filter?: {
 
 export function deleteEvent(id: string) {
 	return axios
-		.delete(`${baseUrl}/event/${id}`, { withCredentials: true })
+		.delete(`${baseUrl}/event/${id}`, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
@@ -47,7 +60,9 @@ export function useUpcomingEvents() {
 		queryKey: ["upcomingEvents"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/events/upcoming`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},

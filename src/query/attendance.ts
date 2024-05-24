@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "@/constants/apis";
+import { token } from "@/constants/consts";
 
 export function checkIn({
 	type,
@@ -19,7 +20,11 @@ export function checkIn({
 			lat: data.lat,
 			lng: data.lng,
 		},
-		{ withCredentials: true }
+		{
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		}
 	);
 }
 
@@ -28,14 +33,18 @@ export function checkOut({}: {}) {
 		`${baseUrl}/attendance/checkout`,
 		{},
 		{
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		}
 	);
 }
 
 export function breakUpdate(data: any) {
 	return axios.patch(`${baseUrl}/attendance/break`, data, {
-		withCredentials: true,
+		headers: {
+			Authorization: `Bearer ${token()}`,
+		},
 	});
 }
 
@@ -44,7 +53,9 @@ export function useMyTodayAttendance() {
 		queryKey: ["attendance", "today"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/attendance/me/today`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -56,7 +67,9 @@ export function useGetAllAttendance(filter?: any) {
 		queryKey: ["attendance", "all"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/attendance/all`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 				params: filter,
 			});
 			return data;
@@ -69,7 +82,9 @@ export function useGetMyTodayAttendance() {
 		queryKey: ["attendance", "today"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/attendance/employee`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -81,7 +96,9 @@ export function useGetTotalTodayAttendance() {
 		queryKey: ["attendance", "total"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/attendance/today/total`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -93,7 +110,9 @@ export function useGetUnCheckEmployees() {
 		queryKey: ["attendance", "unchecked"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/attendance/today/uncheck`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -106,7 +125,9 @@ export function manualAttendance(data: any) {
 			`${baseUrl}/attendance/manual`,
 			{ data },
 			{
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			}
 		)
 		.then((res) => res.data);
@@ -118,7 +139,9 @@ export function updateAttendance(data: any) {
 			`${baseUrl}/attendance/manual/${data.id}`,
 			{ data },
 			{
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			}
 		)
 		.then((res) => res.data);
@@ -129,7 +152,9 @@ export function useGetSingleAttendance(id: string) {
 		queryKey: ["attendance", id],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/attendance/${id}`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},

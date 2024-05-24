@@ -1,13 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "@/constants/apis";
+import { token } from "@/constants/consts";
 
 export function useGetTicketList(filter?: any) {
 	return useQuery({
 		queryKey: ["ticket list"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/ticket`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 				params: filter,
 			});
 			return data;
@@ -20,7 +23,9 @@ export function useGetTicketById(ticketId: string) {
 		queryKey: ["ticket", ticketId],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/ticket/${ticketId}`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -29,7 +34,11 @@ export function useGetTicketById(ticketId: string) {
 
 export function addTicket(data: any) {
 	return axios
-		.post(`${baseUrl}/ticket`, data, { withCredentials: true })
+		.post(`${baseUrl}/ticket`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
@@ -44,7 +53,11 @@ export function addAttachmentTicket({
 		.post(
 			`${baseUrl}/attachment`,
 			{ attachment, ticketId: endpoint },
-			{ withCredentials: true }
+			{
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
+			}
 		)
 		.then((res) => res.data);
 }
@@ -64,27 +77,41 @@ export function updateTicketOneField({
 			{
 				[field]: value,
 			},
-			{ withCredentials: true }
+			{
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
+			}
 		)
 		.then((res) => res.data);
 }
 
 export function deleteTicket({ ticketId }: { ticketId: string }) {
 	return axios
-		.delete(`${baseUrl}/ticket/${ticketId}`, { withCredentials: true })
+		.delete(`${baseUrl}/ticket/${ticketId}`, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
 export function updateTicket(data: any) {
 	return axios
 		.patch(`${baseUrl}/ticket/${data.selectedId}`, data, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
 
 export function removeTickets(ticketList: string[]) {
 	return axios
-		.post(`${baseUrl}/ticket/removeMany`, ticketList, { withCredentials: true })
+		.post(`${baseUrl}/ticket/removeMany`, ticketList, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }

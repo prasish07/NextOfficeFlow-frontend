@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import { baseUrl } from "@/constants/apis";
+import { token } from "@/constants/consts";
 
 export interface getSingleDataProps {
 	id: number | undefined;
@@ -17,6 +18,7 @@ export interface LoginResponse {
 	role: string;
 	verified: boolean;
 	isFirstTimePasswordChange: boolean;
+	token: string;
 }
 
 export interface userInfoProps {
@@ -28,7 +30,11 @@ export interface userInfoProps {
 
 export function loginUser(data: LoginData): Promise<LoginResponse> {
 	return axios
-		.post(`${baseUrl}/user/login`, data, { withCredentials: true })
+		.post(`${baseUrl}/user/login`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
@@ -36,7 +42,11 @@ export function googleLoginUser(data: {
 	tokens: string;
 }): Promise<LoginResponse> {
 	return axios
-		.post(`${baseUrl}/oauth/google`, data, { withCredentials: true })
+		.post(`${baseUrl}/oauth/google`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
@@ -45,7 +55,9 @@ export function useLoginUserData(id: string) {
 		queryKey: ["user", id],
 		queryFn: async () => {
 			const { data } = await axios.get<userInfoProps>(`${baseUrl}/user/info`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -64,7 +76,11 @@ export function changePassword(data: {
 	newPassword: string;
 }) {
 	return axios
-		.post(`${baseUrl}/user/changePassword`, data, { withCredentials: true })
+		.post(`${baseUrl}/user/changePassword`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 

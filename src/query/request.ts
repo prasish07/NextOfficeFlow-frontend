@@ -1,11 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "@/constants/apis";
+import { token } from "@/constants/consts";
 
 export function addLeaveRequest(data: any) {
 	return axios
 		.post(`${baseUrl}/request`, data, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
@@ -13,7 +16,9 @@ export function addLeaveRequest(data: any) {
 export function addAllowanceRequest(data: any) {
 	return axios
 		.post(`${baseUrl}/request`, data, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
@@ -21,7 +26,9 @@ export function addAllowanceRequest(data: any) {
 export function addOverTimeRequest(data: any) {
 	return axios
 		.post(`${baseUrl}/request`, data, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
@@ -29,7 +36,9 @@ export function addOverTimeRequest(data: any) {
 export function addAttendanceRequest(data: any) {
 	return axios
 		.post(`${baseUrl}/request`, data, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
@@ -40,7 +49,9 @@ export function useGetAllRequests(filter?: any) {
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/requests`, {
 				params: filter,
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -53,7 +64,9 @@ export function useGetAllRequestOfUser(filter?: any) {
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/request`, {
 				params: filter,
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -66,7 +79,9 @@ export function useGetAllPMRequested(filter?: any) {
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/request/pm/request`, {
 				params: filter,
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -78,7 +93,9 @@ export function useGetUserRequest(requestId: string) {
 		queryKey: ["request", requestId],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/request/${requestId}`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -93,12 +110,20 @@ export function updateStatus({
 	data: any;
 }) {
 	return axios
-		.patch(`${baseUrl}/request/${requestId}`, data, { withCredentials: true })
+		.patch(`${baseUrl}/request/${requestId}`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
 export function removeRequestFunc(id: string) {
 	return axios
-		.delete(`${baseUrl}/request/${id}`, { withCredentials: true })
+		.delete(`${baseUrl}/request/${id}`, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }

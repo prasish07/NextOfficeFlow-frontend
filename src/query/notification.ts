@@ -1,14 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "@/constants/apis";
+import { token } from "@/constants/consts";
 
 export function useGetNotification(filter?: any) {
+	console.log(token);
 	return useQuery({
 		queryKey: ["notification", filter],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/notifications`, {
 				params: filter,
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -22,7 +26,9 @@ export function useGetNotificationCount() {
 		queryKey: ["notification"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/notifications/count`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -35,7 +41,11 @@ export function updateNotificationStatus(notificationId: string) {
 	return axios.patch(
 		`${baseUrl}/notifications/${notificationId}`,
 		{ isSeen: true },
-		{ withCredentials: true }
+		{
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		}
 	);
 }
 
@@ -43,6 +53,10 @@ export function updateAllNotificationStatus() {
 	return axios.patch(
 		`${baseUrl}/notifications/all`,
 		{ isSeen: true },
-		{ withCredentials: true }
+		{
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		}
 	);
 }

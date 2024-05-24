@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "@/constants/apis";
+import { token } from "@/constants/consts";
 
 export function useGetEmployeePerformanceData(filter: any) {
 	return useQuery({
@@ -8,7 +9,9 @@ export function useGetEmployeePerformanceData(filter: any) {
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/appraisal/measures`, {
 				params: filter,
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -29,7 +32,9 @@ interface Props {
 export function promoteEmployee({ selectedId, data }: Props) {
 	return axios
 		.post(`${baseUrl}/appraisal/promote/${selectedId}`, data, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
@@ -37,7 +42,9 @@ export function promoteEmployee({ selectedId, data }: Props) {
 export function increaseSalary({ selectedId, data }: Props) {
 	return axios
 		.post(`${baseUrl}/appraisal/increase-salary/${selectedId}`, data, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
@@ -45,7 +52,9 @@ export function increaseSalary({ selectedId, data }: Props) {
 export function addFeedback({ selectedId, data }: Props) {
 	return axios
 		.post(`${baseUrl}/appraisal/feedback/${selectedId}`, data, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
@@ -56,7 +65,9 @@ export function useGetAllAppraisalHistory(filter?: any) {
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/appraisal/history/all`, {
 				params: filter,
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -68,7 +79,9 @@ export function useGetMyAppraisalHistory() {
 		queryKey: ["appraisal", "my"],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/appraisal/history/my`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -80,7 +93,9 @@ export function useGetAppraisal(selectedId: string) {
 		queryKey: ["appraisal", selectedId],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/appraisal/${selectedId}`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},

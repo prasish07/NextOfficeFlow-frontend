@@ -1,13 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "@/constants/apis";
+import { token } from "@/constants/consts";
 
 export function useGetProjectCount() {
 	return useQuery({
 		queryKey: ["project count", 1],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/project/counts`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -20,7 +23,9 @@ export function useGetProjectList(filter?: any) {
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/project`, {
 				params: filter,
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -32,7 +37,9 @@ export function useGetProjectDetails({ endpoint }: { endpoint: string }) {
 		queryKey: ["project details", endpoint],
 		queryFn: async () => {
 			const { data } = await axios.get(`${baseUrl}/project/${endpoint}`, {
-				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
 			});
 			return data;
 		},
@@ -46,7 +53,9 @@ export function useGetProjectComments({ endpoint }: { endpoint: string }) {
 			const { data } = await axios.get(
 				`${baseUrl}/project/${endpoint}/comments`,
 				{
-					withCredentials: true,
+					headers: {
+						Authorization: `Bearer ${token()}`,
+					},
 				}
 			);
 			return data;
@@ -67,7 +76,11 @@ export function addCommentProject({
 		.post(
 			`${baseUrl}/comment`,
 			{ comment, [field]: endpoint },
-			{ withCredentials: true }
+			{
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
+			}
 		)
 		.then((res) => res.data);
 }
@@ -79,7 +92,9 @@ export function useGetProjectAttachment({ endpoint }: { endpoint: string }) {
 			const { data } = await axios.get(
 				`${baseUrl}/project/${endpoint}/attachment`,
 				{
-					withCredentials: true,
+					headers: {
+						Authorization: `Bearer ${token()}`,
+					},
 				}
 			);
 			return data;
@@ -97,26 +112,42 @@ export function addAttachmentProject({
 		.post(
 			`${baseUrl}/project/attachment`,
 			{ attachments, projectId: endpoint },
-			{ withCredentials: true }
+			{
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
+			}
 		)
 		.then((res) => res.data);
 }
 
 export function addProject(data: any) {
 	return axios
-		.post(`${baseUrl}/project`, data, { withCredentials: true })
+		.post(`${baseUrl}/project`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
 export function updateProject({ data, id }: { id: string; data: any }) {
 	return axios
-		.patch(`${baseUrl}/project/${id}`, data, { withCredentials: true })
+		.patch(`${baseUrl}/project/${id}`, data, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
 export function deleteProject(id: string) {
 	return axios
-		.delete(`${baseUrl}/project/${id}`, { withCredentials: true })
+		.delete(`${baseUrl}/project/${id}`, {
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
+		})
 		.then((res) => res.data);
 }
 
@@ -129,7 +160,9 @@ export function removeAttachment({
 }) {
 	return axios
 		.delete(`${baseUrl}/project/${projectId}/${attachment}`, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
@@ -145,7 +178,11 @@ export function addGitHubLink({
 		.patch(
 			`${baseUrl}/project/${endpoint}/github`,
 			{ githubRepo: repo },
-			{ withCredentials: true }
+			{
+				headers: {
+					Authorization: `Bearer ${token()}`,
+				},
+			}
 		)
 		.then((res) => res.data);
 }
@@ -159,7 +196,9 @@ export function createAndAddGithubLink({
 }) {
 	return axios
 		.put(`${baseUrl}/project/${endpoint}/github`, data, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
@@ -167,7 +206,9 @@ export function createAndAddGithubLink({
 export function removeProjects(projectList: string[]) {
 	return axios
 		.post(`${baseUrl}/project/removeMany`, projectList, {
-			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${token()}`,
+			},
 		})
 		.then((res) => res.data);
 }
