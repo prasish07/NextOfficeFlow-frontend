@@ -19,7 +19,7 @@ export function checkIn({
 			location,
 			lat: data.lat,
 			lng: data.lng,
-			checkInTime: new Date(),
+			checkInTime: new Date().toLocaleString(),
 		},
 		{
 			headers: {
@@ -33,7 +33,7 @@ export function checkOut({}: {}) {
 	return axios.post(
 		`${baseUrl}/attendance/checkout`,
 		{
-			checkOutTime: new Date(),
+			checkOutTime: new Date().toLocaleString(),
 		},
 		{
 			headers: {
