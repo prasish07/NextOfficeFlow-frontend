@@ -1,2 +1,2 @@
-export const baseUrl = "http://localhost:5000/api/v1";
+export const baseUrl = `${process.env.NEXT_PUBLIC_GITHUB_TOKEN}/api/v1`;
 export const googleUrl = `${baseUrl}/oauth`;
