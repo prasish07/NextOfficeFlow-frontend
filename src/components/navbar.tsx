@@ -81,7 +81,11 @@ const Navbar: React.FC = () => {
 											className={`nav__element ${index !== 0 && "mt-[20px]"} ${
 												index === isOpen ? "nav__element--open" : ""
 											} `}
-											onClick={() => handleElementClick(index)}
+											onClick={() => {
+												handleElementClick(index);
+												setIsNavbarOpen(false);
+												navbarRef.current?.classList.remove("nav--open");
+											}}
 										>
 											<div className="flex gap-7 items-center">
 												<data.icon size={24} />
@@ -105,6 +109,9 @@ const Navbar: React.FC = () => {
 														index === isOpen ? "nav__sub-list--open" : ""
 													} `}
 													key={`${index}-${subIndex}`}
+													onClick={() => {
+														navbarRef.current?.classList.remove("nav--open");
+													}}
 												>
 													<div className="nav__sub-list-1">
 														<div className="nav__sub-list-2">
