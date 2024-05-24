@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { DropdownPopover } from "./dropdown";
 import { useGetAllEmployees } from "@/query/employee";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 import { useTicketProvider } from "@/context/ticketProvider";
 
 const CustomAssignee = ({

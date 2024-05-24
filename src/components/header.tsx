@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoNotifications } from "react-icons/io5";

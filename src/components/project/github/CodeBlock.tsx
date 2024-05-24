@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { vs2015 } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {

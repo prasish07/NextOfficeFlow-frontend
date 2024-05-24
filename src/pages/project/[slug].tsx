@@ -3,8 +3,6 @@ import Comments from "@/components/project/Comments";
 import Details from "@/components/project/Details";
 import GitHub from "@/components/project/github/GitHub";
 import LinkedTickets from "@/components/project/LinkedTickets";
-import ProjectProvider from "@/context/projectProvider";
-import { useGetProjectDetails } from "@/query/project";
 import { GetServerSideProps } from "next";
 import React from "react";
 

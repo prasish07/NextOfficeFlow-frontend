@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { DropdownPopover } from "./dropdown";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
-import { useGetProjectList } from "@/query/project";
+import { useQueryClient } from "@tanstack/react-query";
 import { useGetAllEmployees } from "@/query/employee";
 
 const PMAssignee = ({

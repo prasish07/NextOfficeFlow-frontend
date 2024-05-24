@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import { IconType } from "react-icons/lib";
 
 export interface DashboardInfoProps {
 	icon: ReactNode;

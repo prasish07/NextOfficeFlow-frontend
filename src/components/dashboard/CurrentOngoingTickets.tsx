@@ -1,4 +1,3 @@
-import { useGlobalProvider } from "@/context/GlobalProvicer";
 import { useTicketProvider } from "@/context/ticketProvider";
 import { useGetTicketList } from "@/query/ticket";
 import React from "react";

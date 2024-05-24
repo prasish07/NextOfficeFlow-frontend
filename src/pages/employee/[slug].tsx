@@ -1,7 +1,5 @@
 import Profile from "@/components/profile/Profile";
-import Image from "next/image";
 import React, { useState } from "react";
-import prasish from "@/assets/images/prasish.jpg";
 import Document from "@/components/profile/Document";
 import { GetServerSideProps } from "next";
 import { useGetUserInfo } from "@/query/employee";

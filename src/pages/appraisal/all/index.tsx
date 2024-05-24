@@ -1,9 +1,6 @@
 import AppraisalView from "@/components/appraisal/appraisalView";
 import SelectEmployee from "@/components/dropdown/selectEmployee";
-import {
-	useGetAllAppraisalHistory,
-	useGetMyAppraisalHistory,
-} from "@/query/appraisal";
+import { useGetAllAppraisalHistory } from "@/query/appraisal";
 import React, { useState } from "react";
 import { GiUpgrade, GiReceiveMoney } from "react-icons/gi";
 import { VscFeedback } from "react-icons/vsc";
@@ -19,18 +16,10 @@ const AppraisalHistoryAll = () => {
 	});
 	const [year, setYear] = useState(new Date().getFullYear());
 
-	const { data, isLoading, isError } = useGetAllAppraisalHistory({
+	const { data } = useGetAllAppraisalHistory({
 		userId: selectedEmployee.userId,
 		year,
 	});
-
-	// if (isLoading) {
-	// 	return;
-	// }
-
-	// if (isError || !data) {
-	// 	return;
-	// }
 
 	const { appraisalHistory } = data ? data : { appraisalHistory: [] };
 

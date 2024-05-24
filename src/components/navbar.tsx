@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { navList } from "@/constants/navList";
-import { MdDashboard } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import Link from "next/link";
 import useScreenWidth from "@/hooks/useScreenWidth";

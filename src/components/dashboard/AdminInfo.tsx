@@ -1,12 +1,8 @@
 import React from "react";
 import DashboardInfo from "../dashboardInfo";
 import { FiUser, FiUsers, FiSend, FiHome } from "react-icons/fi";
-import {
-	useGetTotalTodayAttendance,
-	useGetUnCheckEmployees,
-} from "@/query/attendance";
+import { useGetTotalTodayAttendance } from "@/query/attendance";
 import { useGetAllEmployees } from "@/query/employee";
-import { useGetAllRequests } from "@/query/request";
 import { useGetProjectCount } from "@/query/project";
 import { useGetAllAppraisalHistory } from "@/query/appraisal";
 

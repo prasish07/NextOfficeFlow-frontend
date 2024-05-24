@@ -3,8 +3,6 @@ import useScreenWidth from "@/hooks/useScreenWidth";
 import { useGetAllAttendance } from "@/query/attendance";
 import { TimeFormatterDate, dateWordFormatter } from "@/utils/data";
 import React, { useState } from "react";
-import { FaRegEdit, FaRegTrashAlt, FaUserPlus } from "react-icons/fa";
-import { GrView } from "react-icons/gr";
 
 const Index = () => {
 	const { isDesktopView, isTabletView } = useScreenWidth();

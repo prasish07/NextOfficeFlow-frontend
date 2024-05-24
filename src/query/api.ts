@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { baseUrl } from "@/constants/apis";
 import { token } from "@/constants/consts";
 

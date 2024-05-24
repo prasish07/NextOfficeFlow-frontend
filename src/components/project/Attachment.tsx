@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import Dropzone from "../Dropzone";
-import prasish from "@/assets/images/prasish.jpg";
-import Image from "next/image";
 import {
 	addAttachmentProject,
 	removeAttachment,
-	useGetProjectAttachment,
 	useGetProjectDetails,
 } from "@/query/project";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

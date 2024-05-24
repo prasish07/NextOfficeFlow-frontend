@@ -17,6 +17,11 @@
 		color: $text;
 		border-radius: 10px;
 		margin-bottom: 20px;
+		width: 100%;
+
+		@include mq(lg) {
+			width: fit-content;
+		}
 	}
 
 	@include e(options) {

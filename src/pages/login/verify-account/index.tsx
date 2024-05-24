@@ -1,5 +1,3 @@
-// VerifyAccount.js
-
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";

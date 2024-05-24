@@ -8,7 +8,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addTicket, updateTicket, useGetTicketById } from "@/query/ticket";
 import { toast } from "react-toastify";
 import { dateFormatter, formattedDateTime } from "@/utils/data";
-import ImageModal from "../ImageModal";
 import { useGlobalProvider } from "@/context/GlobalProvicer";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
@@ -424,11 +423,6 @@ const TicketModal = () => {
 						</button>
 					</div>
 				</div>
-				{/* <ImageModel
-					shouldShowModal={showImageModal}
-					handleClose={() => setShowImageModal(false)}
-					image={selectedImage}
-				/> */}
 			</div>
 		</Modal>
 	);
