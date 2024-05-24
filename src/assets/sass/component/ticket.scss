@@ -1,7 +1,9 @@
 .ticket {
-	padding: 20px;
 	width: 100%;
 
+	@include mq(md) {
+		padding: 20px;
+	}
 	@include mq(lg) {
 		width: calc(100% - 262px);
 	}

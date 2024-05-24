@@ -111,6 +111,7 @@ const Navbar: React.FC = () => {
 													key={`${index}-${subIndex}`}
 													onClick={() => {
 														navbarRef.current?.classList.remove("nav--open");
+														setIsNavbarOpen(false);
 													}}
 												>
 													<div className="nav__sub-list-1">

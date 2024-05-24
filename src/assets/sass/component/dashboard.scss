@@ -1,8 +1,11 @@
 .dashboard {
 	display: flex;
 	flex-direction: column;
+	padding-top: 20px;
 
-	padding-top: 50px;
+	@include mq(md) {
+		padding-top: 50px;
+	}
 
 	@include e(top-part) {
 		display: flex;

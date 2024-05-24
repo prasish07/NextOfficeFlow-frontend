@@ -28,6 +28,11 @@
 		transition: 0.3s;
 		height: 200px;
 		background-color: $white;
+		flex-grow: 1;
+
+		@include mq(md) {
+			flex-grow: 0;
+		}
 
 		svg {
 			color: $normal;
