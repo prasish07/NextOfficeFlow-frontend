@@ -73,6 +73,7 @@ const Login = () => {
 			toast.success(data.message);
 			setCookies("role", data.role, 1);
 			setCookies("UserId", data.userId, 1);
+			setCookies("token", data.token, 7);
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
