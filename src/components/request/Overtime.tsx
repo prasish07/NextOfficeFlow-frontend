@@ -247,7 +247,7 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 							required
 							onChange={handlePMStatusChange}
 							value={data.pmStatus}
-							disabled={!isProjectManager}
+							disabled={!isProjectManager || data.pmStatus !== "pending"}
 						>
 							<option value="pending">Pending</option>
 							<option value="approved">Approved</option>
@@ -255,7 +255,7 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						</select>
 					</div>
 				)}
-				{isUpdate && (
+				{isUpdate && isHRAdmin && (
 					<div className="form__box-element">
 						<label htmlFor="status">Status</label>
 						<select
@@ -264,7 +264,7 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 							required
 							onChange={handleStatusChange}
 							value={data.status}
-							disabled={!isHRAdmin}
+							disabled={data.status !== "pending"}
 						>
 							<option value="pending">Pending</option>
 							<option value="approved">Approved</option>
