@@ -196,7 +196,6 @@ const ManageAction = ({
 							)}
 						</div>
 
-						{/* {!isAdd && ( */}
 						<div>
 							<label htmlFor="AssigneeId">Assignees</label>
 							<div>
@@ -238,7 +237,6 @@ const ManageAction = ({
 								</button>
 							</div>
 						</div>
-						{/* )} */}
 
 						<div className="employee__form-item--group">
 							<label htmlFor="Progress">Progress in %</label>
@@ -255,12 +253,6 @@ const ManageAction = ({
 
 						<div className="employee__form-item--group">
 							<label htmlFor="status">Status</label>
-							{/* <input
-								type="text"
-								{...register("status")}
-								placeholder="Status"
-								id="status"
-							/> */}
 							<select id="status" {...register("status")} className="select">
 								<option value="To-Do">To-Do</option>
 								<option value="in-progress">In Progress</option>

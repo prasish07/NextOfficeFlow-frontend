@@ -106,7 +106,7 @@ const Commits = ({ repo }: { repo: string }) => {
 				))}
 				{isFetching && <div>Loading more...</div>}
 			</div>
-			<div className="flex gap-2 justify-center mt-4">
+			<div className="flex flex-col md:flex-row gap-2 justify-center mt-4">
 				<button
 					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 					onClick={() => setPage(page - 1)}
