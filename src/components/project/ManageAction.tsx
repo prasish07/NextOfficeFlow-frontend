@@ -66,7 +66,7 @@ const ManageAction = ({
 		onSuccess: () => {
 			reset();
 			toast.success("Project added successfully");
-			// queryClient.invalidateQueries("project list");
+			queryClient.invalidateQueries({ queryKey: ["project count", 1] });
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
@@ -77,7 +77,7 @@ const ManageAction = ({
 		mutationFn: updateProject,
 		onSuccess: () => {
 			toast.success("Project updated successfully");
-			// queryClient.invalidateQueries("project list");
+			queryClient.invalidateQueries({ queryKey: ["project count", 1] });
 		},
 		onError: (error: any) => {
 			toast.error(error.response.data.message);
