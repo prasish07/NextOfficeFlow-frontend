@@ -76,8 +76,16 @@ const MyRequest = () => {
 				const btnClasses = classNames(
 					"capitalize",
 					{ "bg-green-400": item.status.includes("approved") },
-					{ "bg-red-400": item.status.includes("rejected") },
-					{ "bg-yellow-400": item.status.includes("pending") }
+					{
+						"bg-red-400":
+							item.status.includes("rejected") ||
+							item.pmStatus.includes("rejected"),
+					},
+					{
+						"bg-yellow-400":
+							item.status.includes("pending") &&
+							!item.pmStatus.includes("rejected"),
+					}
 				);
 
 				return (
@@ -94,7 +102,9 @@ const MyRequest = () => {
 							</div>
 							<div className="request__list-element-footer">
 								<h3>{formattedStartDate}</h3>
-								<p className={`${btnClasses}`}>{item.status}</p>
+								<p className={`${btnClasses}`}>
+									{item.pmStatus !== "rejected" ? item.status : item.pmStatus}
+								</p>
 							</div>
 						</div>
 						<button
@@ -161,8 +171,16 @@ const MyRequest = () => {
 				const btnClasses = classNames(
 					"capitalize",
 					{ "bg-green-400": item.status.includes("approved") },
-					{ "bg-red-400": item.status.includes("rejected") },
-					{ "bg-yellow-400": item.status.includes("pending") }
+					{
+						"bg-red-400":
+							item.status.includes("rejected") ||
+							item.pmStatus.includes("rejected"),
+					},
+					{
+						"bg-yellow-400":
+							item.status.includes("pending") &&
+							!item.pmStatus.includes("rejected"),
+					}
 				);
 
 				return (
@@ -179,7 +197,9 @@ const MyRequest = () => {
 							</div>
 							<div className="request__list-element-footer">
 								<h3>{formattedDate}</h3>
-								<p className={btnClasses}>{item.status}</p>
+								<p className={btnClasses}>
+									{item.pmStatus !== "rejected" ? item.status : item.pmStatus}
+								</p>
 							</div>
 						</div>
 						<button
