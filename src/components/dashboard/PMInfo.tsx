@@ -23,7 +23,7 @@ const PMInfo = () => {
 	const { data: requests } = useGetAllPMRequested();
 
 	const pendingRequest = requests?.requests?.filter((request: any) => {
-		return request.status === "pending";
+		return request.pmStatus === "pending";
 	});
 
 	return (
