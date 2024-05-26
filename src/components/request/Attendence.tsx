@@ -9,6 +9,7 @@ import {
 	useGetUserRequest,
 } from "@/query/request";
 import { dateFormatter } from "@/utils/data";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
 
 const Attendance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const [data, setData] = useState({
@@ -19,6 +20,10 @@ const Attendance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	});
 	const queryClient = useQueryClient();
 	const isUpdate = type === "update";
+	const { role } = useGlobalProvider();
+	const isProjectManager = role === "project manager";
+	const isHRAdmin = role === "HR" || role === "admin";
+	const isEmployee = role === "employee";
 	const {
 		data: allData,
 		isLoading,
@@ -123,6 +128,7 @@ const Attendance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						required
 						onChange={handleChange}
 						value={data.date}
+						readOnly={isUpdate}
 					/>
 				</div>
 				<div className="form__box-element">
@@ -135,6 +141,7 @@ const Attendance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						required
 						onChange={handleChange}
 						value={data.reason}
+						readOnly={isUpdate}
 					/>
 				</div>
 				{isUpdate && (
@@ -146,6 +153,7 @@ const Attendance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 							required
 							onChange={handleStatusChange}
 							value={data.status}
+							disabled={data.status !== "pending"}
 						>
 							<option value="pending">Pending</option>
 							<option value="approved">Approved</option>

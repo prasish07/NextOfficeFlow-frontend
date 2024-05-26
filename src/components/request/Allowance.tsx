@@ -8,6 +8,7 @@ import {
 	useGetUserRequest,
 } from "@/query/request";
 import { toast } from "react-toastify";
+import { useGlobalProvider } from "@/context/GlobalProvicer";
 
 const Allowance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	const [data, setData] = useState({
@@ -18,6 +19,10 @@ const Allowance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 	});
 	const queryClient = useQueryClient();
 	const isUpdate = type === "update";
+	const { role } = useGlobalProvider();
+	const isProjectManager = role === "project manager";
+	const isHRAdmin = role === "HR" || role === "admin";
+	const isEmployee = role === "employee";
 	const {
 		data: allData,
 		isLoading,
@@ -122,6 +127,7 @@ const Allowance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						required
 						onChange={handleChange}
 						value={data.amount}
+						readOnly={isUpdate}
 					/>
 				</div>
 
@@ -134,6 +140,7 @@ const Allowance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 						rows={4}
 						onChange={handleChange}
 						value={data.reason}
+						readOnly={isUpdate}
 					/>
 				</div>
 				{isUpdate && (
@@ -145,6 +152,7 @@ const Allowance = ({ showModal, setShowModal, type, selectedId }: Props) => {
 							required
 							onChange={handleStatusChange}
 							value={data.status}
+							disabled={data.status !== "pending"}
 						>
 							<option value="pending">Pending</option>
 							<option value="approved">Approved</option>

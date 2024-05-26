@@ -232,6 +232,7 @@ const Overtime = ({ showModal, setShowModal, type, selectedId }: Props) => {
 							<button
 								className="py-4 px-8 mt-2 mb-5 border-solid border border-[#ddd] rounded-[20px] w-full"
 								type="button"
+								disabled={isUpdate}
 							>
 								{PM.email ? PM.email : "Add"}
 							</button>
